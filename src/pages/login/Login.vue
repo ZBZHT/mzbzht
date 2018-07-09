@@ -109,6 +109,10 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
+import md5 from 'js-md5'
+import core from '../../assets/js/core.js'
+
 export default {
   name: 'Login',
   data () {
@@ -116,7 +120,8 @@ export default {
       twoWeekLogin: false,
       // 用户信息
       username: '',
-      password: ''
+      password: '',
+      nickName: ''
     }
   },
   computed: {
@@ -159,8 +164,48 @@ export default {
         return false
       }
       // 对username和password进行校验
-      alert('username check')
+      // alert('username check')
       // 提交用户名和密码
+      // 请求存有用户账号的json文件
+      axios({
+        method: 'post',
+        url: '/api/user/login',
+        data: {
+          username: this.username,
+          password: md5(this.password)
+        },
+        withCredentials: true
+      }).then((res) => {
+        console.log(res.data)
+        // 传值是 0:登陆成功, 1: 已登陆, 2:用户名或密码错误
+        if (res.data.code === 0) {
+          //           setCookie('username',this.username)
+          setTimeout(function () {
+            this.nickName = res.data.username
+            this.$store.commit('username', res.data.username)
+            this.$store.commit('userType', res.data.userType)
+            this.$store.commit('userTypeC', core.userType(res.data.userType))
+            this.$store.commit('userID', res.data.userID)
+            //  this.$emit('receive', this.nickName)
+            this.$router.push('/sign')
+            //    this.$router.go(0);
+          }.bind(this), 0.1)
+        } else if (res.data.code === 1) {
+          //            setCookie('username',this.username)
+          setTimeout(function () {
+            this.nickName = res.data.username
+            this.$store.commit('username', res.data.username)
+            this.$store.commit('userType', res.data.userType)
+            this.$store.commit('userTypeC', core.userType(res.data.userType))
+            this.$store.commit('userID', res.data.userID)
+            // this.$emit('receive', this.nickName)
+            this.$router.push('/sign')
+            //   this.$router.go(0);
+          }.bind(this), 0.1)
+        } else if (res.data.code === 2) {
+          this.checkPassword = true
+        }
+      })
     }
   }
 }

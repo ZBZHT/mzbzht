@@ -8,18 +8,52 @@
       <div class="course">{{course}}</div>
     </section>
     <section class="sign-btn">
-      <button class="btn">签到</button>
+      <button class="btn" @click="stuSignIn()">请点击签到</button>
+      <button class="nobtn">请点击签到</button>
+    </section>
+    <section class="sign-p">
+      <p @click="backHome()">回到首页</p>
     </section>
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'Sign',
   data () {
     return {
-      name: '谢晓东',
+      name: this.$store.state.username,
       grade: '一年级二班',
-      course: '新能源电池课程'
+      course: '',
+      stuCourse: ''
+    }
+  },
+  mounted () {
+    axios.post('/teacherCMS/getAllStuClass', {
+      data: {
+        stuCourse: ''
+      }
+    }).then((res) => {
+      console.log(res.data.result)
+      this.course = res.data.result.courseName
+      this.stuCourse = res.data.result
+    })
+  },
+  methods: {
+    stuSignIn () {
+      axios.post('/teacherCMS/stuSignIn', {
+        data: {
+          stuCourse: this.stuCourse
+        }
+      }).then((res) => {
+        // console.log(res.data.result);
+        if (res.data.code === 0) {
+          this.addSuccess('已签到')
+        }
+      })
+    },
+    backHome () {
+
     }
   }
 }
@@ -45,4 +79,14 @@ export default {
       width: 50%
       height .5rem
       background-color $bgColor
+  .sign-p{
+    text-align:right;
+    margin-right:20px;
+    margin-top:30px;
+  }
+  .sign-btn .nobtn{
+    width: 50%
+    height: 0.5rem;
+    background-color: #aaa;
+  }
 </style>

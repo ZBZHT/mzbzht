@@ -4,5 +4,17 @@ export default {
     try {
       localStorage.city = city
     } catch (e) {}
+  },
+  username (state, item) {
+    state.username = item
+  },
+  userType (state, item) {
+    state.userType = item
+  },
+  userTypeC (state, item) {
+    state.userTypeC = item
+  },
+  userID (state, item) {
+    state.userID = item
   }
 }
