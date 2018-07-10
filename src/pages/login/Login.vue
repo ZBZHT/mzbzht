@@ -90,16 +90,16 @@
           </svg>
         </div>
 
-        <div class="free-login clearfix">
-          <input type="hidden" name="remember_me">
-          <a href="javascript:" class="fr two-week" @click="handleTwoWeekLoginClick">
-            <svg class="btn-radio fix" v-show="!twoWeekLogin"></svg>
-            <svg class="btn-radio" v-show="twoWeekLogin">
-              <use xlink:href="#icon-radio2"></use>
-            </svg>
-            <span class="text">两周内自动登录</span>
-          </a>
-        </div>
+        <!--<div class="free-login clearfix">-->
+          <!--<input type="hidden" name="remember_me">-->
+          <!--<a href="javascript:" class="fr two-week" @click="handleTwoWeekLoginClick">-->
+            <!--<svg class="btn-radio fix" v-show="!twoWeekLogin"></svg>-->
+            <!--<svg class="btn-radio" v-show="twoWeekLogin">-->
+              <!--<use xlink:href="#icon-radio2"></use>-->
+            <!--</svg>-->
+            <!--<span class="text">两周内自动登录</span>-->
+          <!--</a>-->
+        <!--</div>-->
 
         <a href="javascript:" class="login-btn" :class="[canSubmit]" @click="handleSubmit">
           登录
@@ -187,7 +187,11 @@ export default {
             this.$store.commit('userTypeC', core.userType(res.data.userType))
             this.$store.commit('userID', res.data.userID)
             //  this.$emit('receive', this.nickName)
-            this.$router.push('/sign')
+            if (this.$store.state.userType === 'S') {
+              this.$router.push('/sign')
+            } else {
+              window.location.href = 'http://192.168.2.251'
+            }
             //    this.$router.go(0);
           }.bind(this), 0.1)
         } else if (res.data.code === 1) {
@@ -199,7 +203,11 @@ export default {
             this.$store.commit('userTypeC', core.userType(res.data.userType))
             this.$store.commit('userID', res.data.userID)
             // this.$emit('receive', this.nickName)
-            this.$router.push('/sign')
+            if (this.$store.state.userType === 'S') {
+              this.$router.push('/sign')
+            } else {
+              window.location.href = 'http://192.168.2.251'
+            }
             //   this.$router.go(0);
           }.bind(this), 0.1)
         } else if (res.data.code === 2) {
