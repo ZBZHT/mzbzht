@@ -10,7 +10,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'Home',
       component: Home
     },
@@ -20,7 +20,7 @@ export default new Router({
       component: City
     },
     {
-      path: '/login',
+      path: '/',
       name: 'Login',
       component: Login
     },
