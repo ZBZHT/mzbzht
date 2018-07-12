@@ -11,14 +11,16 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      "/api": 'http://192.168.2.251:8000',
-      "/teacherCMS": 'http://192.168.2.251:8000'
+      // "/api": 'http://192.168.2.251:8000',
+      // "/teacherCMS": 'http://192.168.2.251:8000'
       // '/api': {
       //   target: 'http://localhost:8080',
       //   pathRewrite: {
       //     '^/api': '/static/mock'
       //   }
       // }
+      "/api": 'http://127.0.0.1:80',
+      "/teacherCMS": 'http://127.0.0.1:80',
     },
 
     // Various Dev Server settings

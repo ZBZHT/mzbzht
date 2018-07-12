@@ -2,11 +2,11 @@
   <div class="sign">
     <section class="user-info">
       <div class="name">{{name}}</div>
-      <p class="time">{{stuCourse.date}}</p>
+      <p class="time" v-show="stuCourse.teacher">{{stuCourse.date}}</p>
     </section>
     <section class="course-info">
       <p class="courseName">{{stuCourse.courseName}}</p>
-      <p class="teacherName">({{stuCourse.teacher}})</p>
+      <p class="teacherName" v-show="stuCourse.teacher">({{stuCourse.teacher}})</p>
     </section>
     <p style="text-align: center">注：请在课前30分钟内签到</p>
     <section class="sign-btn">
@@ -16,9 +16,9 @@
         :show-close="false"
         width="63%"
         center>
-        <span>点击确定将跳转至系统首页</span>
+        <p style="text-align: center">签到成功</p>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="centerDialogVisible = false,backHome()">确 定</el-button>
+          <el-button type="primary" @click="centerDialogVisible = false,backHome()">点击跳转至首页</el-button>
         </span>
       </el-dialog>
       <button class="btn"
@@ -37,7 +37,6 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
-import core from '../../assets/js/core.js'
 export default {
   name: 'Sign',
   data () {
@@ -107,7 +106,7 @@ export default {
       }).then((res) => {
         // console.log(res.data.result);
         if (res.data.code === 0) {
-          this.addSuccess('签到成功')
+        //   this.addSuccess('签到成功')
           this.getFirstData()
         }
       })
