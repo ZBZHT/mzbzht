@@ -1,6 +1,6 @@
 <template>
   <div class="index" :style="{height: height + 'px'}">
-  <p class="title">中邦智慧教学系统欢迎您</p>
+    <p class="title">中邦智慧教学系统欢迎您</p>
   </div>
 </template>
 <script>
