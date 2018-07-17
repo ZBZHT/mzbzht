@@ -119,7 +119,7 @@ export default {
       }).then((res) => {
         // console.log(res.data.result);
         if (res.data.code === 0) {
-          let resState = res.data.result.state;
+          let resState = res.data.result.state
           if (resState === 0 || resState === 1 || resState === 2 || resState === 3) {
             this.showReadlyBut = false
           } else {
@@ -129,7 +129,7 @@ export default {
       })
     },
     backHome () {
-      window.location.href = 'http://192.168.2.251'
+      window.location.href = 'http://192.168.1.251:8000'
     }
   }
 }

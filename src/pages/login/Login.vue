@@ -203,10 +203,10 @@ export default {
             this.$store.commit('userTypeC', core.userType(res.data.userType))
             this.$store.commit('userID', res.data.userID)
             // this.$emit('receive', this.nickName)
-            if (this.$store.state.userType === 'S') {
-              this.$router.push('/sign')
+            if (this.$store.state.userType !== 'S') {
+              window.location.href = 'http://192.168.1.251'
             } else {
-              window.location.href = 'http://192.168.2.251'
+              this.$router.push('/sign')
             }
             //   this.$router.go(0);
           }.bind(this), 0.1)

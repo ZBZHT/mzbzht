@@ -48,10 +48,10 @@ router.beforeEach((to, from, next) => {
     if (!store.state.username) {
       router.replace('/login')
     } else {
-      if (store.state.username === 'S') {
-        this.$router.push('/sign')
+      if (store.state.username !== 'S') {
+        window.location.href = 'http://192.168.1.251:8000'
       } else {
-        window.location.href = 'http://192.168.2.251'
+        this.$router.push('/sign')
       }
     }
   } else {
