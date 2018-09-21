@@ -11,16 +11,22 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // "/api": 'http://192.168.2.251:8000',
-      // "/teacherCMS": 'http://192.168.2.251:8000'
+      "/api": 'http://192.168.2.251:8000' ,  //代理到开发服务器
+      "/readJson": 'http://192.168.2.251:8000',
+      "/readTestQuestion": 'http://192.168.2.251:8000',
+      "/testManagement": 'http://192.168.2.251:8000',
+      "/readComments": 'http://192.168.2.251:8000',
+      "/teacherCMS": 'http://192.168.2.251:8000',
+      "/fileUpDown": 'http://192.168.2.251:8000',
+      "/readResource": 'http://192.168.2.251:8000'
       // '/api': {
       //   target: 'http://localhost:8080',
       //   pathRewrite: {
       //     '^/api': '/static/mock'
       //   }
       // }
-      "/api": 'http://127.0.0.1:80',
-      "/teacherCMS": 'http://127.0.0.1:80',
+      // "/api": 'http://127.0.0.1:80',
+      // "/teacherCMS": 'http://127.0.0.1:80',
     },
 
     // Various Dev Server settings
@@ -34,10 +40,10 @@ module.exports = {
     // Use Eslint Loader?
     // If true, your code will be linted during bundling and
     // linting errors and warnings will be shown in the console.
-    useEslint: true,
+    /*useEslint: true,
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
-    showEslintErrorsInOverlay: false,
+    showEslintErrorsInOverlay: false,*/
 
     /**
      * Source Maps

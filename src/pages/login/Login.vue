@@ -187,12 +187,13 @@ export default {
             this.$store.commit('userTypeC', core.userType(res.data.userType))
             this.$store.commit('userID', res.data.userID)
             //  this.$emit('receive', this.nickName)
-            if (this.$store.state.userType === 'S') {
-              this.$router.push('/sign')
-            } else {
-              window.location.href = 'http://192.168.2.251'
-            }
+            // if (this.$store.state.userType === 'S') {
+            // this.$router.push('/sign')
+            // } else {
+            // window.location.href = 'http://192.168.2.251'
+            // }
             //    this.$router.go(0);
+            this.$router.push('/CourseIndex')
           }.bind(this), 0.1)
         } else if (res.data.code === 1) {
           //            setCookie('username',this.username)
@@ -204,7 +205,7 @@ export default {
             this.$store.commit('userID', res.data.userID)
             // this.$emit('receive', this.nickName)
             if (this.$store.state.userType !== 'S') {
-              window.location.href = 'http://192.168.1.251'
+              window.location.href = 'http://192.168.2.251'
             } else {
               this.$router.push('/sign')
             }

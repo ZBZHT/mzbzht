@@ -101,8 +101,8 @@ module.exports = {
   /**
    * 获取服务器时间
    */
-  getServerTime: function (){
-      return this.formatDate("[yyyy.MM.dd hh:mm:ss]",new Date());
+  getServerTime: function () {
+    return this.formatDate('[yyyy.MM.dd hh:mm:ss]', new Date())
   },
 
   /**
@@ -110,24 +110,24 @@ module.exports = {
    * @params req 请求
    * @params data 数据对象
    */
-  getReqInfo: function(req, data){
-      var info = {
-          ___reqTime: new Date(),
-          ___reqAddr: req ? req.connection.remoteAddress : ""
-      };
+  getReqInfo: function (req, data) {
+    var info = {
+      ___reqTime: new Date(),
+      ___reqAddr: req ? req.connection.remoteAddress : ''
+    }
 
-      if(!arguments[0]){//如果没传第一个参数req
-          var schemaBase = {};
-          schemaBase["___reqTime"] = Date;
-          schemaBase["___reqAddr"] = String;
-          return schemaBase;
-      }
+    if (!arguments[0]) { // 如果没传第一个参数req
+      var schemaBase = {}
+      schemaBase['___reqTime'] = Date
+      schemaBase['___reqAddr'] = String
+      return schemaBase
+    }
 
-      if(!arguments[1]){//如果没传第二个参数data
-          return _.assign(req.body,info);
-      }else{
-          return _.assign(data,info);
-      }
+    if (!arguments[1]) { // 如果没传第二个参数data
+      return _.assign(req.body, info)
+    } else {
+      return _.assign(data, info)
+    }
   },
   /**
    * 检查文件夹是否存在

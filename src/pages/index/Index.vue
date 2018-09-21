@@ -15,8 +15,8 @@ export default {
   computed: {
   },
   mounted () {
-    window.setInterval(function () {
-      this.$router.push('/sign')
+    this._timeOut = setInterval(function () {
+      this.$router.push('/courseIndex')
     }.bind(this), 3000)
   },
   methods: {
@@ -26,6 +26,7 @@ export default {
   },
   beforeDestroy: function () {
     window.removeEventListener('resize', this.handleResize)
+    clearInterval(this._timeOut)
   }
 }
 </script>
