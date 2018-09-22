@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Mint from 'mint-ui'
-import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App'
 import router from './router/index'
@@ -20,7 +19,6 @@ import './assets/iconfont/iconfont.css'
 Vue.config.productionTip = false
 fastClick.attach(document.body)
 Vue.use(VueAwesomeSwiper)
-Vue.use(ElementUI)
 Vue.use(Mint)
 
 /* eslint-disable no-new */

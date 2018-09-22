@@ -10,17 +10,17 @@
     </section>
     <p style="text-align: center">注：请在课前30分钟内签到</p>
     <section class="sign-btn">
-      <el-dialog
-        :visible.sync="centerDialogVisible"
-        :close-on-click-modal="false"
-        :show-close="false"
-        width="63%"
-        center>
-        <p style="text-align: center">签到成功</p>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="centerDialogVisible = false,backHome()">点击跳转至首页</el-button>
-        </span>
-      </el-dialog>
+      <!--<el-dialog-->
+        <!--:visible.sync="centerDialogVisible"-->
+        <!--:close-on-click-modal="false"-->
+        <!--:show-close="false"-->
+        <!--width="63%"-->
+        <!--center>-->
+        <!--<p style="text-align: center">签到成功</p>-->
+        <!--<span slot="footer" class="dialog-footer">-->
+          <!--<el-button type="primary" @click="centerDialogVisible = false,backHome()">点击跳转至首页</el-button>-->
+        <!--</span>-->
+      <!--</el-dialog>-->
       <button class="btn"
               v-if="showBut === true && showReadlyBut === true"
               @click="centerDialogVisible = true,stuSignIn()">请点击签到</button>
@@ -84,11 +84,11 @@ export default {
   methods: {
     // 添加成功后提示信息
     addSuccess (msg) {
-      this.$message({
-        showClose: true,
-        message: msg,
-        type: 'success'
-      })
+//      this.$message({
+//        showClose: true,
+//        message: msg,
+//        type: 'success'
+//      })
     },
     // 添加失败提示信息
     addDefeat (msg) {
