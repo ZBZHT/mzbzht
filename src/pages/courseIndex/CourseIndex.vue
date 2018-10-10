@@ -27,7 +27,7 @@
     <div class="suggeCourse">
       <i class="iconfont iconfontSugge">&#xe77c;</i>
       <span>实战推荐</span>
-      <span class="moreCourse">>>更多..</span>
+      <span class="moreCourse">更多>></span>
       <ul class="best">
         <li class="bestLine" v-for="item in 2">{{item}}</li>
       </ul>
@@ -125,6 +125,12 @@ export default {
     background-size: 100% 100%;
     border-radius: 5px;
     box-shadow: 0 0 12px rgb(130,150,170);
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 0.34rem;
+    font-weight: bolder;
+    padding-top: 37px;
+    text-align: center;
   }
   .courseIndex .best1{
     margin-top:10px;
