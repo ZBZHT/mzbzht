@@ -9,7 +9,7 @@
       </mt-button>
       <mt-button slot="right" v-if="!nickName" @click="simplePrompt">登录</mt-button>
     </mt-header>
-    <mt-navbar v-model="selected">
+    <mt-navbar v-model="selected" v-if="this.$route.path !== '/courseDetail'">
       <mt-tab-item :id=index v-for="(item, index) in navData" :key="index">
         <div class="navImg" v-if="showIcon !== 0"
              @click="changNav(index)">
@@ -71,7 +71,7 @@ export default {
     if (this.$store.state.username) {
       this.nickName = this.$store.state.username
     }
-    console.log(this.$route.path)
+    //    console.log(this.$route.path)
     if (this.$route.path !== '/courseIndex') {
       this.showIcon = 0
     } else {
@@ -79,7 +79,7 @@ export default {
   },
   methods: {
     changNav (index) {
-      console.log(index)
+      //      console.log(index)
       if (index === 0) {
         this.$router.push('/course')
       } else if (index === 1) {

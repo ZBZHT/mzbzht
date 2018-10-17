@@ -62,7 +62,7 @@ export default {
         userType: this.userType
       }
     }).then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
       this.bestClassData = res.data.result[0].bestCourse
       this.bestClassData2 = []
       this.bestClassData3 = []

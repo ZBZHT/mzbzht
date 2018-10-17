@@ -10,5 +10,7 @@ export default {
   username: '',
   userType: '',
   userTypeC: '',
-  userID: ''
+  userID: '',
+  courseDetail: '',
+  urlSrc: ''
 }

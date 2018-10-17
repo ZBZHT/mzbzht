@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     changNav (index) {
-      console.log(index)
+      //      console.log(index)
       if (index === 0) {
         this.$router.push('/Course')
       } else if (index === 1) {

@@ -16,5 +16,11 @@ export default {
   },
   userID (state, item) {
     state.userID = item
+  },
+  courseDetail (state, item) {
+    state.courseDetail = item
+  },
+  urlSrc (state, item) {
+    state.urlSrc = item
   }
 }
