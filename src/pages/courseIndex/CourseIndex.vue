@@ -9,7 +9,7 @@
       <i class="iconfont iconfontBest">&#xe61f;</i>
       <span>精品课程</span>
       <ul class="best">
-        <li class="bestLine" v-for="(item, index) in bestClassData2" :key="index">{{item.label}}</li>
+        <li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in bestClassData2" :key="index">{{item.label}}</li>
       </ul>
       <!--<ul class="best1">-->
         <!--<li class="bestCol" v-for="(item, index) in bestClassData3" :key="index">-->
@@ -19,9 +19,9 @@
           <!--</div>-->
         <!--</li>-->
       <!--</ul>-->
-      <mt-cell class="best1" :title=item.label  v-for="(item, index) in bestClassData2" :key="index">
-        <p class="bestDesc">{{item.describe}}</p>
-        <img class="bestCell" slot="icon" src="../../../src/assets/imgs/course.png" width="110" height="70">
+      <mt-cell class="best1" :title=item.label  v-for="(item, index) in bestClassData3" :key="index">
+        <p @click="jumpCourseDetail(item)" class="bestDesc">{{item.describe}}</p>
+        <img @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/course.png" width="110" height="70">
       </mt-cell>
     </div>
     <div class="suggeCourse">
@@ -29,11 +29,11 @@
       <span>实战推荐</span>
       <span class="moreCourse">更多>></span>
       <ul class="best">
-        <li class="bestLine" v-for="item in 2">{{item}}</li>
+        <li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in suggClassData2" :key="index">{{item.label}}</li>
       </ul>
-      <mt-cell class="best1" :title=item.label  v-for="(item, index) in bestClassData2" :key="index">
-        <p class="bestDesc">{{item.describe}}</p>
-        <img class="bestCell" slot="icon" src="../../../src/assets/imgs/course.png" width="110" height="70">
+      <mt-cell class="best1" :title=item.label  v-for="(item, index) in suggClassData3" :key="index">
+        <p @click="jumpCourseDetail(item)" class="bestDesc">{{item.describe}}</p>
+        <img @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/course.png" width="110" height="70">
       </mt-cell>
     </div>
   </div>
@@ -50,12 +50,26 @@ export default {
     return {
       userType: this.$store.state.userType,
       bestClassData2: [],
-      bestClassData3: []
+      bestClassData3: [],
+      suggClassData2: [],
+      suggClassData3: []
     }
   },
   computed: {
   },
   mounted () {
+    axios.get('/api/user/getServerIP', { // 获取服务器ip请求
+      params: {
+        user: 234
+      }
+    }).then((res) => {
+      if (res.data.code === 0) {
+        this.$store.commit('serverIP', res.data.serverIP.Ip)
+      }
+      // console.log(this.$store.state.serverIP);
+    }).catch(function (error) {
+      console.log('error init.' + error)
+    })
     // 获取精品课程
     axios.post('/teacherCMS/getBestCourse', {
       data: {
@@ -74,9 +88,23 @@ export default {
         }
       }
       this.pageData = res.data.result[0].suggCourse
+      this.suggClassData2 = []
+      this.suggClassData3 = []
+      for (var j = 0; j < 5; j++) {
+        if (j <= 1) {
+          this.suggClassData2.push(this.pageData[j])
+        } else {
+          this.suggClassData3.push(this.pageData[j])
+        }
+      }
     })
   },
   methods: {
+    jumpCourseDetail (item) {
+      this.$store.commit('courseDetail', item)
+      //      this.$store.commit('urlSrc', this.urlSrc)
+      this.$router.push('/courseDetail')
+    },
   },
   beforeDestroy: function () {
   },

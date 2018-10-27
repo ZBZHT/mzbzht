@@ -18,7 +18,22 @@
           <tr class="rightTr" v-for="(item,index) in secondData" :key="index">
             <b>{{item.label}}</b>
             <td class="rightTd" @click="clickCourse(item,item2)" v-for="(item2,index2) in item.children" :key="index2">
-              <i class="iconfont">&#xe8cb;</i>
+              <i v-if="index2 === 0" class="iconfont">&#xe8cb;</i>
+              <i v-if="index2 === 1" class="iconfont">&#xe6a7;</i>
+              <i v-if="index2 === 2" class="iconfont">&#xe620;</i>
+              <i v-if="index2 === 3" class="iconfont">&#xe634;</i>
+              <i v-if="index2 === 4" class="iconfont">&#xe602;</i>
+              <i v-if="index2 === 5" class="iconfont">&#xe63d;</i>
+              <i v-if="index2 === 6" class="iconfont">&#xe655;</i>
+              <i v-if="index2 === 7" class="iconfont">&#xe601;</i>
+              <i v-if="index2 === 8" class="iconfont">&#xe749;</i>
+              <i v-if="index2 === 9" class="iconfont">&#xe614;</i>
+              <i v-if="index2 === 10" class="iconfont">&#xe73c;</i>
+              <i v-if="index2 === 11" class="iconfont">&#xe72a;</i>
+              <i v-if="index2 === 12" class="iconfont">&#xe630;</i>
+              <i v-if="index2 === 13" class="iconfont">&#xe604;</i>
+              <i v-if="index2 === 14" class="iconfont">&#xe602;</i>
+              <i v-if="index2 === 15" class="iconfont">&#xe63d;</i>
               <p>{{item2.label}}</p>
             </td>
           </tr>
@@ -62,6 +77,7 @@ export default {
   computed: {
   },
   mounted () {
+    //    获取左边数据
     this.getLeftData()
   },
   methods: {
@@ -131,7 +147,7 @@ export default {
   }
   .course .leftTree{
     background:rgb(237,237,237);
-    width:25%;
+    width:21%;
     text-align:center;
   }
   .course .courseContent{
@@ -139,20 +155,31 @@ export default {
   }
   .course .rightCon{
     width:75%;
-    margin: 10px;
+    padding: 0.2rem;
+    box-sizing: border-box;
     overflow: auto;
+    border-top:1px solid rgb(122,18,19);
   }
   .course .rightCon .rightTd{
     display:inline-block;
-    width:29%;
-    margin-left:3%;
+    width:20%;
+    margin-left:12%;
     height: 1.8rem;
     text-align:center;
     margin-bottom:20px;
+    background: #f1eded;
+    border-radius: 5px;
+  }
+  .leftItem{
+    border-right:1px solid rgb(122,18,19);
   }
   .course .changeBg{
     background:#fff;
-    border-left:3px solid rgb(122,18,19);
+    border-left:1px solid rgb(122,18,19);
+    border-top:1px solid rgb(122,18,19);
+    border-bottom:1px solid rgb(122,18,19);
+    border-right:1px solid #fff;
+    color:rgb(122,18,19);
   }
   .course .rightCon .rightTr b{
     font-weight:bolder;
@@ -161,9 +188,10 @@ export default {
   }
   .course .rightCon .rightTr p{
     margin-top:8px;
+    font-size: 0.24rem;
   }
   .course .iconfont {
-    font-size: 46px;
+    font-size: 34px;
   }
   .course .mint-popup{
     width: 78%;

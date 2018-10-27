@@ -193,7 +193,7 @@ export default {
             // window.location.href = 'http://192.168.2.251'
             // }
             //    this.$router.go(0);
-            this.$router.push('/CourseIndex')
+            this.$router.push('/courseIndex')
           }.bind(this), 0.1)
         } else if (res.data.code === 1) {
           //            setCookie('username',this.username)
@@ -203,12 +203,13 @@ export default {
             this.$store.commit('userType', res.data.userType)
             this.$store.commit('userTypeC', core.userType(res.data.userType))
             this.$store.commit('userID', res.data.userID)
+            this.$router.push('/courseIndex')
             // this.$emit('receive', this.nickName)
-            if (this.$store.state.userType !== 'S') {
-              window.location.href = 'http://192.168.2.251'
-            } else {
-              this.$router.push('/sign')
-            }
+            //            if (this.$store.state.userType !== 'S') {
+            //              window.location.href = 'http://192.168.2.251'
+            //            } else {
+            //              this.$router.push('/sign')
+            //            }
             //   this.$router.go(0);
           }.bind(this), 0.1)
         } else if (res.data.code === 2) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="heaerNav">
+  <div class="headerNav">
     <mt-header>
       <router-link to="/courseIndex" slot="left">
         <img class="brand" alt="Brand" src="../assets/imgs/zbtLogo.png">
@@ -9,7 +9,7 @@
       </mt-button>
       <mt-button slot="right" v-if="!nickName" @click="simplePrompt">登录</mt-button>
     </mt-header>
-    <mt-navbar v-model="selected" v-if="this.$route.path !== '/courseDetail'">
+    <mt-navbar v-model="selected" v-if="changeClass >= 0">
       <mt-tab-item :id=index v-for="(item, index) in navData" :key="index">
         <div class="navImg" v-if="showIcon !== 0"
              @click="changNav(index)">
@@ -19,7 +19,8 @@
           <i class="iconfont iconfont2" v-if="index == 3">&#xe624;</i>
           <i class="iconfont iconfont4" v-if="index == 4">&#xe797;</i>
         </div>
-        <p @click="changNav(index)">
+        <p @click="changNav(index)"
+           :class="{'changeFont':changeClass === index}">
           {{item.label}}
         </p>
       </mt-tab-item>
@@ -35,6 +36,7 @@ export default {
   name: 'Header',
   data () {
     return {
+      changeClass: '',
       navData: [
         {
           'label': '课程',
@@ -71,10 +73,27 @@ export default {
     if (this.$store.state.username) {
       this.nickName = this.$store.state.username
     }
-    //    console.log(this.$route.path)
+    // console.log(this.$route.path)
     if (this.$route.path !== '/courseIndex') {
       this.showIcon = 0
-    } else {
+    } else if (this.$route.path === '/courseIndex') {
+      this.showIcon = 1
+    }
+    //    title根据路由改变样式
+    if (this.$route.path === '/course') {
+      this.changeClass = 0
+    } else if (this.$route.path === '/exerciseIndex') {
+      this.changeClass = 1
+    } else if (this.$route.path === '/testIndex') {
+      this.changeClass = 2
+    } else if (this.$route.path === '/sourceIndex') {
+      this.changeClass = 3
+    } else if (this.$route.path === '/competitionIndex') {
+      this.changeClass = 4
+    } else if (this.$route.path === '/courseDetail') {
+      this.changeClass = -1
+    } else if (this.$route.path === '/test') {
+      this.changeClass = -1
     }
   },
   methods: {
@@ -100,7 +119,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less">
   .mint-header{
     background-color: inherit;
     color:#000;
@@ -109,27 +128,35 @@ export default {
   .mint-header img{
     width:3rem;
   }
-  .heaerNav .mint-tab-item-label{
-    color:#000;
-    font-size:0.29rem ;
-  }
-  .heaerNav .mint-navbar .mint-tab-item.is-selected{
-    border-bottom: 3px solid rgb(122,18,19);
-    color:rgb(122,18,19)
-  }
-  .heaerNav .iconfont{
-    font-size: 48px;
-  }
-  .heaerNav .iconfont{
-    color:#000;
-  }
-  .heaerNav .iconfont2{
-    color:rgb(122,18,19);
-  }.heaerNav .iconfont3{
-     color:rgb(95,99,104);
-   }
-  .heaerNav .iconfont4{
-    font-size: 53px;
-    color:#000;
+  .headerNav {
+    .mint-tab-item-label{
+      color:#000;
+      font-size:0.29rem ;
+    }
+    .mint-navbar .mint-tab-item.is-selected{
+      border-bottom: 3px solid rgb(122,18,19);
+      color:rgb(122,18,19)
+    }
+    .iconfont{
+      font-size: 48px;
+    }
+    .iconfont{
+      color:#000;
+    }
+    .iconfont2{
+      color:rgb(122,18,19);
+    }
+    .iconfont3{
+       color:rgb(95,99,104);
+     }
+    .iconfont4{
+      font-size: 53px;
+      color:#000;
+    }
+    .changeFont{
+      color:rgb(122,18,19);
+      font-weight: bolder;
+      font-size: 0.34rem;
+    }
   }
 </style>

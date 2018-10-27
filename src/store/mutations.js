@@ -22,5 +22,8 @@ export default {
   },
   urlSrc (state, item) {
     state.urlSrc = item
+  },
+  serverIP (state, item) {
+    state.serverIP = item
   }
 }

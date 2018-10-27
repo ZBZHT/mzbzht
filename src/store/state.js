@@ -12,5 +12,6 @@ export default {
   userTypeC: '',
   userID: '',
   courseDetail: '',
-  urlSrc: ''
+  urlSrc: '',
+  serverIP: ''
 }
