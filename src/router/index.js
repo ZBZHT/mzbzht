@@ -14,6 +14,7 @@ import SourceIndex from '@/pages/sourceIndex/SourceIndex'
 import TestIndex from '@/pages/testIndex/TestIndex'
 import CourseDetail from '@/pages/courseDetail/CourseDetail'
 import Test from '@/pages/test/Test'
+import ShowPractice from '@/pages/test/ShowPractice'
 
 
 Vue.use(Router)
@@ -104,6 +105,14 @@ const routes = [
     path: '/test',
     name: 'Test',
     component: Test,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/showPractice',
+    name: 'ShowPractice',
+    component: ShowPractice,
     meta: {
       requireAuth: true
     }

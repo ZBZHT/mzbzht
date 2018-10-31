@@ -94,6 +94,8 @@ export default {
       this.changeClass = -1
     } else if (this.$route.path === '/test') {
       this.changeClass = -1
+    } else if (this.$route.path === '/showPractice') {
+      this.changeClass = -1
     }
   },
   methods: {

@@ -13,7 +13,7 @@
         </li>
       </ul>
       <div class="rightCon">
-        <div class="test">
+        <div v-show="showLi === 0" class="test">
           <p>请选择练习范围:</p>
           <!--0级-->
           <input v-model='dataRangeValue0' class="inputCourseRange" type="text" @focus="getInput0()">
@@ -59,7 +59,21 @@
             position="bottom">
             <picker :data='dataNum' v-model='dataNumValue' @on-change='changeNum'></picker>
           </mt-popup>
-          <x-button mini type="primary" @click.native="submitReply()">确定</x-button>
+          <x-button mini type="primary" @click.native="submitReply()">创建练习</x-button>
+        </div>
+        <div v-show="showLi === 1" class="history">
+          <ul>
+            <li class="practiceItem" v-for="(item, index) in practiceData" :key="index">
+              <span>{{index + 1}}.</span>
+              <span class="preItemSpan">练习题目：{{item.currTestNum}}</span>
+              <p class="preItemP">创建时间：{{item.startTime}}</p>
+              <p class="preItemP">练习数目：{{item.question.length}}</p>
+              <p class="preItemP">练习分数：{{item.sorce}}</p>
+              <p class="showButton">
+                <x-button mini type="primary" @click.native="showPractice(item)">查看练习</x-button>
+              </p>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -71,10 +85,13 @@ import HeaderNav from '@/components/HeaderNav'
 import { Picker, XButton } from 'vux'
 import { Popup } from 'mint-ui'
 import axios from 'axios'
+import core from '../../assets/js/core.js'
+
 export default {
   name: 'Course',
   data () {
     return {
+      showLi: 0,
       user: this.$store.state.username,
       leftTree: ['在线练习', '历史练习'],
       isNew: 0,
@@ -114,7 +131,8 @@ export default {
       sendName1: '',
       sendName2: '',
       sendName3: '',
-      sendNameArray: []
+      sendNameArray: [],
+      practiceData: []
     }
   },
   computed: {
@@ -161,11 +179,20 @@ export default {
       })
       // 跳转
       this.$router.push('/test')
+      this.$router.go(0)
     },
     //    点击确定按钮
     sureButton0 () {
-//      this.dataRange0.splice(0, 0, this.Upicker0)
-//      this.$set(this.dataRange0, 0, this.Upicker0)
+      this.popupVisible0 = false
+    },
+    sureButton1 () {
+      this.popupVisible1 = false
+    },
+    sureButton2 () {
+      this.popupVisible2 = false
+    },
+    sureButton3 () {
+      this.popupVisible3 = false
     },
     //    获取左边数据
     getLeftData () {
@@ -293,6 +320,32 @@ export default {
     //    点击左侧列表
     changeItem (item, index) {
       this.changeClass = index
+      if (index === 0) {
+        this.showLi = 0
+      } else {
+        this.showLi = 1
+        this.historyPractice()
+      }
+    },
+    // 在线练习,--历史练习
+    historyPractice () {
+      axios.get('/readTestQuestion/stuHistoryPractice', {
+        params: {
+          user: this.user
+        }
+      }).then((res) => {
+        console.log(res.data)
+        this.practiceData = res.data.testQuestionInfo
+        for (var i = 0; i < this.practiceData.length; i++) {
+          this.practiceData[i].startTime = core.formatDate('yyyy-MM-dd hh:mm:ss', new Date(this.practiceData[i].startTime))
+        }
+      })
+    },
+    //  查看练习
+    showPractice (item) {
+      console.log(item)
+      this.$store.commit('showPracticeData', item)
+      this.$router.push('showPractice')
     }
   },
   components: {
@@ -353,6 +406,26 @@ export default {
     .sureButton{
       text-align:right;
       font-size: 0.38rem;
+    }
+    .history{
+      .practiceItem{
+        background:rgb(237,237,237);
+        margin-bottom:0.3rem;
+        padding:0.15rem;
+        box-sizing: border-box;
+        border-radius: 10px;
+      }
+      .preItemSpan{
+        margin-left:0.2rem;
+        font-size: 0.32rem;
+      }
+      .preItemP{
+        margin-left:0.5rem;
+        font-size: 0.32rem;
+      }
+      .showButton{
+        text-align: right;
+      }
     }
   }
 </style>

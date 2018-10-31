@@ -4,7 +4,7 @@
     <Header-nav></Header-nav>
     <div class="test">
       <div class="top">
-        章节练习
+        查看练习
       </div>
       <div class="middle">
         <p class="queNum">
@@ -13,10 +13,10 @@
         </p>
         <hr>
         <div class="content">
-          <p class="queDesc">{{currQue.desc}}</p>
-          <checklist :options="currQue.options" v-model="radioValue" :max="1" @on-change="change"></checklist>
-
+          <p class="queDesc">{{currQue[0].desc}}</p>
+          <checklist :options="currQue[0].options" disabled></checklist>
         </div>
+        <p class="ans">正确答案：{{currQue[0].answer}}</p>
       </div>
       <div class="bottom">
         <p class="changeQue" @click="pro"><</p>
@@ -27,13 +27,11 @@
           <div class="spans">
             <span v-for="(item, index) in allNum"
                   :key="index"
-                  :class="{isWrite:ansArray[index]}"
                   @click="jumpTo(index)">
               {{item}}
             </span>
           </div>
         </mt-popup>
-        <x-button mini type="warn" @click.native="submitReply()">提交</x-button>
         <p class="changeQue" @click="next">></p>
       </div>
     </div>
@@ -57,57 +55,16 @@ export default {
       resData: '',
       popupVisible: false,
       ansArray: [],
-      radioValArray: [],
+      currState: [],
       currTestNum: ''
     }
   },
   computed: {
   },
   mounted () {
-    setTimeout(function () {
-      this.getExercise()
-    }.bind(this), 10)
+    this.getExercise()
   },
   methods: {
-    //    提交
-    submitReply () {
-      var sorce = 0
-      //      console.log(this.resData)
-      for (var i = 0; i < this.resData.length; i++) {
-      //        console.log(this.resData[i].answer)
-        if (this.resData[i].answer === this.ansArray[i]) {
-          sorce += 1
-        }
-      }
-      console.log('ans', this.ansArray)
-      axios({
-        method: 'get',
-        url: '/readTestQuestionInfo/submitQuestionInfo',
-        params: {
-          user: this.user,
-          currTestNum: this.currTestNum,
-          startTime: new Date(),
-          currAnswer: this.ansArray,
-          currState: this.radioValArray,
-          error: this.ansArray,
-          sorce: sorce,
-          testTimeMinutes: 10,
-          testTimeSeconds: 20,
-          currIsId: this.ansArray,
-          isCheckNum: this.ansArray.length
-        }
-      }).then((res) => {
-        //        console.log(res)
-        if (res.data.code === 0) {
-          // alert(this.sorce);
-          alert ('提交成功')
-          this.$router.push('/testIndex')
-        } else {
-          this.errorMsg('未提交成功')
-        }
-      }
-      )
-    },
     //    点击答题卡跳转
     jumpTo (index) {
       this.currNum = index + 1
@@ -127,7 +84,7 @@ export default {
         this.currNum ++
         this.currQue = this.resData[this.currNum - 1]
         if (this.ansArray[this.currNum - 1]) {
-          this.radioValue = this.radioValArray[this.currNum - 1]
+          this.radioValue = this.currState[this.currNum - 1]
         }
       }
     },
@@ -137,39 +94,19 @@ export default {
         this.currNum --
         this.currQue = this.resData[this.currNum - 1]
         if (this.ansArray[this.currNum - 1]) {
-          this.radioValue = this.radioValArray[this.currNum - 1]
+          this.radioValue = this.currState[this.currNum - 1]
         }
       }
     },
-    //    选择答案
-    change (val, label) {
-      var str = label[0]
-      var ans = str.substr(0, 1)
-      this.$set(this.ansArray, this.currNum - 1, ans)
-      this.$set(this.radioValArray, this.currNum - 1, label)
-      console.log(this.ansArray)
-      //      setTimeout(function () {
-      //        if (this.currNum < this.allNum) {
-      //          this.next()
-      //        }
-      //      }.bind(this), 1000)
-    },
     //      获取试题
     getExercise () {
-      axios.get('/readTestQuestion/getTestExercise', {
-        params: {
-          user: this.user
-        }
-      }).then((res) => {
-        console.log(res.data.testQuestion)
-        this.currTestNum = res.data.testQuestion.currTestNum
-        this.resData = res.data.testQuestion.question
-        //        console.log(this.resData)
-        this.allNum = res.data.testQuestion.question.length
-        this.currQue = this.resData[0]
-        this.currNum = 1
-        console.log(this.currQue)
-      })
+      console.log('val', this.$store.state.showPracticeData)
+      this.currState = this.$store.state.showPracticeData.currState
+      this.resData = this.$store.state.showPracticeData.question
+      console.log(this.resData[0])
+      this.allNum = this.$store.state.showPracticeData.question.length
+      this.currQue = this.resData[0]
+      this.currNum = 1
     }
   },
   components: {
@@ -215,7 +152,13 @@ export default {
         font-size: 0.7rem;
       }
       .showAllQue{
-        margin:0.2rem 0 0 1rem;
+        margin: 0.2rem 0 0 3rem;
+        width: 80%;
+      }
+      .ans{
+        font-size: 0.35rem;
+        text-align: right;
+        margin: 0.2rem;
       }
       .mint-popup{
         width:100%;
@@ -231,7 +174,7 @@ export default {
           width: 10%;
           height:0.8rem;
           line-height:0.8rem;
-          background: rgb(221,81,69);
+          border: 1px solid #000;
           border-radius: 50%;
         }
         .isWrite{
