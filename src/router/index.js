@@ -15,7 +15,7 @@ import TestIndex from '@/pages/testIndex/TestIndex'
 import CourseDetail from '@/pages/courseDetail/CourseDetail'
 import Test from '@/pages/test/Test'
 import ShowPractice from '@/pages/test/ShowPractice'
-
+import ExerciseDetail from '@/pages/exerciseIndex/ExerciseDetail'
 
 Vue.use(Router)
 
@@ -73,6 +73,14 @@ const routes = [
     path: '/exerciseIndex',
     name: 'ExerciseIndex',
     component: ExerciseIndex,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/exerciseDetail',
+    name: 'ExerciseDetail',
+    component: ExerciseDetail,
     meta: {
       requireAuth: true
     }

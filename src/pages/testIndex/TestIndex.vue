@@ -417,11 +417,11 @@ export default {
       }
       .preItemSpan{
         margin-left:0.2rem;
-        font-size: 0.32rem;
+        font-size: 0.28rem;
       }
       .preItemP{
         margin-left:0.5rem;
-        font-size: 0.32rem;
+        font-size: 0.28rem;
       }
       .showButton{
         text-align: right;
