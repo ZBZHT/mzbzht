@@ -15,7 +15,7 @@
       </ul>
       <div class="rightCon" :style="{height: height - 120 + 'px'}">
         <table>
-          <tr class="rightTr" v-for="(item,index) in secondData" :key="index">
+          <tr class="rightTr" @click="jump2(item)" v-for="(item,index) in secondData" :key="index">
             <b>{{item.label}}</b>
             <td class="rightTd" @click="clickCourse(item,item2)" v-for="(item2,index2) in item.children" :key="index2">
               <i v-if="index2 === 0" class="iconfont">&#xe8cb;</i>
@@ -81,6 +81,15 @@ export default {
     this.getLeftData()
   },
   methods: {
+    jump2 (item) {
+      if (this.changeClass === 4 || this.changeClass === 5) {
+        this.urlSrc = this.urlSrc + item.label + '/'
+        this.$store.commit('courseDetail', item)
+        this.$store.commit('urlSrc', this.urlSrc)
+        this.$router.push('/courseDetail')
+      } else {
+      }
+    },
     jumpCourseDetail (item) {
       if (this.changeClass === 0) {
         this.urlSrc = this.urlSrc + item.label + '/'

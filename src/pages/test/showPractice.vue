@@ -14,7 +14,10 @@
         <hr>
         <div class="content">
           <p class="queDesc">{{currQue[0].desc}}</p>
-          <checklist :options="currQue[0].options" disabled></checklist>
+          <p class="queOptions" v-for="(item, index) in currQue[0].options" :key="index">
+            <i class="iconfont" v-show="showRight === index">&#xe603;</i>
+            {{item}}
+          </p>
         </div>
         <p class="ans">正确答案：{{currQue[0].answer}}</p>
       </div>
@@ -56,7 +59,8 @@ export default {
       popupVisible: false,
       ansArray: [],
       currState: [],
-      currTestNum: ''
+      currTestNum: '',
+      showRight: ''
     }
   },
   computed: {
@@ -67,6 +71,17 @@ export default {
   methods: {
     //    点击答题卡跳转
     jumpTo (index) {
+      if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
+        this.showRight = 0
+      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
+        this.showRight = 1
+      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
+        this.showRight = 2
+      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
+        this.showRight = 3
+      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
+        this.showRight = ''
+      }
       this.currNum = index + 1
       this.currQue = this.resData[this.currNum - 1]
       if (this.ansArray[this.currNum - 1]) {
@@ -81,6 +96,17 @@ export default {
     //    点击下一题
     next () {
       if (this.currNum < this.allNum) {
+        if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
+          this.showRight = 0
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
+          this.showRight = 1
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
+          this.showRight = 2
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
+          this.showRight = 3
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
+          this.showRight = ''
+        }
         this.currNum ++
         this.currQue = this.resData[this.currNum - 1]
         if (this.ansArray[this.currNum - 1]) {
@@ -91,6 +117,17 @@ export default {
     //    点击上一题
     pro () {
       if (this.currNum > 1) {
+        if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
+          this.showRight = 0
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
+          this.showRight = 1
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
+          this.showRight = 2
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
+          this.showRight = 3
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
+          this.showRight = ''
+        }
         this.currNum --
         this.currQue = this.resData[this.currNum - 1]
         if (this.ansArray[this.currNum - 1]) {
@@ -100,10 +137,20 @@ export default {
     },
     //      获取试题
     getExercise () {
+      if (this.$store.state.showPracticeData.currAnswer[0] === 'A') {
+        this.showRight = 0
+      } else if (this.$store.state.showPracticeData.currAnswer[0] === 'B') {
+        this.showRight = 1
+      } else if (this.$store.state.showPracticeData.currAnswer[0] === 'C') {
+        this.showRight = 2
+      } else if (this.$store.state.showPracticeData.currAnswer[0] === 'D') {
+        this.showRight = 3
+      } else if (this.$store.state.showPracticeData.currAnswer[0] === '') {
+        this.showRight = ''
+      }
       console.log('val', this.$store.state.showPracticeData)
       this.currState = this.$store.state.showPracticeData.currState
       this.resData = this.$store.state.showPracticeData.question
-      console.log(this.resData[0])
       this.allNum = this.$store.state.showPracticeData.question.length
       this.currQue = this.resData[0]
       this.currNum = 1
@@ -136,6 +183,13 @@ export default {
         font-size:0.38rem;
         margin-top:0.5rem;
         margin-bottom:0.5rem;
+      }
+      .queOptions{
+        font-size: 0.34rem;
+        margin-left: 1.1rem;
+        border-top: 1px solid #eee;
+        height: 0.9rem;
+        line-height: 0.9rem;
       }
       .bottom{
         border-top:1px solid #ccc;

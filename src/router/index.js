@@ -16,6 +16,8 @@ import CourseDetail from '@/pages/courseDetail/CourseDetail'
 import Test from '@/pages/test/Test'
 import ShowPractice from '@/pages/test/ShowPractice'
 import ExerciseDetail from '@/pages/exerciseIndex/ExerciseDetail'
+import ExerciseDetailTwo from '@/pages/exerciseIndex/ExerciseDetailTwo'
+
 
 Vue.use(Router)
 
@@ -81,6 +83,14 @@ const routes = [
     path: '/exerciseDetail',
     name: 'ExerciseDetail',
     component: ExerciseDetail,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/exerciseDetailTwo',
+    name: 'ExerciseDetailTwo',
+    component: ExerciseDetailTwo,
     meta: {
       requireAuth: true
     }

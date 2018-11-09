@@ -98,6 +98,8 @@ export default {
       this.changeClass = -1
     } else if (this.$route.path === '/exerciseDetail') {
       this.changeClass = -1
+    } else if (this.$route.path === '/exerciseDetailTwo') {
+      this.changeClass = -1
     }
   },
   methods: {

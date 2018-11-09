@@ -3,6 +3,9 @@
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div>
+      <p class="goBack" @click="goBack">
+        <<返回
+      </p>
       <p class="detailTitle">
         {{detailItem.label}}
       </p>
@@ -183,6 +186,10 @@ export default {
     this.getComment()
   },
   methods: {
+    //    返回上一级
+    goBack () {
+      this.$router.go(-1)
+    },
     // 提交评论
     submitComments () {
       // this.appraiseIndex = [];
@@ -295,16 +302,22 @@ export default {
         this.appraiseIndex = res.data.result.appraiseMsg
         this.appraiseContent.appraiseMsg = this.appraiseIndex
         console.log(this.appraiseIndex)
-      }).catch(function (error) {
+      }).catch((error) => {
         console.log('评论请求错误')
       })
     },
     // 请求PPT
     getPPT () {
+      var fileName = ''
+      if (String(this.detailItem.courseId) > String(1999)) {
+        fileName = this.videoPath
+      } else {
+        fileName = this.videoPath + this.detailItem.teachingMaterial + '/'
+      }
       axios.post ('/readResource/getPPT', {
         data: {
           userId: this.userId,
-          fileName: this.videoPath + this.detailItem.teachingMaterial + '/'
+          fileName: fileName
         }
       }).then((res) => {
         console.log(res)
@@ -329,6 +342,10 @@ export default {
 </script>
 <style lang="less">
   .courseDetail{
+    .goBack{
+      margin-top:0.2rem;
+      margin-left: 0.2rem;
+    }
     .detailTitle{
       text-align:center;
       font-size: 0.4rem;

@@ -73,7 +73,7 @@ export default {
       if (this.changeClass === 0) {
       } else {
         console.log(item)
-        this.$router.push('/exerciseDetail')
+        this.$router.push('/exerciseDetailTwo')
         this.$store.commit('exerciseData', item)
       }
 //      this.$store.commit('courseDetail', item)

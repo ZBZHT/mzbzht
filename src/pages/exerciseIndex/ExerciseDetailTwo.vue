@@ -1,5 +1,5 @@
 <template>
-  <div class="ExerciseDetail">
+  <div class="ExerciseDetailTwo">
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div>
@@ -7,22 +7,17 @@
         <<返回
       </p>
       <mt-navbar v-model="selected">
-        <mt-tab-item id="1">设备展示</mt-tab-item>
-        <mt-tab-item id="2">设备参数</mt-tab-item>
-        <mt-tab-item id="3">设备说明</mt-tab-item>
+        <mt-tab-item id="1">实训中心效果图</mt-tab-item>
+        <mt-tab-item id="2">实训中心配置</mt-tab-item>
       </mt-navbar>
       <!-- tab-container -->
       <mt-tab-container v-model="selected" class="courseContainer">
         <mt-tab-container-item id="1">
-          <div class="exerEngImg" v-for="(item,index) in exerEngImg" :key="index">
-            <img :src=" 'http://'+ $store.state.serverIP +':8000' + '/resource/imgs/' + item.engImage">
+          <div class="exerEngImg">
+            <img :src=" 'http://'+ $store.state.serverIP +':8000' + '/resource/imgs/' + exerEngImg">
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
-
-        </mt-tab-container-item>
-
-        <mt-tab-container-item id="3">
 
         </mt-tab-container-item>
 
@@ -79,7 +74,7 @@ export default {
 }
 </script>
 <style lang="less">
-  .ExerciseDetail{
+  .ExerciseDetailTwo{
     .detailTitle{
       font-size: 0.28rem;
       margin-left: 0.2rem;

@@ -44,7 +44,7 @@
 import HeaderNav from '@/components/HeaderNav'
 import axios from 'axios'
 import { Checklist, XButton } from 'vux'
-import { Popup } from 'mint-ui'
+import { Popup, MessageBox } from 'mint-ui'
 export default {
   name: 'Test',
   data () {
@@ -100,8 +100,18 @@ export default {
         //        console.log(res)
         if (res.data.code === 0) {
           // alert(this.sorce);
-          alert ('提交成功')
-          this.$router.push('/testIndex')
+          MessageBox.confirm('', {
+            message: '答对题数：' + sorce + ',请在历史练习中查看',
+            confirmButtonText: '确定'
+          }).then(action => {
+            if (action === 'confirm') { // 确认的回调
+              this.$router.push('/testIndex')
+            }
+          }).catch(err => {
+            if (err === 'cancel') { // 取消的回调
+              this.$router.push('/testIndex')
+            }
+          })
         } else {
           this.errorMsg('未提交成功')
         }
@@ -176,7 +186,8 @@ export default {
     HeaderNav,
     Checklist,
     XButton,
-    Popup
+    Popup,
+    MessageBox
   },
   beforeDestroy: function () {
   }
