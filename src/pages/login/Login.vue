@@ -68,7 +68,7 @@
         <!-- 登录账号 手机号、会员名、昵称、邮箱 -->
         <div class="form-group username border-bottom">
           <input type="text" name="username" id="normalNum" class="text-input"
-                 placeholder="手机号 / 会员名 / 昵称 / 邮箱" autocomplete="off"
+                 placeholder="姓名" autocomplete="off"
                  ref="usernameInput"
                  v-model="username"
                  @input="handleUserNameInput"

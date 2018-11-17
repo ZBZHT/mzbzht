@@ -5,6 +5,8 @@
 </template>
 <script>
 
+import axios from 'axios'
+
 export default {
   name: 'Index',
   data () {
@@ -15,6 +17,19 @@ export default {
   computed: {
   },
   mounted () {
+    axios.get('/api/user/getServerIP', { // 获取服务器ip请求
+      params: {
+        user: 234
+      }
+    }).then((res) => {
+      if (res.data.code === 0) {
+        console.log(res.data.serverIP.Ip)
+        this.$store.commit('serverIP', res.data.serverIP.Ip)
+      }
+      // console.log(this.$store.state.serverIP);
+    }).catch(function (error) {
+      console.log('error init.' + error)
+    })
     this._timeOut = setInterval(function () {
       this.$router.push('/courseIndex')
     }.bind(this), 3000)

@@ -3,7 +3,7 @@
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div class="exerciseIndexContent">
-      <ul class="leftTree">
+      <ul class="leftTree" :style="{'height': height - 91 + 'px'}">
         <li class="leftItem"
             v-for="(item,index) in leftTree"
             :style="{'line-height': (height - 88) / 6 + 'px'}"
@@ -125,7 +125,7 @@ export default {
   }
   .exerciseIndex .leftTree{
     background:rgb(237,237,237);
-    width:21%;
+    width:23%;
     text-align:center;
   }
   .exerciseIndex .exerciseIndexContent{

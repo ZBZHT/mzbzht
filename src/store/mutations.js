@@ -25,5 +25,14 @@ export default {
   },
   serverIP (state, item) {
     state.serverIP = item
+  },
+  showPracticeData (state, item) {
+    state.showPracticeData = item
+  },
+  exerciseData (state, item) {
+    state.exerciseData = item
+  },
+  showPractice (state, item) {
+    state.showPractice = item
   }
 }

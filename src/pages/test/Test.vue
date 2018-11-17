@@ -3,6 +3,9 @@
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div class="test">
+      <p class="goBack" @click="goBack">
+        <<返回
+      </p>
       <div class="top">
         章节练习
       </div>
@@ -69,6 +72,22 @@ export default {
     }.bind(this), 10)
   },
   methods: {
+    //    返回上一级
+    goBack () {
+      MessageBox.confirm('', {
+        message: '练习还未提交，是否提交',
+        confirmButtonText: '提交',
+        cancelButtonText: '返回'
+      }).then(action => {
+        if (action === 'confirm') { // 确认的回调
+          this.submitReply()
+        }
+      }).catch(err => {
+        if (err === 'cancel') { // 取消的回调
+          this.$router.push('/testIndex')
+        }
+      })
+    },
     //    提交
     submitReply () {
       var sorce = 0
@@ -198,6 +217,10 @@ export default {
     .test{
       padding:0.2rem;
       box-sizing: border-box;
+      .goBack{
+        margin-top:0.2rem;
+        margin-left: 0.2rem;
+      }
       .top{
         margin:0.5rem;
         text-align: center;
@@ -226,7 +249,8 @@ export default {
         font-size: 0.7rem;
       }
       .showAllQue{
-        margin:0.2rem 0 0 1rem;
+        margin: .2rem 0 0 1.5rem;
+        width: 15%;
       }
       .mint-popup{
         width:100%;

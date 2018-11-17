@@ -3,7 +3,7 @@
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div class="textContent">
-      <ul class="leftTree">
+      <ul class="leftTree" :style="{'height': height - 91 + 'px'}">
         <li class="leftItem"
             v-for="(item, index) in leftTree"
             @click="changeItem(item,index)"
@@ -13,7 +13,7 @@
         </li>
       </ul>
       <div class="rightCon">
-        <div v-show="showLi === 0" class="test">
+        <div v-if="showLi === 0" class="test">
           <p>请选择练习范围:</p>
           <!--0级-->
           <input v-model='dataRangeValue0' class="inputCourseRange" type="text" @focus="getInput0()">
@@ -61,7 +61,7 @@
           </mt-popup>
           <x-button mini type="primary" @click.native="submitReply()">创建练习</x-button>
         </div>
-        <div v-show="showLi === 1" class="history">
+        <div v-if="showLi === 1" class="history">
           <ul>
             <li class="practiceItem" v-for="(item, index) in practiceData" :key="index">
               <span>{{index + 1}}.</span>
@@ -91,6 +91,7 @@ export default {
   name: 'Course',
   data () {
     return {
+      height: window.innerHeight,
       showLi: 0,
       user: this.$store.state.username,
       leftTree: ['在线练习', '历史练习'],
@@ -140,6 +141,10 @@ export default {
   mounted () {
     //    获取左边数据
     this.getLeftData()
+    if (this.$store.state.showPractice === 1) {
+      this.changeItem('在线练习', 1)
+    } else if (this.$store.state.showPractice === 0) {
+    }
   },
   methods: {
     //    提交
@@ -319,6 +324,7 @@ export default {
     },
     //    点击左侧列表
     changeItem (item, index) {
+      this.$store.commit('showPractice', 0)
       this.changeClass = index
       if (index === 0) {
         this.showLi = 0

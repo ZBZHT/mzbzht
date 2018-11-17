@@ -27,7 +27,7 @@
     <div class="suggeCourse">
       <i class="iconfont iconfontSugge">&#xe77c;</i>
       <span>实战推荐</span>
-      <span class="moreCourse">更多>></span>
+      <span class="moreCourse" @click="moreCourse">更多>></span>
       <ul class="best">
         <li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in suggClassData2" :key="index">{{item.label}}</li>
       </ul>
@@ -64,6 +64,7 @@ export default {
       }
     }).then((res) => {
       if (res.data.code === 0) {
+        console.log(res.data.serverIP.Ip)
         this.$store.commit('serverIP', res.data.serverIP.Ip)
       }
       // console.log(this.$store.state.serverIP);
@@ -100,11 +101,15 @@ export default {
     })
   },
   methods: {
+    //    更多实战
+    moreCourse () {
+      this.$router.push('/moreCourse')
+    },
     jumpCourseDetail (item) {
       this.$store.commit('courseDetail', item)
       //      this.$store.commit('urlSrc', this.urlSrc)
       this.$router.push('/courseDetail')
-    },
+    }
   },
   beforeDestroy: function () {
   },
@@ -191,6 +196,10 @@ export default {
     top: 0.45rem;
     right: 0.25rem;
     font-size: 0.28rem;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
   .courseIndex .suggeCourse{
     padding:0.2rem;

@@ -1,9 +1,9 @@
 <template>
-  <div class="exerciseIndex">
+  <div class="CompetitionIndex">
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div class="exerciseIndexContent">
-      <ul class="leftTree">
+      <ul class="leftTree" :style="{'height': height - 91 + 'px'}">
         <li class="leftItem"
             v-for="(item,index) in leftTree"
             :style="{'line-height': (height - 88) / 6 + 'px'}"
@@ -123,22 +123,22 @@ export default {
     margin:0;
     padding:0;
   }
-  .exerciseIndex .leftTree{
+  .CompetitionIndex .leftTree{
     background:rgb(237,237,237);
     width:21%;
     text-align:center;
   }
-  .exerciseIndex .exerciseIndexContent{
+  .CompetitionIndex .exerciseIndexContent{
     display:flex;
   }
-  .exerciseIndex .rightCon{
+  .CompetitionIndex .rightCon{
     width:75%;
     padding: 0.2rem;
     box-sizing: border-box;
     overflow: auto;
     border-top:1px solid rgb(122,18,19);
   }
-  .exerciseIndex .rightCon .rightTd{
+  .CompetitionIndex .rightCon .rightTd{
     display:inline-block;
     width:24%;
     margin-left:9%;
@@ -151,7 +151,7 @@ export default {
   .leftItem{
     border-right:1px solid rgb(122,18,19);
   }
-  .exerciseIndex .changeBg{
+  .CompetitionIndex .changeBg{
     background:#fff;
     border-left:1px solid rgb(122,18,19);
     border-top:1px solid rgb(122,18,19);
@@ -159,26 +159,26 @@ export default {
     border-right:1px solid #fff;
     color:rgb(122,18,19);
   }
-  .exerciseIndex .rightCon .rightTr b{
+  .CompetitionIndex .rightCon .rightTr b{
     font-weight:bolder;
     display: block;
     margin-bottom:20px;
   }
-  .exerciseIndex .rightCon .rightTr p{
+  .CompetitionIndex .rightCon .rightTr p{
     margin-top:8px;
     font-size: 0.24rem;
   }
-  .exerciseIndex .iconfont {
+  .CompetitionIndex .iconfont {
     font-size: 34px;
   }
-  .exerciseIndex .mint-popup{
+  .CompetitionIndex .mint-popup{
     width: 78%;
   }
-  .exerciseIndex .rightCon .mint-button{
+  .CompetitionIndex .rightCon .mint-button{
     width: 100%;
     background-color: rgb(237,237,237);
   }
-  .exerciseIndex .rightCon .modelFont{
+  .CompetitionIndex .rightCon .modelFont{
     font-size:17px;
     margin: 25px;
   }

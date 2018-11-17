@@ -3,7 +3,7 @@
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div class="textContent">
-      <ul class="leftTree">
+      <ul class="leftTree" :style="{'height': height - 91 + 'px'}">
         <li class="leftItem"
             v-for="(item, index) in leftTree"
             @click="changeItem(item,index)"
@@ -123,6 +123,7 @@ export default {
   name: 'Course',
   data () {
     return {
+      height: window.innerHeight,
       showLi: 0,
       leftTree: ['全部教程', '教学课件', '教学微课', '其他教材'],
       changeClass: 0,
@@ -303,6 +304,12 @@ export default {
         position: relative;
         margin-bottom:0.2rem;
         border-top: 1px solid rgb(220,220,220);
+      }
+      li:last-child
+      {
+        border-bottom: 1px solid rgb(220,220,220);
+        padding-bottom: 0.1rem;
+        box-sizing: border-box;
       }
       .cellP{
 

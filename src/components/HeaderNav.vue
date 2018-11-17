@@ -5,7 +5,9 @@
         <img class="brand" alt="Brand" src="../assets/imgs/zbtLogo.png">
       </router-link>
       <mt-button slot="right" v-if="nickName">
-        {{nickName}}
+        <span @click="goMyself">{{nickName}}</span>
+        <span>/</span>
+        <span @click="goSign()">签到</span>
       </mt-button>
       <mt-button slot="right" v-if="!nickName" @click="simplePrompt">登录</mt-button>
     </mt-header>
@@ -82,6 +84,8 @@ export default {
     //    title根据路由改变样式
     if (this.$route.path === '/course') {
       this.changeClass = 0
+    } else if (this.$route.path === '/moreCourse') {
+      this.changeClass = -1
     } else if (this.$route.path === '/exerciseIndex') {
       this.changeClass = 1
     } else if (this.$route.path === '/testIndex') {
@@ -100,9 +104,19 @@ export default {
       this.changeClass = -1
     } else if (this.$route.path === '/exerciseDetailTwo') {
       this.changeClass = -1
+    } else if (this.$route.path === '/myself') {
+      this.changeClass = -1
     }
   },
   methods: {
+    //    个人中心
+    goMyself () {
+      this.$router.push('/myself')
+    },
+    //    签到
+    goSign () {
+      this.$router.push('/sign')
+    },
     changNav (index) {
       //      console.log(index)
       if (index === 0) {

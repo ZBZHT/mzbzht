@@ -7,6 +7,7 @@ import Login from '@/pages/login/Login'
 import Sign from '@/pages/sign/Sign'
 import Index from '@/pages/index/Index'
 import CourseIndex from '@/pages/courseIndex/CourseIndex'
+import MoreCourse from '@/pages/courseIndex/MoreCourse'
 import Course from '@/pages/course/Course'
 import CompetitionIndex from '@/pages/competitionIndex/CompetitionIndex'
 import ExerciseIndex from '@/pages/exerciseIndex/ExerciseIndex'
@@ -17,7 +18,7 @@ import Test from '@/pages/test/Test'
 import ShowPractice from '@/pages/test/ShowPractice'
 import ExerciseDetail from '@/pages/exerciseIndex/ExerciseDetail'
 import ExerciseDetailTwo from '@/pages/exerciseIndex/ExerciseDetailTwo'
-
+import Myself from '@/pages/login/Myself'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ const routes = [
     path: '/courseIndex',
     name: 'CourseIndex',
     component: CourseIndex
+  },
+  {
+    path: '/moreCourse',
+    name: 'MoreCourse',
+    component: MoreCourse
   },
   {
     path: '/course',
@@ -131,6 +137,14 @@ const routes = [
     path: '/showPractice',
     name: 'ShowPractice',
     component: ShowPractice,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
+    path: '/myself',
+    name: 'Myself',
+    component: Myself,
     meta: {
       requireAuth: true
     }

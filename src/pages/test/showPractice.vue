@@ -3,6 +3,9 @@
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div class="test">
+      <p class="goBack" @click="goBack">
+        <<返回
+      </p>
       <div class="top">
         查看练习
       </div>
@@ -14,7 +17,10 @@
         <hr>
         <div class="content">
           <p class="queDesc">{{currQue[0].desc}}</p>
-          <p class="queOptions" v-for="(item, index) in currQue[0].options" :key="index">
+          <p class="queOptions"
+             :class="{'changeFont':showRight === index}"
+             v-for="(item, index) in currQue[0].options"
+             :key="index">
             <i class="iconfont" v-show="showRight === index">&#xe603;</i>
             {{item}}
           </p>
@@ -69,6 +75,11 @@ export default {
     this.getExercise()
   },
   methods: {
+    //    返回上一级
+    goBack () {
+      this.$store.commit('showPractice', 1)
+      this.$router.go(-1)
+    },
     //    点击答题卡跳转
     jumpTo (index) {
       if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
@@ -171,6 +182,10 @@ export default {
     .test{
       padding:0.2rem;
       box-sizing: border-box;
+      .goBack{
+        margin-top:0.2rem;
+        margin-left: 0.2rem;
+      }
       .top{
         margin:0.5rem;
         text-align: center;
@@ -235,6 +250,10 @@ export default {
           background: rgb(124,211,59);
         }
       }
+    }
+    .changeFont{
+      color:rgb(122,18,19);
+      font-weight: bolder;
     }
   }
 </style>

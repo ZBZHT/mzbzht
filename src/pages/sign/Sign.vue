@@ -30,7 +30,7 @@
       </div>
     </section>
     <section class="sign-p">
-      <p @click="backHome()" v-if="showBut === false">跳转至系统首页</p>
+      <button @click="backHome()" v-if="showBut === false">跳转至系统首页</button>
     </section>
   </div>
 </template>
@@ -129,7 +129,7 @@ export default {
       })
     },
     backHome () {
-      window.location.href = 'http://192.168.1.251:8000'
+      this.$router.push('/courseIndex')
     }
   }
 }

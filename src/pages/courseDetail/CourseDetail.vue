@@ -136,6 +136,7 @@ export default {
   data () {
     return {
       userType: this.$store.state.userType,
+      userId: this.$store.state.userID,
       userName: this.$store.state.username,
       height: window.innerHeight,
       selected: '1',
@@ -155,7 +156,8 @@ export default {
       date3: '',
       text: '',
       appraiseIndex: [],
-      commentPath: ''
+      commentPath: '',
+      data: ''
     }
   },
   computed: {
@@ -164,6 +166,7 @@ export default {
     }
   },
   mounted () {
+    this.getLeftData()
     // 判断当前是否是老师
     // console.log(this.userType)
     if (this.userType === 'EA' || this.userType === 'T') {
@@ -174,7 +177,7 @@ export default {
     }
     //    获取请求路径
     this.videoPath = this.$store.state.urlSrc
-    console.log(this.videoPath)
+    //    console.log(this.videoPath)
     this.commentPath = this.videoPath.split('/')
     var str = []
     for (var i = 0; i < this.commentPath.length - 1; i++) {
@@ -186,13 +189,352 @@ export default {
     this.getComment()
   },
   methods: {
+    //    获取左边数据
+    getLeftData () {
+      axios.post('/teacherCMS/getCenterTree', {
+        data: {
+          userID: this.userID,
+          userType: this.userType
+        }
+      }).then((res) => {
+        this.data = res.data[0].children[0].children
+        this.findParent()
+      })
+    },
+    // 进入页面时的请求地址
+    findParent () {
+      var data = this.$store.state.courseDetail
+      console.log(this.data)
+      var id = data.courseId
+      var coursePath = []
+      var homeworkPath = []
+      id = id.toString()
+      if (id > 1110 && id < 1200) {
+        if (id >= 1111 && id < 1120) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[0].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[0].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1120 && id < 1130) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[1].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[1].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1130 && id < 1140) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[2].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[2].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1140 && id < 1150) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[3].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[3].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1150 && id < 1160) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[4].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[4].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1160 && id < 1170) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[5].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[5].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1170 && id < 1180) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[6].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[6].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1180 && id < 1190) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[7].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[7].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id >= 1190 && id < 120) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(this.data[0].children[0].children[8].label)
+          homeworkPath.push(data.label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(this.data[0].children[0].children[8].label)
+          coursePath.push(data.label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        }
+      } else if (id > 100 && id < 200) {
+        if (id === 110) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(data.label)
+          homeworkPath.push(data.children[0].label)
+          homeworkPath.push(data.children[0].children[0].label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(data.label)
+          coursePath.push(data.children[0].label)
+          coursePath.push(data.children[0].children[0].label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id > 110 && id < 120) {
+          homeworkPath.push(this.data[0].label)
+          homeworkPath.push(this.data[0].children[0].label)
+          homeworkPath.push(data.label)
+          homeworkPath.push(data.children[0].label)
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[0].label)
+          coursePath.push(data.label)
+          coursePath.push(data.children[0].label)
+          coursePath.push(this.$store.state.courseDetail.teachingMaterial)
+        } else if (id > 120 && id < 130) {
+          coursePath.push(this.data[0].label)
+          coursePath.push(this.data[0].children[1].label)
+          coursePath.push(data.label)
+          coursePath.push(data.children[0].label)
+          homeworkPath = coursePath
+        } else if (id === 120) {
+          coursePath.push(this.data[0].label)
+          coursePath.push(data.label)
+          coursePath.push(data.children[0].label)
+          coursePath.push(data.children[0].children[0].label)
+          homeworkPath = coursePath
+        }
+      } else if (id > 200 && id < 300) {
+        if (id === 210 || id === 220 || id === 230 || id === 240 || id === 250 || id === 260) {
+          coursePath.push(this.data[1].label)
+          coursePath.push(data.label)
+          coursePath.push(data.children[0].label)
+          homeworkPath = coursePath
+        } else if (id > 210 && id < 220) {
+          coursePath.push(this.data[1].label)
+          coursePath.push(this.data[1].children[0].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 220 && id < 230) {
+          coursePath.push(this.data[1].label)
+          coursePath.push(this.data[1].children[1].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 230 && id < 240) {
+          coursePath.push(this.data[1].label)
+          coursePath.push(this.data[1].children[2].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 240 && id < 250) {
+          coursePath.push(this.data[1].label)
+          coursePath.push(this.data[1].children[3].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 250 && id < 260) {
+          coursePath.push(this.data[1].label)
+          coursePath.push(this.data[1].children[4].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 260 && id < 270) {
+          coursePath.push(this.data[1].label)
+          coursePath.push(this.data[1].children[5].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        }
+      } else if (id > 300 && id < 400) {
+        if (id === 310 || id === 320 || id === 330 || id === 340 || id === 350) {
+          coursePath.push(this.data[2].label)
+          coursePath.push(data.label)
+          coursePath.push(data.children[0].label)
+          homeworkPath = coursePath
+        } else if (id > 310 && id < 320) {
+          coursePath.push(this.data[2].label)
+          coursePath.push(this.data[2].children[0].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 320 && id < 330) {
+          coursePath.push(this.data[2].label)
+          coursePath.push(this.data[2].children[1].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 330 && id < 340) {
+          coursePath.push(this.data[2].label)
+          coursePath.push(this.data[2].children[2].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 340 && id < 350) {
+          coursePath.push(this.data[2].label)
+          coursePath.push(this.data[2].children[3].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 350 && id < 360) {
+          coursePath.push(this.data[2].label)
+          coursePath.push(this.data[2].children[4].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        }
+      } else if (id > 400 && id < 500) {
+        if (id === 410 || id === 420 || id === 430 || id === 440 || id === 450 || id === 460) {
+          coursePath.push(this.data[3].label)
+          coursePath.push(data.label)
+          coursePath.push(data.children[0].label)
+          homeworkPath = coursePath
+        } else if (id > 410 && id < 420) {
+          coursePath.push(this.data[3].label)
+          coursePath.push(this.data[3].children[0].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 420 && id < 430) {
+          coursePath.push(this.data[3].label)
+          coursePath.push(this.data[3].children[1].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 430 && id < 440) {
+          coursePath.push(this.data[3].label)
+          coursePath.push(this.data[3].children[2].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 440 && id < 450) {
+          coursePath.push(this.data[3].label)
+          coursePath.push(this.data[3].children[3].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 450 && id < 460) {
+          coursePath.push(this.data[3].label)
+          coursePath.push(this.data[3].children[4].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 460 && id < 470) {
+          coursePath.push(this.data[3].label)
+          coursePath.push(this.data[3].children[5].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        }
+      } else if (id > 500 && id < 600) {
+        coursePath.push(this.data[4].label)
+        coursePath.push(data.label)
+        homeworkPath = coursePath
+      } else if (id > 600 && id < 700) {
+        coursePath.push(this.data[5].label)
+        coursePath.push(data.label)
+        homeworkPath = coursePath
+      } else if (id >= 700 && id < 800) {
+        var allData = this.data
+        if (id === 700 || id === 710 || id === 720 || id === 730 || id === 740 || id === 750 || id === 760 || id === 770 || id === 780 || id === 790) {
+          if (id === 700) {
+            coursePath.push(data.children[0].label)
+            coursePath.push(data.children[0].children[0].label)
+            homeworkPath = coursePath
+          } else {
+            coursePath.push(data.label)
+            coursePath.push(data.children[0].label)
+            homeworkPath = coursePath
+          }
+        } else if (id > 710 && id < 720) {
+          coursePath.push(allData[6].children[0].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 720 && id < 730) {
+          coursePath.push(allData[6].children[1].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 730 && id < 740) {
+          coursePath.push(allData[6].children[2].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 740 && id < 750) {
+          coursePath.push(allData[6].children[3].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 750 && id < 760) {
+          coursePath.push(allData[6].children[4].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 760 && id < 770) {
+          coursePath.push(allData[6].children[5].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 770 && id < 780) {
+          coursePath.push(allData[6].children[6].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 780 && id < 790) {
+          coursePath.push(allData[6].children[7].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        } else if (id > 790 && id < 800) {
+          coursePath.push(allData[6].children[8].label)
+          coursePath.push(data.label)
+          homeworkPath = coursePath
+        }
+      }
+      console.log('course',coursePath)
+      console.log('homeworkPath',homeworkPath)
+      var pptPath = ''
+      for (var i = 0; i < coursePath.length; i++) {
+        pptPath = pptPath + coursePath[i] + '/'
+      }
+      var videoParh = ''
+      for (var j = 0; j < homeworkPath.length; j++) {
+        videoParh = videoParh + homeworkPath[j] + '/'
+      }
+      this.videoPath = videoParh
+      //console.log(this.videoPath + this.$store.state.courseDetail.videoTitle[0].videoTitle)
+      //请求PPT
+      axios.post ('/readResource/getPPT', {
+        data: {
+          userId: this.userId,
+          fileName: pptPath
+        }
+      }).then((res) => {
+        console.log(res)
+        this.lists = res.data.result.courseList
+        this.total = this.lists.length
+      })
+      this.commentPath = homeworkPath
+      console.log('456456')
+      console.log(this.commentPath)
+      this.getComment()
+    },
     //    返回上一级
     goBack () {
+      this.$store.commit('showPractice', '1')
       this.$router.go(-1)
     },
     // 提交评论
     submitComments () {
-      // this.appraiseIndex = [];
+      // this.appraiseIndex = []
       if (this.user === '') {
         var con = confirm('请登录')
         if (con === true) {
@@ -312,7 +654,7 @@ export default {
       if (String(this.detailItem.courseId) > String(1999)) {
         fileName = this.videoPath
       } else {
-        fileName = this.videoPath + this.detailItem.teachingMaterial + '/'
+        fileName = this.videoPath + this.detailItem.teachingMaterial
       }
       axios.post ('/readResource/getPPT', {
         data: {
@@ -398,10 +740,10 @@ export default {
         font-weight: normal;
         word-wrap: break-word;
         font-size: 14px;
-        text-align: left;
         padding: 6px;
         background:rgb(159,83,85);
-        width: 17%;
+        width: 22%;
+        text-align: center;
         border-radius:50px;
         color: #fff;
       }

@@ -13,5 +13,8 @@ export default {
   userID: '',
   courseDetail: '',
   urlSrc: '',
-  serverIP: ''
+  serverIP: '',
+  showPracticeData: '',
+  exerciseData: '',
+  showPractice: 0
 }
