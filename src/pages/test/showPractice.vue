@@ -4,7 +4,7 @@
     <Header-nav></Header-nav>
     <div class="test">
       <p class="goBack" @click="goBack">
-        <<返回
+        <go-back></go-back>
       </p>
       <div class="top">
         查看练习
@@ -23,12 +23,14 @@
              :key="index">
             <i class="iconfont" v-show="showRight === index">&#xe603;</i>
             {{item}}
+          <p class="ans">正确答案：{{currQue[0].answer}}</p>
           </p>
         </div>
-        <p class="ans">正确答案：{{currQue[0].answer}}</p>
       </div>
       <div class="bottom">
-        <p class="changeQue" @click="pro"><</p>
+        <i class="iconfont changeQue"
+           :class="{'isFOrL':isfirst === 1}"
+           @click="pro">&#xe606;</i>
         <p class="showAllQue" @click="showAllQue()">答题卡</p>
         <mt-popup
           v-model="popupVisible"
@@ -41,7 +43,9 @@
             </span>
           </div>
         </mt-popup>
-        <p class="changeQue" @click="next">></p>
+        <i class="iconfont changeQue"
+           :class="{'isFOrL':islast === 1}"
+           @click="next">&#xe605;</i>
       </div>
     </div>
   </div>
@@ -49,7 +53,8 @@
 <script>
 
 import HeaderNav from '@/components/HeaderNav'
-import axios from 'axios'
+import goBack from '@/components/goBack'
+// import axios from 'axios'
 import { Checklist, XButton } from 'vux'
 import { Popup } from 'mint-ui'
 export default {
@@ -58,15 +63,21 @@ export default {
     return {
       user: this.$store.state.username,
       allNum: '',
-      currQue: [],
+      currQue: [
+        {
+          desc: ''
+        }
+      ],
       currNum: 1,
       radioValue: [],
-      resData: '',
+      resData: [],
       popupVisible: false,
       ansArray: [],
       currState: [],
       currTestNum: '',
-      showRight: ''
+      showRight: '',
+      isfirst: 0,
+      islast: 0
     }
   },
   computed: {
@@ -82,19 +93,26 @@ export default {
     },
     //    点击答题卡跳转
     jumpTo (index) {
-      if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
-        this.showRight = 0
-      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
-        this.showRight = 1
-      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
-        this.showRight = 2
-      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
-        this.showRight = 3
-      } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
-        this.showRight = ''
+      if (!this.$store.state.showPracticeData.currAnswer) {
+      } else {
+        if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
+          this.showRight = 0
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
+          this.showRight = 1
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
+          this.showRight = 2
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
+          this.showRight = 3
+        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
+          this.showRight = ''
+        }
       }
       this.currNum = index + 1
-      this.currQue = this.resData[this.currNum - 1]
+      if (!this.resData) {
+
+      } else {
+        this.currQue = this.resData[this.currNum - 1]
+      }
       if (this.ansArray[this.currNum - 1]) {
         this.radioValue = this.radioValArray[this.currNum - 1]
         //        console.log('val', this.radioValue)
@@ -106,69 +124,102 @@ export default {
     },
     //    点击下一题
     next () {
+      this.isfirst = 0
       if (this.currNum < this.allNum) {
-        if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
-          this.showRight = 0
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
-          this.showRight = 1
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
-          this.showRight = 2
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
-          this.showRight = 3
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
-          this.showRight = ''
+        if (!this.$store.state.showPracticeData.currAnswer) {
+        } else {
+          if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
+            this.showRight = 0
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
+            this.showRight = 1
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
+            this.showRight = 2
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
+            this.showRight = 3
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
+            this.showRight = ''
+          }
         }
         this.currNum ++
-        this.currQue = this.resData[this.currNum - 1]
+        if (!this.resData) {
+
+        } else {
+          this.currQue = this.resData[this.currNum - 1]
+        }
         if (this.ansArray[this.currNum - 1]) {
           this.radioValue = this.currState[this.currNum - 1]
+        }
+        if (this.currNum === this.allNum) {
+          this.islast = 1
         }
       }
     },
     //    点击上一题
     pro () {
+      this.islast = 0
       if (this.currNum > 1) {
-        if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
-          this.showRight = 0
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
-          this.showRight = 1
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
-          this.showRight = 2
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
-          this.showRight = 3
-        } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
-          this.showRight = ''
+        if (!this.$store.state.showPracticeData.currAnswer) {
+        } else {
+          if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'A') {
+            this.showRight = 0
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'B') {
+            this.showRight = 1
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'C') {
+            this.showRight = 2
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === 'D') {
+            this.showRight = 3
+          } else if (this.$store.state.showPracticeData.currAnswer[this.currNum - 1] === '') {
+            this.showRight = ''
+          }
         }
         this.currNum --
-        this.currQue = this.resData[this.currNum - 1]
+        if (!this.resData) {
+
+        } else {
+          this.currQue = this.resData[this.currNum - 1]
+        }
         if (this.ansArray[this.currNum - 1]) {
           this.radioValue = this.currState[this.currNum - 1]
+        }
+        if (this.currNum === 1) {
+          this.isfirst = 1
         }
       }
     },
     //      获取试题
     getExercise () {
-      if (this.$store.state.showPracticeData.currAnswer[0] === 'A') {
-        this.showRight = 0
-      } else if (this.$store.state.showPracticeData.currAnswer[0] === 'B') {
-        this.showRight = 1
-      } else if (this.$store.state.showPracticeData.currAnswer[0] === 'C') {
-        this.showRight = 2
-      } else if (this.$store.state.showPracticeData.currAnswer[0] === 'D') {
-        this.showRight = 3
-      } else if (this.$store.state.showPracticeData.currAnswer[0] === '') {
-        this.showRight = ''
+      if (!this.$store.state.showPracticeData.currAnswer) {
+      } else {
+        if (this.$store.state.showPracticeData.currAnswer[0] === 'A') {
+          this.showRight = 0
+        } else if (this.$store.state.showPracticeData.currAnswer[0] === 'B') {
+          this.showRight = 1
+        } else if (this.$store.state.showPracticeData.currAnswer[0] === 'C') {
+          this.showRight = 2
+        } else if (this.$store.state.showPracticeData.currAnswer[0] === 'D') {
+          this.showRight = 3
+        } else if (this.$store.state.showPracticeData.currAnswer[0] === '') {
+          this.showRight = ''
+        }
       }
       console.log('val', this.$store.state.showPracticeData)
       this.currState = this.$store.state.showPracticeData.currState
       this.resData = this.$store.state.showPracticeData.question
       this.allNum = this.$store.state.showPracticeData.question.length
-      this.currQue = this.resData[0]
+      if (!this.resData) {
+
+      } else {
+        this.currQue = this.resData[0]
+      }
       this.currNum = 1
+      if (this.currNum === 1) {
+        this.isfirst = 1
+      }
     }
   },
   components: {
     HeaderNav,
+    goBack,
     Checklist,
     XButton,
     Popup
@@ -194,6 +245,9 @@ export default {
       .queNum{
         margin-bottom:0.5rem;
       }
+      .content{
+        margin-bottom:1rem;
+      }
       .queDesc{
         font-size:0.38rem;
         margin-top:0.5rem;
@@ -201,9 +255,9 @@ export default {
       }
       .queOptions{
         font-size: 0.34rem;
-        margin-left: 1.1rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
         border-top: 1px solid #eee;
-        height: 0.9rem;
         line-height: 0.9rem;
       }
       .bottom{
@@ -216,13 +270,16 @@ export default {
         display: flex;
         padding:0.2rem 0.3rem 0.2rem 0.3rem;
         box-sizing: border-box;
+        background: #fff;
       }
       .changeQue{
-        font-size: 0.7rem;
+        font-size: 0.68rem;
+        width: 8%;
+        text-align: center;
       }
       .showAllQue{
-        margin: 0.2rem 0 0 3rem;
-        width: 80%;
+        margin: 0.2rem 2rem 0 2.5rem;
+        width: 60%;
       }
       .ans{
         font-size: 0.35rem;
@@ -254,6 +311,9 @@ export default {
     .changeFont{
       color:rgb(122,18,19);
       font-weight: bolder;
+    }
+    .isFOrL{
+      color:#ccc;
     }
   }
 </style>

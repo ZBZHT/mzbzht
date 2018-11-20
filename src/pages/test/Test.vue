@@ -1,11 +1,12 @@
 <template>
   <div class="Test">
     <!--header--><!--nav-->
-    <Header-nav></Header-nav>
+    <!--<Header-nav></Header-nav>-->
     <div class="test">
-      <p class="goBack" @click="goBack">
-        <<返回
-      </p>
+      <span class="goBack" @click="goBack">
+        <go-back></go-back>
+      </span>
+      <x-button class="submit" mini type="warn" @click.native="submitReply()">提交</x-button>
       <div class="top">
         章节练习
       </div>
@@ -18,11 +19,13 @@
         <div class="content">
           <p class="queDesc">{{currQue.desc}}</p>
           <checklist :options="currQue.options" v-model="radioValue" :max="1" @on-change="change"></checklist>
-
         </div>
+
       </div>
       <div class="bottom">
-        <p class="changeQue" @click="pro"><</p>
+        <i class="iconfont changeQue"
+           :class="{'isFOrL':isfirst === 1}"
+           @click="pro">&#xe606;</i>
         <p class="showAllQue" @click="showAllQue()">答题卡</p>
         <mt-popup
           v-model="popupVisible"
@@ -36,8 +39,9 @@
             </span>
           </div>
         </mt-popup>
-        <x-button mini type="warn" @click.native="submitReply()">提交</x-button>
-        <p class="changeQue" @click="next">></p>
+        <i class="iconfont changeQue"
+           :class="{'isFOrL':islast === 1}"
+           @click="next">&#xe605;</i>
       </div>
     </div>
   </div>
@@ -45,6 +49,7 @@
 <script>
 
 import HeaderNav from '@/components/HeaderNav'
+import goBack from '@/components/goBack'
 import axios from 'axios'
 import { Checklist, XButton } from 'vux'
 import { Popup, MessageBox } from 'mint-ui'
@@ -54,14 +59,18 @@ export default {
     return {
       user: this.$store.state.username,
       allNum: '',
-      currQue: [],
+      currQue: {
+        options: []
+      },
       currNum: 1,
       radioValue: [],
       resData: '',
       popupVisible: false,
       ansArray: [],
       radioValArray: [],
-      currTestNum: ''
+      currTestNum: '',
+      isfirst: 0,
+      islast: 0
     }
   },
   computed: {
@@ -152,16 +161,21 @@ export default {
     },
     //    点击下一题
     next () {
+      this.isfirst = 0
       if (this.currNum < this.allNum) {
         this.currNum ++
         this.currQue = this.resData[this.currNum - 1]
         if (this.ansArray[this.currNum - 1]) {
           this.radioValue = this.radioValArray[this.currNum - 1]
         }
+        if (this.currNum === this.allNum) {
+          this.islast = 1
+        }
       }
     },
     //    点击上一题
     pro () {
+      this.islast = 0
       if (this.currNum > 1) {
         this.currNum --
         this.currQue = this.resData[this.currNum - 1]
@@ -169,19 +183,20 @@ export default {
           this.radioValue = this.radioValArray[this.currNum - 1]
         }
       }
+      if (this.currNum === 1) {
+        this.isfirst = 1
+      }
     },
     //    选择答案
     change (val, label) {
       var str = label[0]
-      var ans = str.substr(0, 1)
-      this.$set(this.ansArray, this.currNum - 1, ans)
-      this.$set(this.radioValArray, this.currNum - 1, label)
-      console.log(this.ansArray)
-      //      setTimeout(function () {
-      //        if (this.currNum < this.allNum) {
-      //          this.next()
-      //        }
-      //      }.bind(this), 1000)
+      if (!str) {
+      } else {
+        var ans = str.substr(0, 1)
+        //        console.log('ans', str.substr(0, 1))
+        this.$set(this.ansArray, this.currNum - 1, ans)
+        this.$set(this.radioValArray, this.currNum - 1, label)
+      }
     },
     //      获取试题
     getExercise () {
@@ -190,19 +205,24 @@ export default {
           user: this.user
         }
       }).then((res) => {
-        console.log(res.data.testQuestion)
+        //        console.log(res.data.testQuestion)
         this.currTestNum = res.data.testQuestion.currTestNum
         this.resData = res.data.testQuestion.question
         //        console.log(this.resData)
         this.allNum = res.data.testQuestion.question.length
         this.currQue = this.resData[0]
+        //        console.log(this.currQue)
         this.currNum = 1
-        console.log(this.currQue)
+        if (this.currNum === 1) {
+          this.isfirst = 1
+        }
+        //        console.log(this.currQue)
       })
     }
   },
   components: {
     HeaderNav,
+    goBack,
     Checklist,
     XButton,
     Popup,
@@ -217,9 +237,16 @@ export default {
     .test{
       padding:0.2rem;
       box-sizing: border-box;
+      position: relative;
+      .submit{
+        position: absolute;
+        top:4%;
+        right:4%;
+      }
       .goBack{
         margin-top:0.2rem;
         margin-left: 0.2rem;
+        margin-right: 4.6rem;
       }
       .top{
         margin:0.5rem;
@@ -228,6 +255,9 @@ export default {
       }
       .queNum{
         margin-bottom:0.5rem;
+      }
+      .content{
+        margin-bottom:1rem;
       }
       .queDesc{
         font-size:0.38rem;
@@ -244,13 +274,16 @@ export default {
         display: flex;
         padding:0.2rem 0.3rem 0.2rem 0.3rem;
         box-sizing: border-box;
+        background: #fff;
       }
       .changeQue{
-        font-size: 0.7rem;
+        font-size: 0.68rem;
+        width: 8%;
+        text-align: center;
       }
       .showAllQue{
-        margin: .2rem 0 0 1.5rem;
-        width: 15%;
+        margin: 0.2rem 2rem 0 2.5rem;
+        width: 60%;
       }
       .mint-popup{
         width:100%;
@@ -272,6 +305,9 @@ export default {
         .isWrite{
           background: rgb(124,211,59);
         }
+      }
+      .isFOrL{
+        color:#ccc;
       }
     }
   }

@@ -4,7 +4,7 @@
     <Header-nav></Header-nav>
     <div>
       <p class="goBack" @click="goBack">
-        <<返回
+        <go-back></go-back>
       </p>
       <p class="detailTitle">
         {{detailItem.label}}
@@ -53,7 +53,7 @@
               <div class="AppraiseMsg">
                 <p class="AppraiseUser">{{item.user}}</p>
                 <div class="AppraiseStar">
-                  <rater class="rater" v-model="item.appShowStar"></rater>
+                  <rater class="rater" star="☻" disabled v-model="item.appShowStar"></rater>
                 </div>
               </div>
               <div class="AppraiseText">
@@ -99,7 +99,7 @@
 
               <div class="block">
                 <span class="demonstration">综合评价</span>
-                <rater v-model="date1"></rater>
+                <rater star="☻" v-model="date1"></rater>
               </div>
               <textarea class="AppraiseNowText" type="text" v-model="text"/>
             </div>
@@ -107,11 +107,11 @@
             <div class="shopList">
               <div class="block">
                 <span class="demonstration">教学内容</span>
-                <rater v-model="date2"></rater>
+                <rater star="☻" v-model="date2"></rater>
               </div>
               <div class="block">
                 <span class="demonstration">任课老师</span>
-                <rater v-model="date3"></rater>
+                <rater star="☻" v-model="date3"></rater>
               </div>
 
             </div>
@@ -126,6 +126,7 @@
 <script>
 
 import HeaderNav from '@/components/HeaderNav'
+import goBack from '@/components/goBack'
 import { Navbar } from 'mint-ui'
 import { Rater, XButton } from 'vux'
 import axios from 'axios'
@@ -151,9 +152,9 @@ export default {
       userSession: 0,
       replyShow: -1,
       replyText: '',
-      date1: '',
-      date2: '',
-      date3: '',
+      date1: 0,
+      date2: 0,
+      date3: 0,
       text: '',
       appraiseIndex: [],
       commentPath: '',
@@ -566,9 +567,9 @@ export default {
           this.appraiseContent.title = this.commentPath
           this.appraiseContent.appraiseMsg = this.appraiseIndex
 
-          this.date1 = ''
-          this.date2 = ''
-          this.date3 = ''
+          this.date1 = 0
+          this.date2 = 0
+          this.date3 = 0
 
           // console.log(this.appraiseContent)
           this.appraiseUpdate()
@@ -674,6 +675,7 @@ export default {
   },
   components: {
     HeaderNav,
+    goBack,
     Navbar,
     Rater,
     XButton

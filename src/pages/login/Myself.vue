@@ -3,7 +3,7 @@
     <Header-nav></Header-nav>
     <div class="content" :style="{'height': height - 41 + 'px'}">
       <p class="goBack" @click="goBack">
-        <<返回
+        <go-back></go-back>
       </p>
       <div class="idCard">
         <p class="nameMsg">
@@ -12,6 +12,7 @@
         </p>
         <span>账户类型 : </span><span style="color: #ff6700;">{{userT}}</span><br>
         <span class="nameMsg_3">绑定手机 :</span>{{userMoNo}}
+        <p class="logout" @click="logOut">退出当前账号</p>
       </div>
     </div>
   </div>
@@ -19,6 +20,7 @@
 <script>
 import axios from 'axios'
 import HeaderNav from '@/components/HeaderNav'
+import goBack from '@/components/goBack'
 import core from '../../assets/js/core.js'
 
 export default {
@@ -37,6 +39,18 @@ export default {
     this.getMyMsg()
   },
   methods: {
+    //    退出当前账号
+    logOut () {
+      axios({
+        method: 'post',
+        url: '/api/user/logout',
+        withCredentials: true
+      }).then((res) => {
+        this.$store.commit('username', '')
+        this.$store.commit('userType', '')
+        this.$router.push('/courseIndex')
+      })
+    },
     //    返回上一级
     goBack () {
       this.$router.go(-1)
@@ -60,7 +74,8 @@ export default {
     }
   },
   components: {
-    HeaderNav
+    HeaderNav,
+    goBack
   }
 }
 </script>
@@ -79,7 +94,7 @@ export default {
     border-radius:10px;
     margin:0 auto;
     margin-top: 1.2rem;
-    padding:0.8rem;
+    padding:0.5rem;
     box-sizing: border-box;
     .nameMsg{
       margin-bottom: 0.2rem;
@@ -93,6 +108,10 @@ export default {
     .nameMsg_3{
       display: inline-block;
       margin-top: 0.2rem;
+    }
+    .logout{
+      text-align: right;
+      color: #ff6700;
     }
   }
 }

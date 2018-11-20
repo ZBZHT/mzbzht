@@ -21,36 +21,8 @@
             v-model="popupVisible0"
             position="bottom">
             <p class="sureButton" @click="sureButton0()">确定</p>
-            <picker :data='dataRange0' v-model='dataRangeValue0' @on-change='change0'></picker>
+            <picker :data='dataRange0' v-model='dataRangeValue0' @change='change0'></picker>
           </mt-popup>
-          <!--1级-->
-          <input v-model='dataRangeValue1' class="inputCourseRange" type="text" @focus="getInput1()">
-          <mt-popup
-            v-model="popupVisible1"
-            position="bottom">
-            <p class="sureButton" @click="sureButton1()">确定</p>
-            <picker :data='dataRange1' v-model='dataRangeValue1' @on-change='change1'></picker>
-          </mt-popup>
-          <!--2级-->
-          <div v-show="isTwo === 0">
-            <input v-model='dataRangeValue2' class="inputCourseRange" type="text" @focus="getInput2()">
-            <mt-popup
-              v-model="popupVisible2"
-              position="bottom">
-              <p class="sureButton" @click="sureButton2()">确定</p>
-              <picker :data='dataRange2' v-model='dataRangeValue2' @on-change='change2'></picker>
-            </mt-popup>
-          </div>
-          <!--3级-->
-          <div v-show="isNew === 0">
-            <input v-model='dataRangeValue3' class="inputCourseRange" type="text" @focus="getInput3()">
-            <mt-popup
-              v-model="popupVisible3"
-              position="bottom">
-              <p class="sureButton" @click="sureButton3()">确定</p>
-              <picker :data='dataRange3' v-model='dataRangeValue3' @on-change='change3'></picker>
-            </mt-popup>
-          </div>
 
           <p>请选择题数:</p>
           <input v-model='dataNumValue' class="inputCourseRange" type="text" @focus="getInputNum()">

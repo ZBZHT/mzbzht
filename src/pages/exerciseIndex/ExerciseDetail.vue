@@ -4,7 +4,7 @@
     <Header-nav></Header-nav>
     <div>
       <p class="detailTitle" @click="goBack">
-        <<返回
+        <go-back></go-back>
       </p>
       <mt-navbar v-model="selected">
         <mt-tab-item id="1">设备展示</mt-tab-item>
@@ -33,10 +33,11 @@
 <script>
 
 import HeaderNav from '@/components/HeaderNav'
+import goBack from '@/components/goBack'
 import { Navbar } from 'mint-ui'
 import { Rater, XButton } from 'vux'
-import axios from 'axios'
-import core from '../../assets/js/core.js'
+// import axios from 'axios'
+// import core from '../../assets/js/core.js'
 // import core from '../assets/js/core.js'
 export default {
   name: 'ExerciseDetail',
@@ -70,6 +71,7 @@ export default {
   },
   components: {
     HeaderNav,
+    goBack,
     Navbar,
     Rater,
     XButton
