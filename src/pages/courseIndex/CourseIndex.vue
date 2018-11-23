@@ -64,8 +64,8 @@ export default {
       }
     }).then((res) => {
       if (res.data.code === 0) {
-        console.log(res.data.serverIP.Ip)
-        this.$store.commit('serverIP', res.data.serverIP.Ip)
+        console.log(res.data.serverIP)
+        this.$store.commit('serverIP', res.data.serverIP)
       }
       // console.log(this.$store.state.serverIP);
     }).catch(function (error) {

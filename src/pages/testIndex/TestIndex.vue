@@ -16,12 +16,18 @@
         <div v-if="showLi === 0" class="test">
           <p>请选择练习范围:</p>
           <!--0级-->
-          <input v-model='dataRangeValue0' class="inputCourseRange" type="text" @focus="getInput0()">
+          <div class="inputCourseRange" @click="getInput0()">
+            <span  v-for="(item, index) in showInputReal" :key="index">{{item}}</span>
+          </div>
           <mt-popup
             v-model="popupVisible0"
             position="bottom">
             <p class="sureButton" @click="sureButton0()">确定</p>
-            <picker :data='dataRange0' v-model='dataRangeValue0' @change='change0'></picker>
+            <input @click="cliInput0" v-model='Value0' ref="content0" class="inputCourseRangeI" type="text">
+            <input @click="cliInput1" v-model='Value1' ref="content1" class="inputCourseRangeI" type="text">
+            <input @click="cliInput2" v-model='Value2' ref="content2" class="inputCourseRangeI" type="text">
+            <input @click="cliInput3" v-model='Value3' ref="content3" class="inputCourseRangeI" type="text">
+            <picker :data='dataRange0' v-model="dataRangeValue0" @on-change='change0'></picker>
           </mt-popup>
 
           <p>请选择题数:</p>
@@ -71,29 +77,19 @@ export default {
       isTwo: 0,
       changeClass: 0,
       dataRange0: [],
-      dataRange1: [],
-      dataRange2: [],
-      dataRange3: [],
-      dataRangeValue: [],
       dataRangeValue0: [],
-      dataRangeValue1: [],
-      dataRangeValue2: [],
-      dataRangeValue3: [],
+      Value0: '',
+      Value1: '',
+      Value2: '',
+      Value3: '',
       dataNum: [['10', '20', '30', '40', '50', '60', '70', '80', '90', '100']],
       dataNumValue: [],
       popupVisible0: false,
-      popupVisible1: false,
-      popupVisible2: false,
-      popupVisible3: false,
       popupVisible4: false,
       Upicker0: [],
       Upicker1: [],
-      Upicker2: [],
-      Upicker3: [],
       UpickerId0: [],
       UpickerId1: [],
-      UpickerId2: [],
-      UpickerId3: [],
       sendId0: '',
       sendId1: '',
       sendId2: '',
@@ -105,7 +101,23 @@ export default {
       sendName2: '',
       sendName3: '',
       sendNameArray: [],
-      practiceData: []
+      practiceData: [],
+      realData: [],
+      currVal: '',
+      clickNum: 0,
+      temSave0: [],
+      temSave1: [],
+      temSave2: [],
+      temSave3: [],
+      temSaveAll0: [],
+      temSaveAll1: [],
+      temSaveAll2: [],
+      temSaveAll3: [],
+      originData: [],
+      UoriginData: [],
+      showInput: [],
+      showInpLength: '',
+      showInputReal: []
     }
   },
   computed: {
@@ -160,16 +172,81 @@ export default {
     },
     //    点击确定按钮
     sureButton0 () {
-      this.popupVisible0 = false
-    },
-    sureButton1 () {
-      this.popupVisible1 = false
-    },
-    sureButton2 () {
-      this.popupVisible2 = false
-    },
-    sureButton3 () {
-      this.popupVisible3 = false
+      if (this.showInput.length < 4) {
+        console.log(this.showInpLength)
+        this.showInput.push(this.currVal[0])
+      } else if (this.showInput.length === 4) {
+        this.showInput.pop(this.showInput[this.showInput.length - 1])
+        this.showInput.push(this.currVal[0])
+      } else {
+      }
+      if (this.realData) {
+        console.log(this.realData)
+        this.Upicker0 = this.realData
+        this.resData = this.Upicker1
+        this.$set(this.dataRange0, 0, this.realData)
+        if (this.clickNum < 4) {
+          if (this.clickNum === 0) {
+            this.temSave0 = this.Upicker0
+            this.temSaveAll0 = this.resData
+            this.clickNum += 1
+          } else if (this.clickNum === 1) {
+            this.temSave1 = this.Upicker0
+            this.temSaveAll1 = this.resData
+            this.clickNum += 1
+          } else if (this.clickNum === 2) {
+            this.temSave2 = this.Upicker0
+            this.temSaveAll2 = this.resData
+            this.clickNum += 1
+          } else if (this.clickNum === 3) {
+            this.temSave3 = this.Upicker0
+            this.temSaveAll3 = this.resData
+            this.clickNum += 1
+          }
+        } else {
+        }
+      } else {
+        this.popupVisible0 = false
+
+        console.log('showInput',this.showInput)
+
+
+        this.currVal = ''
+         let p1 = new Promise((resolve, reject) => {
+           this.showInputReal = this.showInput
+           resolve('成功了1')
+         })
+
+         let p2 = new Promise((resolve, reject) => {
+
+           resolve('成功了2')
+         })
+         Promise.all([p1, p2]).then((result) => {
+           console.log(result)
+           this.showInput.pop(this.showInput[this.showInput.length - 1])
+         }).catch((error) => {
+           console.log(error)
+         });
+      }
+      if (this.Value0) {
+        if (this.Value1) {
+          if (this.Value2) {
+            if (this.Value3) {
+            } else {
+              this.Value3 = this.currVal
+            }
+          } else {
+            this.Value2 = this.currVal
+            this.$refs.content3.focus()
+          }
+        } else {
+          this.Value1 = this.currVal
+          this.$refs.content2.focus()
+        }
+      } else {
+        this.Value0 = this.currVal
+        this.$refs.content1.focus()
+      }
     },
     //    获取左边数据
     getLeftData () {
@@ -180,6 +257,7 @@ export default {
         }
       }).then((res) => {
         var picker0 = []
+        this.originData = res.data[0].children[0].children
         this.resData = res.data[0].children[0].children
         //        console.log(this.resData)
         for (var i = 0; i < this.resData.length - 1; i++) {
@@ -187,6 +265,7 @@ export default {
           this.UpickerId0.push(this.resData[i].courseId)
           //          picker00.push(resData[i].label)
         }
+        this.UoriginData = picker0
         this.Upicker0 = picker0
         //        0级数据
         this.$set(this.dataRange0, 0, this.Upicker0)
@@ -201,92 +280,92 @@ export default {
     getInput0 () {
       this.popupVisible0 = true
     },
-    //    获取练习范围焦点1级
-    getInput1 () {
-      this.popupVisible1 = true
-    },
-    //    获取练习范围焦点0级
-    getInput2 () {
-      this.popupVisible2 = true
-    },
-    //    获取练习范围焦点0级
-    getInput3 () {
-      this.popupVisible3 = true
-    },
     //    获得练习范围值
     change0 (value) {
-      this.dataRangeValue0 = value
-      //      console.log('new Value', value)
+      this.currVal = value
+      console.log('new Value', value)
       var picker1 = []
-      if (value[0] !== '新能源汽车') {
-        this.isNew = 1
-        if (value[0] !== '汽车空调' && value[0] !== '汽车维护') {
-          this.isTwo = 0
-        } else {
-          this.isTwo = 1
-        }
-      } else {
-        this.isNew = 0
-      }
-      //      console.log(this.isNew)
-      //      console.log(this.isTwo)
+      this.Upicker1 = []
       for (var i = 0; i < this.Upicker0.length; i++) {
         if (value[0] === this.Upicker0[i]) {
           this.sendId0 = this.UpickerId0[i]
           this.sendName0 = value[0]
-          for (var j = 0; j < this.resData[i].children.length; j++) {
-            picker1.push(this.resData[i].children[j].label)
-            this.UpickerId1.push(this.resData[i].children[j].courseId)
-            this.Upicker1.push(this.resData[i].children[j])
+          if (this.resData[i].children) {
+            for (var j = 0; j < this.resData[i].children.length; j++) {
+              picker1.push(this.resData[i].children[j].label)
+              this.UpickerId1.push(this.resData[i].children[j].courseId)
+              this.Upicker1.push(this.resData[i].children[j])
+            }
+            this.realData = picker1
+          } else {
+            this.realData = ''
           }
-          //          this.dataRange1.splice(1, 1, picker1)
-          this.$set(this.dataRange1, 0, picker1)
         }
       }
     },
-    change1 (value) {
-      this.dataRangeValue1 = value
-      console.log('new Value', value)
-      var picker2 = []
-      for (var i = 0; i < this.Upicker1.length; i++) {
-        if (value[0] === this.Upicker1[i].label) {
-          this.sendId1 = this.UpickerId1[i]
-          this.sendName1 = value[0]
-          for (var j = 0; j < this.Upicker1[i].children.length; j++) {
-            picker2.push(this.Upicker1[i].children[j].label)
-            this.UpickerId2.push(this.Upicker1[i].children[j].courseId)
-            this.Upicker2.push(this.Upicker1[i].children[j])
-          }
-          //          this.dataRange1.splice(1, 1, picker1)
-          this.$set(this.dataRange2, 0, picker2)
-        } else {
-        }
+    cliInput0 () {
+      if (this.UoriginData) {
+        this.Upicker0 = this.UoriginData
+        this.resData = this.originData
+        this.$set(this.dataRange0, 0, this.UoriginData)
+        this.Value0 = ''
+        this.Value1 = ''
+        this.Value2 = ''
+        this.Value3 = ''
+        this.temSave0 = []
+        this.temSaveAll0 = []
+        this.temSave1 = []
+        this.temSaveAll1 = []
+        this.temSave2 = []
+        this.temSaveAll2 = []
+        this.clickNum = 0
+        this.showInput = []
+      } else {
       }
     },
-    change2 (value) {
-      this.dataRangeValue2 = value
-      //        console.log('new Value', value)
-      var picker3 = []
-      for (var i = 0; i < this.Upicker2.length; i++) {
-        if (value[0] === this.Upicker2[i].label) {
-          this.sendId2 = this.UpickerId2[i]
-          this.sendName2 = value[0]
-          for (var j = 0; j < this.Upicker2[i].children.length; j++) {
-            picker3.push(this.Upicker2[i].children[j].label)
-            this.UpickerId3.push(this.Upicker2[i].children[j].courseId)
-            this.Upicker3.push(this.Upicker2[i].children[j])
-          }
-          //          this.dataRange1.splice(1, 1, picker1)
-          this.$set(this.dataRange3, 0, picker3)
-        }
+    cliInput1 () {
+      if (this.Value1) {
+        this.Upicker0 = this.temSave0
+        this.resData = this.temSaveAll0
+        this.$set(this.dataRange0, 0, this.temSave0)
+        this.Value1 = ''
+        this.Value2 = ''
+        this.Value3 = ''
+        this.temSave1 = []
+        this.temSaveAll1 = []
+        this.temSave2 = []
+        this.temSaveAll2 = []
+        this.clickNum = 1
+        var showInp = []
+        showInp.push(this.showInput[0])
+        this.showInput = showInp
+      } else {
       }
     },
-    change3 (value) {
-      for (var i = 0; i < this.Upicker3.length; i++) {
-        if (value[0] === this.Upicker3[i].label) {
-          this.sendId3 = this.UpickerId3[i]
-          this.sendName3 = value[0]
-        }
+    cliInput2 () {
+      console.log(this.temSave1)
+      if (this.Value2) {
+        this.Upicker0 = this.temSave1
+        this.resData = this.temSaveAll1
+        this.$set(this.dataRange0, 0, this.temSave1)
+        this.Value2 = ''
+        this.Value3 = ''
+        this.clickNum = 2
+        var showInp = []
+        showInp.push(this.showInput[0])
+        showInp.push(this.showInput[1])
+        this.showInput = showInp
+      } else {
+      }
+    },
+    cliInput3 () {
+      if (this.Value3) {
+        this.Upicker0 = this.temSave2
+        this.resData = this.temSaveAll2
+        this.$set(this.dataRange0, 0, this.temSave2)
+        this.Value3 = ''
+        this.clickNum = 3
+      } else {
       }
     },
     //    获取题数值
@@ -375,6 +454,9 @@ export default {
       margin-bottom: 0.2rem;
       padding-left: 0.3rem;
       box-sizing: border-box;
+    }
+    .inputCourseRangeI{
+      width: 24%;
     }
     .mint-popup{
       width:100%;
