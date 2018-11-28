@@ -145,6 +145,15 @@ export default {
     color:#000;
     box-shadow: 0 3px 5px #ccc;
   }
+  .mint-navbar {
+    background-color: #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    text-align: center;
+    box-shadow: 0 3px 5px #ccc;
+    margin-bottom: 0.1rem;
+  }
   .mint-header img{
     width:3rem;
   }

@@ -276,9 +276,10 @@ export default {
   .sourceIndex{
     .textContent{
       display:flex;
+      background:rgb(240,240,240);
     }
     .leftTree{
-      background:rgb(237,237,237);
+      background:rgb(255,255,255);
       width:21%;
       text-align:center;
     }
@@ -287,11 +288,11 @@ export default {
       border-right:1px solid rgb(122,18,19);
     }
     .changeBg{
-      background:#fff;
+      background:rgb(240,240,240);
       border-left:1px solid rgb(122,18,19);
       border-top:1px solid rgb(122,18,19);
       border-bottom:1px solid rgb(122,18,19);
-      border-right:1px solid #fff;
+      border-right:1px solid rgb(240,240,240);
       color:rgb(122,18,19);
     }
     .rightCon{
@@ -303,11 +304,11 @@ export default {
       .cellLi{
         position: relative;
         margin-bottom:0.2rem;
-        border-top: 1px solid rgb(220,220,220);
+        border-top: 1px solid rgb(200,200,200);
       }
       li:last-child
       {
-        border-bottom: 1px solid rgb(220,220,220);
+        border-bottom: 1px solid rgb(200,200,200);
         padding-bottom: 0.1rem;
         box-sizing: border-box;
       }

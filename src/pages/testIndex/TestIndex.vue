@@ -16,18 +16,39 @@
         <div v-if="showLi === 0" class="test">
           <p>请选择练习范围:</p>
           <!--0级-->
-          <div class="inputCourseRange" @click="getInput0()">
-            <span  v-for="(item, index) in showInputReal" :key="index">{{item}}</span>
+          <div class="inputCourseRange" @click="getInput0()" :class="{'addHeight':!showInputReal.length}">
+            <span  v-for="(item, index) in showInputReal" :key="index">
+              {{item}}
+              <span v-show="index !== showInputReal.length - 1"> | </span>
+            </span>
           </div>
           <mt-popup
             v-model="popupVisible0"
             position="bottom">
+            <span :class="{'currInput':currInputClass === 0}" v-show="!Value0">请点击确定</span>
+            <span @click="cliInput0"
+                  class="inputCourseRangeI" v-for="item in Value0" :key="item">
+              {{item}}
+            </span>
+            <span :class="{'currInput':currInputClass === 1}" v-show="!Value1 && Value0">请点击确定</span>
+            <span @click="cliInput1"
+                  class="inputCourseRangeI" v-for="item in Value1" :key="item">
+              {{item}}
+            </span>
+            <span :class="{'currInput':currInputClass === 2}" v-show="!Value2 && Value1 && Value0 && showOther !== 1">请点击确定</span>
+            <span @click="cliInput2"
+                  v-show="showOthData3 === 0"
+                  class="inputCourseRangeI" v-for="item in Value2" :key="item">
+              {{item}}
+            </span>
+            <span :class="{'currInput':currInputClass === 3}" v-show="!Value3 && Value2 && Value1 && Value0 && showOther !== 1">请点击确定</span>
+            <span @click="cliInput3"
+                  v-show="showOthData4 === 0"
+                  class="inputCourseRangeI" v-for="item in Value3" :key="item">
+              {{item}}
+            </span>
+            <picker :data='dataRange0' v-model="dataRangeValue0" @on-change='change0' @on-click="aaa"></picker>
             <p class="sureButton" @click="sureButton0()">确定</p>
-            <input @click="cliInput0" v-model='Value0' ref="content0" class="inputCourseRangeI" type="text">
-            <input @click="cliInput1" v-model='Value1' ref="content1" class="inputCourseRangeI" type="text">
-            <input @click="cliInput2" v-model='Value2' ref="content2" class="inputCourseRangeI" type="text">
-            <input @click="cliInput3" v-model='Value3' ref="content3" class="inputCourseRangeI" type="text">
-            <picker :data='dataRange0' v-model="dataRangeValue0" @on-change='change0'></picker>
           </mt-popup>
 
           <p>请选择题数:</p>
@@ -76,6 +97,10 @@ export default {
       isNew: 0,
       isTwo: 0,
       changeClass: 0,
+      currInputClass: 0,
+      showOther: 0,
+      showOthData3: 0,
+      showOthData4: 0,
       dataRange0: [],
       dataRangeValue0: [],
       Value0: '',
@@ -131,6 +156,9 @@ export default {
     }
   },
   methods: {
+    aaa () {
+      console.log('44')
+    },
     //    提交
     submitReply () {
       this.sendIdArray = []
@@ -172,16 +200,34 @@ export default {
     },
     //    点击确定按钮
     sureButton0 () {
-      if (this.showInput.length < 4) {
-        console.log(this.showInpLength)
+      this.showOther = 0
+//      this.currInputClass += 1
+      this.showInput.push(this.currVal[0])
+      var showInputLength
+      if (this.showInput[0] === '新能源汽车') {
+        showInputLength = 4
+        this.showOthData3 = 0
+        this.showOthData4 = 0
+      } else if (this.showInput[0] === '汽车空调' || this.showInput[0] === '汽车维护') {
+        showInputLength = 2
+        this.showOthData3 = 1
+        this.showOthData4 = 1
+      } else {
+        showInputLength = 3
+        this.showOthData3 = 0
+        this.showOthData4 = 1
+      }
+      this.showInput.pop(this.showInput[this.showInput.length - 1])
+      if (this.showInput.length < showInputLength) {
+      //        console.log(this.showInpLength)
         this.showInput.push(this.currVal[0])
-      } else if (this.showInput.length === 4) {
+      } else if (this.showInput.length === showInputLength) {
         this.showInput.pop(this.showInput[this.showInput.length - 1])
         this.showInput.push(this.currVal[0])
       } else {
       }
       if (this.realData) {
-        console.log(this.realData)
+      //        console.log(this.realData)
         this.Upicker0 = this.realData
         this.resData = this.Upicker1
         this.$set(this.dataRange0, 0, this.realData)
@@ -207,26 +253,26 @@ export default {
         }
       } else {
         this.popupVisible0 = false
-
-        console.log('showInput',this.showInput)
-
-
-        this.currVal = ''
-         let p1 = new Promise((resolve, reject) => {
-           this.showInputReal = this.showInput
-           resolve('成功了1')
-         })
-
-         let p2 = new Promise((resolve, reject) => {
-
-           resolve('成功了2')
-         })
-         Promise.all([p1, p2]).then((result) => {
-           console.log(result)
-           this.showInput.pop(this.showInput[this.showInput.length - 1])
-         }).catch((error) => {
-           console.log(error)
-         });
+        this.showOther = 1
+        this.showInputReal = this.showInput
+        this.showInputReal.push(this.currVal)
+        this.showInput.pop(this.showInput[this.showInput.length - 1])
+//        this.currVal = ''
+//         let p1 = new Promise((resolve, reject) => {
+//
+//           resolve('成功了1')
+//         })
+//
+//         let p2 = new Promise((resolve, reject) => {
+//
+//           resolve('成功了2')
+//         })
+//         Promise.all([p1, p2]).then((result) => {
+//           console.log(result)
+//
+//         }).catch((error) => {
+//           console.log(error)
+//         });
       }
       if (this.Value0) {
         if (this.Value1) {
@@ -237,15 +283,16 @@ export default {
             }
           } else {
             this.Value2 = this.currVal
-            this.$refs.content3.focus()
+            this.currInputClass = 3
+
           }
         } else {
           this.Value1 = this.currVal
-          this.$refs.content2.focus()
+          this.currInputClass = 2
         }
       } else {
         this.Value0 = this.currVal
-        this.$refs.content1.focus()
+        this.currInputClass = 1
       }
     },
     //    获取左边数据
@@ -283,7 +330,7 @@ export default {
     //    获得练习范围值
     change0 (value) {
       this.currVal = value
-      console.log('new Value', value)
+      //      console.log('new Value', value)
       var picker1 = []
       this.Upicker1 = []
       for (var i = 0; i < this.Upicker0.length; i++) {
@@ -305,6 +352,8 @@ export default {
     },
     cliInput0 () {
       if (this.UoriginData) {
+        this.currInputClass = 0
+        this.showOther = 0
         this.Upicker0 = this.UoriginData
         this.resData = this.originData
         this.$set(this.dataRange0, 0, this.UoriginData)
@@ -325,6 +374,8 @@ export default {
     },
     cliInput1 () {
       if (this.Value1) {
+        this.currInputClass = 1
+        this.showOther = 0
         this.Upicker0 = this.temSave0
         this.resData = this.temSaveAll0
         this.$set(this.dataRange0, 0, this.temSave0)
@@ -343,7 +394,9 @@ export default {
       }
     },
     cliInput2 () {
-      console.log(this.temSave1)
+      this.currInputClass = 2
+      this.showOther = 0
+      //      console.log(this.temSave1)
       if (this.Value2) {
         this.Upicker0 = this.temSave1
         this.resData = this.temSaveAll1
@@ -360,6 +413,8 @@ export default {
     },
     cliInput3 () {
       if (this.Value3) {
+        this.currInputClass = 3
+        this.showOther = 0
         this.Upicker0 = this.temSave2
         this.resData = this.temSaveAll2
         this.$set(this.dataRange0, 0, this.temSave2)
@@ -419,14 +474,15 @@ export default {
   .textIndex{
     .textContent{
       display:flex;
+      background:rgb(240,240,240);
     }
     .leftTree{
-      background:rgb(237,237,237);
+      background:rgb(255,255,255);
       width:21%;
       text-align:center;
     }
     .rightCon{
-      width:75%;
+      width:79%;
       padding: 0.2rem;
       box-sizing: border-box;
       overflow: auto;
@@ -437,26 +493,30 @@ export default {
       border-right:1px solid rgb(122,18,19);
     }
     .changeBg{
-      background:#fff;
+      background:rgb(240,240,240);
       border-left:1px solid rgb(122,18,19);
       border-top:1px solid rgb(122,18,19);
       border-bottom:1px solid rgb(122,18,19);
-      border-right:1px solid #fff;
+      border-right:1px solid rgb(240,240,240);
       color:rgb(122,18,19);
     }
     .inputCourseRange{
       border:2px solid rgb(137,191,298);
-      height: 0.6rem;
       width: 80%;
+      background: #fff;
       text-align: center;
       border-radius: 10px;
       margin-top: 0.2rem;
       margin-bottom: 0.2rem;
-      padding-left: 0.3rem;
-      box-sizing: border-box;
+      padding: 0.1rem;
+    }
+    .addHeight{
+      height:0.5rem;
     }
     .inputCourseRangeI{
       width: 24%;
+      display: inline-block;
+      text-decoration:underline;
     }
     .mint-popup{
       width:100%;
@@ -464,8 +524,23 @@ export default {
       box-sizing: border-box;
     }
     .sureButton{
-      text-align:right;
-      font-size: 0.38rem;
+      text-align: center;
+      position: absolute;
+      right: 0.3rem;
+      bottom: 0;
+      z-index: 99;
+      font-size: 0.32rem;
+      width: 15%;
+      height: 0.7rem;
+      font-weight: bolder;
+      color:rgb(122,18,19);
+    }
+    .currInput{
+      display: inline-block;
+      border: 1px solid #7a1213;
+      margin-bottom: 0.1rem;
+      padding: 0.1rem;
+      border-radius: 15px;
     }
     .history{
       .practiceItem{

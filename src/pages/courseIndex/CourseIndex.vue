@@ -151,9 +151,9 @@ export default {
     margin-top:10px;
   }
   .courseIndex .bestLine{
-    width:45%;
-    height:2rem;
-    margin:6px;
+    width:42%;
+    height:1.8rem;
+    margin:14px;
     background: url("../../../src/assets/imgs/course.png") no-repeat;
     background-size: 100% 100%;
     border-radius: 5px;
@@ -162,15 +162,16 @@ export default {
     box-sizing: border-box;
     font-size: 0.34rem;
     font-weight: bolder;
-    padding-top: 37px;
+    padding-top: 33px;
     text-align: center;
   }
   .courseIndex .best1{
-    margin-top:10px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
   }
   .courseIndex .mint-cell-wrapper{
     padding:0;
-    margin-left:6px;
+    margin-left:5px;
   }
   .courseIndex .bestCol{
     margin:6px;
@@ -183,17 +184,26 @@ export default {
   }
   .courseIndex .bestCell{
     border-radius: 5px;
+    width: 28%;
+    height: 1.2rem;
   }
   .courseIndex .mint-cell-text{
     vertical-align: top;
-    margin-left: 5px;
+    margin-left: 17px;
+  }
+  .courseIndex .mint-cell-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding: 0.15rem;
+    box-sizing: border-box;
   }
   .courseIndex .bestDesc{
     /*color:rgb(50,50,50);*/
     /*margin-top: 8px;*/
     width:60%;
     position:absolute;
-    top: 0.45rem;
+    top: 0.58rem;
     right: 0.25rem;
     font-size: 0.28rem;
     display: -webkit-box;
@@ -204,6 +214,7 @@ export default {
   .courseIndex .suggeCourse{
     padding:0.2rem;
     box-sizing: border-box;
+    background: rgb(245,245,245);
   }
   .courseIndex .iconfontBest{
     margin-right:2px;
