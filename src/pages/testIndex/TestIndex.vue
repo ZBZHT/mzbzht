@@ -16,39 +16,46 @@
         <div v-if="showLi === 0" class="test">
           <p>请选择练习范围:</p>
           <!--0级-->
-          <div class="inputCourseRange" @click="getInput0()" :class="{'addHeight':!showInputReal.length}">
+          <div class="addCreate">
+            <div class="inputCourseRange" @click="getInput0()" :class="{'addHeight':!showInputReal.length}">
             <span  v-for="(item, index) in showInputReal" :key="index">
               {{item}}
               <span v-show="index !== showInputReal.length - 1"> | </span>
             </span>
+            </div>
+            <i class="iconfont">&#xe8a8;</i>
           </div>
           <mt-popup
             v-model="popupVisible0"
             position="bottom">
-            <span :class="{'currInput':currInputClass === 0}" v-show="!Value0">请点击确定</span>
+            <span :class="{'currInput':currInputClass === 0}" v-show="!Value0">请选择</span>
             <span @click="cliInput0"
-                  class="inputCourseRangeI" v-for="item in Value0" :key="item">
-              {{item}}
+                  class="inputCourseRangeI">
+              {{Value0}}
             </span>
-            <span :class="{'currInput':currInputClass === 1}" v-show="!Value1 && Value0">请点击确定</span>
+            <span :class="{'currInput':currInputClass === 1}" v-show="!Value1 && Value0">请选择</span>
             <span @click="cliInput1"
-                  class="inputCourseRangeI" v-for="item in Value1" :key="item">
-              {{item}}
+                  class="inputCourseRangeI">
+              {{Value1}}
             </span>
-            <span :class="{'currInput':currInputClass === 2}" v-show="!Value2 && Value1 && Value0 && showOther !== 1">请点击确定</span>
+            <span :class="{'currInput':currInputClass === 2}" v-show="!Value2 && Value1 && Value0 && showOther !== 1">请选择</span>
             <span @click="cliInput2"
                   v-show="showOthData3 === 0"
-                  class="inputCourseRangeI" v-for="item in Value2" :key="item">
-              {{item}}
+                  class="inputCourseRangeI">
+              {{Value2}}
             </span>
-            <span :class="{'currInput':currInputClass === 3}" v-show="!Value3 && Value2 && Value1 && Value0 && showOther !== 1">请点击确定</span>
+            <span :class="{'currInput':currInputClass === 3}" v-show="!Value3 && Value2 && Value1 && Value0 && showOther !== 1">请选择</span>
             <span @click="cliInput3"
                   v-show="showOthData4 === 0"
-                  class="inputCourseRangeI" v-for="item in Value3" :key="item">
-              {{item}}
+                  class="inputCourseRangeI">
+              {{Value3}}
             </span>
-            <picker :data='dataRange0' v-model="dataRangeValue0" @on-change='change0' @on-click="aaa"></picker>
-            <p class="sureButton" @click="sureButton0()">确定</p>
+            <!--<picker :data='dataRange0' v-model="dataRangeValue0" @on-change='change0'></picker>-->
+            <div class="my-picker">
+              <p v-for="(item, index) in dataRange0[0]" :key="index" @click='change0(item)'>
+                {{item}}
+              </p>
+            </div>
           </mt-popup>
 
           <p>请选择题数:</p>
@@ -156,9 +163,6 @@ export default {
     }
   },
   methods: {
-    aaa () {
-      console.log('44')
-    },
     //    提交
     submitReply () {
       this.sendIdArray = []
@@ -198,103 +202,6 @@ export default {
       this.$router.push('/test')
       this.$router.go(0)
     },
-    //    点击确定按钮
-    sureButton0 () {
-      this.showOther = 0
-//      this.currInputClass += 1
-      this.showInput.push(this.currVal[0])
-      var showInputLength
-      if (this.showInput[0] === '新能源汽车') {
-        showInputLength = 4
-        this.showOthData3 = 0
-        this.showOthData4 = 0
-      } else if (this.showInput[0] === '汽车空调' || this.showInput[0] === '汽车维护') {
-        showInputLength = 2
-        this.showOthData3 = 1
-        this.showOthData4 = 1
-      } else {
-        showInputLength = 3
-        this.showOthData3 = 0
-        this.showOthData4 = 1
-      }
-      this.showInput.pop(this.showInput[this.showInput.length - 1])
-      if (this.showInput.length < showInputLength) {
-      //        console.log(this.showInpLength)
-        this.showInput.push(this.currVal[0])
-      } else if (this.showInput.length === showInputLength) {
-        this.showInput.pop(this.showInput[this.showInput.length - 1])
-        this.showInput.push(this.currVal[0])
-      } else {
-      }
-      if (this.realData) {
-      //        console.log(this.realData)
-        this.Upicker0 = this.realData
-        this.resData = this.Upicker1
-        this.$set(this.dataRange0, 0, this.realData)
-        if (this.clickNum < 4) {
-          if (this.clickNum === 0) {
-            this.temSave0 = this.Upicker0
-            this.temSaveAll0 = this.resData
-            this.clickNum += 1
-          } else if (this.clickNum === 1) {
-            this.temSave1 = this.Upicker0
-            this.temSaveAll1 = this.resData
-            this.clickNum += 1
-          } else if (this.clickNum === 2) {
-            this.temSave2 = this.Upicker0
-            this.temSaveAll2 = this.resData
-            this.clickNum += 1
-          } else if (this.clickNum === 3) {
-            this.temSave3 = this.Upicker0
-            this.temSaveAll3 = this.resData
-            this.clickNum += 1
-          }
-        } else {
-        }
-      } else {
-        this.popupVisible0 = false
-        this.showOther = 1
-        this.showInputReal = this.showInput
-        this.showInputReal.push(this.currVal)
-        this.showInput.pop(this.showInput[this.showInput.length - 1])
-//        this.currVal = ''
-//         let p1 = new Promise((resolve, reject) => {
-//
-//           resolve('成功了1')
-//         })
-//
-//         let p2 = new Promise((resolve, reject) => {
-//
-//           resolve('成功了2')
-//         })
-//         Promise.all([p1, p2]).then((result) => {
-//           console.log(result)
-//
-//         }).catch((error) => {
-//           console.log(error)
-//         });
-      }
-      if (this.Value0) {
-        if (this.Value1) {
-          if (this.Value2) {
-            if (this.Value3) {
-            } else {
-              this.Value3 = this.currVal
-            }
-          } else {
-            this.Value2 = this.currVal
-            this.currInputClass = 3
-
-          }
-        } else {
-          this.Value1 = this.currVal
-          this.currInputClass = 2
-        }
-      } else {
-        this.Value0 = this.currVal
-        this.currInputClass = 1
-      }
-    },
     //    获取左边数据
     getLeftData () {
       axios.post('/teacherCMS/getCenterTree', {
@@ -327,6 +234,91 @@ export default {
     getInput0 () {
       this.popupVisible0 = true
     },
+    //    点击确定按钮
+    sureButton0 () {
+      this.showOther = 0
+      this.showInput.push(this.currVal)
+      var showInputLength
+      if (this.showInput[0] === '新能源汽车') {
+        showInputLength = 4
+        this.showOthData3 = 0
+        this.showOthData4 = 0
+      } else if (this.showInput[0] === '汽车空调' || this.showInput[0] === '汽车维护') {
+        showInputLength = 2
+        this.showOthData3 = 1
+        this.showOthData4 = 1
+      } else {
+        showInputLength = 3
+        this.showOthData3 = 0
+        this.showOthData4 = 1
+      }
+      this.showInput.pop(this.showInput[this.showInput.length - 1])
+      if (this.showInput.length < showInputLength) {
+        //        console.log(this.showInpLength)
+        this.showInput.push(this.currVal)
+      } else if (this.showInput.length === showInputLength) {
+        this.showInput.pop(this.showInput[this.showInput.length - 1])
+        this.showInput.push(this.currVal)
+      } else {
+      }
+      if (this.realData) {
+        this.Upicker0 = this.realData
+        this.resData = this.Upicker1
+        this.$set(this.dataRange0, 0, this.realData)
+        if (this.clickNum < 4) {
+          if (this.clickNum === 0) {
+            this.temSave0 = this.Upicker0
+            this.temSaveAll0 = this.resData
+            this.clickNum += 1
+          } else if (this.clickNum === 1) {
+            this.temSave1 = this.Upicker0
+            this.temSaveAll1 = this.resData
+            this.clickNum += 1
+          } else if (this.clickNum === 2) {
+            this.temSave2 = this.Upicker0
+            this.temSaveAll2 = this.resData
+            this.clickNum += 1
+          } else if (this.clickNum === 3) {
+            this.temSave3 = this.Upicker0
+            this.temSaveAll3 = this.resData
+            this.clickNum += 1
+          }
+        } else {
+        }
+      } else {
+        this.popupVisible0 = false
+        this.showOther = 1
+        this.showInputReal = this.showInput
+        this.showInputReal.push(this.currVal)
+        this.showInput.pop(this.showInput[this.showInput.length - 1])
+      }
+      if (this.Value0) {
+        if (this.Value1) {
+          if (this.Value2) {
+            if (this.Value3) {
+              this.Value3 = this.currVal
+            } else {
+              this.Value3 = this.currVal
+            }
+            if (showInputLength === 3) {
+              this.Value2 = this.currVal
+            }
+          } else {
+            this.Value2 = this.currVal
+            this.currInputClass = 3
+          }
+          if (showInputLength === 2) {
+            this.Value1 = this.currVal
+          }
+        } else {
+          this.Value1 = this.currVal
+          this.currInputClass = 2
+        }
+      } else {
+        this.Value0 = this.currVal
+        this.currInputClass = 1
+      }
+    },
     //    获得练习范围值
     change0 (value) {
       this.currVal = value
@@ -334,9 +326,9 @@ export default {
       var picker1 = []
       this.Upicker1 = []
       for (var i = 0; i < this.Upicker0.length; i++) {
-        if (value[0] === this.Upicker0[i]) {
+        if (value === this.Upicker0[i]) {
           this.sendId0 = this.UpickerId0[i]
-          this.sendName0 = value[0]
+          this.sendName0 = value
           if (this.resData[i].children) {
             for (var j = 0; j < this.resData[i].children.length; j++) {
               picker1.push(this.resData[i].children[j].label)
@@ -349,6 +341,7 @@ export default {
           }
         }
       }
+      this.sureButton0()
     },
     cliInput0 () {
       if (this.UoriginData) {
@@ -487,6 +480,15 @@ export default {
       box-sizing: border-box;
       overflow: auto;
       border-top:1px solid rgb(122,18,19);
+      .addCreate{
+        display: flex;
+        .iconfont{
+          font-size: 0.7rem;
+          margin-top: 0.25rem;
+          margin-left: 0.25rem;
+          color:rgb(137,191,298);
+        }
+      }
     }
     .leftItem{
       line-height:1.5rem;
@@ -516,31 +518,31 @@ export default {
     .inputCourseRangeI{
       width: 24%;
       display: inline-block;
-      text-decoration:underline;
+    }
+    .my-picker{
+      width:100%;
+      font-size:0.32rem;
+      line-height:0.88rem;
+      height: 4.4rem;
+      overflow:auto;
+      vertical-align: middle;
+      margin-top: 0.5rem;
+      color:#5a5a5a;
+      background: #eee;
     }
     .mint-popup{
       width:100%;
-      padding: 0.2rem;
+      padding-top: 0.5rem;
       box-sizing: border-box;
-    }
-    .sureButton{
       text-align: center;
-      position: absolute;
-      right: 0.3rem;
-      bottom: 0;
-      z-index: 99;
-      font-size: 0.32rem;
-      width: 15%;
-      height: 0.7rem;
-      font-weight: bolder;
-      color:rgb(122,18,19);
     }
     .currInput{
       display: inline-block;
-      border: 1px solid #7a1213;
+      border-bottom: 2px solid #7a1213;
       margin-bottom: 0.1rem;
       padding: 0.1rem;
-      border-radius: 15px;
+      color: #7a1213;
+      font-weight: bold;
     }
     .history{
       .practiceItem{

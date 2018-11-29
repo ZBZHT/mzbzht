@@ -208,8 +208,8 @@ export default {
     font-size: 0.28rem;
     display: -webkit-box;
     overflow: hidden;
-    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
   }
   .courseIndex .suggeCourse{
     padding:0.2rem;
