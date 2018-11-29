@@ -296,7 +296,7 @@ export default {
           font-size: 0.3rem;
           margin: 0.3rem;
           display: inline-block;
-          width: 10%;
+          width: 0.8rem;
           height:0.8rem;
           line-height:0.8rem;
           background: rgb(221,81,69);

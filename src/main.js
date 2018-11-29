@@ -13,11 +13,14 @@ import 'styles/iconfont.css'
 import 'swiper/dist/css/swiper.css'
 import 'mint-ui/lib/style.css'
 import './assets/iconfont/iconfont.css'
+import preview from 'vue-photo-preview'
+import 'vue-photo-preview/dist/skin.css'
 
 Vue.config.productionTip = false
 fastClick.attach(document.body)
 Vue.use(VueAwesomeSwiper)
 Vue.use(Mint)
+Vue.use(preview)
 
 /* eslint-disable no-new */
 new Vue({

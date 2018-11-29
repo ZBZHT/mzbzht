@@ -89,7 +89,7 @@ export default {
   }
   .idCard{
     width:85%;
-    height:20%;
+    height:30%;
     background:#fff;
     border-radius:10px;
     margin:0 auto;

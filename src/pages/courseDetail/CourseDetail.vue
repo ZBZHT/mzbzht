@@ -38,7 +38,7 @@
                       :auto="0"
                       @change="handleChange">
               <mt-swipe-item v-for="(item,index) in lists" :key="index">
-                <img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
+                <img preview="1" class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
               </mt-swipe-item>
             </mt-swipe>
             <p class="page">第{{pptIndex + 1}}页,共{{total}}页</p>

@@ -14,16 +14,16 @@
       </ul>
       <div class="rightCon">
         <div v-if="showLi === 0" class="test">
-          <p>请选择练习范围:</p>
+          <p class="addClick" @click="getInput0()">添加并选择练习范围</p>
           <!--0级-->
           <div class="addCreate">
-            <div class="inputCourseRange" @click="getInput0()" :class="{'addHeight':!showInputReal.length}">
+            <div class="inputCourseRange" :class="{'addHeight':!showInputReal.length}">
             <span  v-for="(item, index) in showInputReal" :key="index">
               {{item}}
               <span v-show="index !== showInputReal.length - 1"> | </span>
             </span>
             </div>
-            <i class="iconfont">&#xe8a8;</i>
+            <!--<i class="iconfont">&#xe8a8;</i>-->
           </div>
           <mt-popup
             v-model="popupVisible0"
@@ -480,6 +480,17 @@ export default {
       box-sizing: border-box;
       overflow: auto;
       border-top:1px solid rgb(122,18,19);
+      .addClick{
+        border: 2px solid #89bfff;
+        width: 80%;
+        background: #89bfff;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        margin-top: 0.2rem;
+        margin-bottom: 0.2rem;
+        padding: 0.1rem;
+      }
       .addCreate{
         display: flex;
         .iconfont{
