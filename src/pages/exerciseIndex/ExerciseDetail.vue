@@ -3,9 +3,10 @@
     <!--header--><!--nav-->
     <Header-nav></Header-nav>
     <div>
-      <p class="detailTitle" @click="goBack">
+      <p class="goBack" @click="goBack">
         <go-back></go-back>
       </p>
+      <p class="detailTitle">{{exerLabel}}</p>
       <mt-navbar v-model="selected">
         <mt-tab-item id="1">设备展示</mt-tab-item>
         <mt-tab-item id="2">设备参数</mt-tab-item>
@@ -82,10 +83,15 @@ export default {
 </script>
 <style lang="less">
   .ExerciseDetail{
-    .detailTitle{
-      font-size: 0.28rem;
+    .goBack{
+      margin-top: 0.3rem;
       margin-left: 0.2rem;
-      margin-top:0.2rem;
+    }
+    .detailTitle{
+      text-align: center;
+      font-size: 0.4rem;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
     .mint-tab-item-label{
       color:#000;

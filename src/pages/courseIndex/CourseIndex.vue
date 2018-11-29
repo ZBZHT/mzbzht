@@ -9,7 +9,12 @@
       <i class="iconfont iconfontBest">&#xe61f;</i>
       <span>精品课程</span>
       <ul class="best">
-        <li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in bestClassData2" :key="index">{{item.label}}</li>
+        <!--<li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in bestClassData2" :key="index">{{item.label}}</li>-->
+        <div @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in bestClassData2" :key="index">
+          <img v-if="index == 0" src="../../../src/assets/imgs/bestclass10.png" width="100%" height="100%">
+          <img v-if="index == 1" src="../../../src/assets/imgs/course.png" width="100%" height="100%">
+          <p class="bestLineP">{{item.label}}</p>
+        </div>
       </ul>
       <!--<ul class="best1">-->
         <!--<li class="bestCol" v-for="(item, index) in bestClassData3" :key="index">-->
@@ -21,7 +26,9 @@
       <!--</ul>-->
       <mt-cell class="best1" :title=item.label  v-for="(item, index) in bestClassData3" :key="index">
         <p @click="jumpCourseDetail(item)" class="bestDesc">{{item.describe}}</p>
-        <img @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/course.png" width="110" height="70">
+        <img v-if="index == 0" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass5.png" width="110" height="70">
+        <img v-if="index == 1" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass3.png" width="110" height="70">
+        <img v-if="index == 2" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass4.png" width="110" height="70">
       </mt-cell>
     </div>
     <div class="suggeCourse">
@@ -29,12 +36,18 @@
       <span>实战推荐</span>
       <span class="moreCourse" @click="moreCourse">更多>></span>
       <ul class="best">
-        <li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in suggClassData2" :key="index">{{item.label}}</li>
+        <!--<li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in suggClassData2" :key="index">{{item.label}}</li>-->
+        <div @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in suggClassData2" :key="index">
+          <img v-if="index == 0" src="../../../src/assets/imgs/bestclass11.png" width="100%" height="100%">
+          <img v-if="index == 1" src="../../../src/assets/imgs/bestclass12.png" width="100%" height="100%">
+          <p class="bestLineP">{{item.label}}</p>
+        </div>
       </ul>
       <mt-cell class="best1" :title=item.label  v-for="(item, index) in suggClassData3" :key="index">
         <p @click="jumpCourseDetail(item)" class="bestDesc">{{item.describe}}</p>
-        <img @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/course.png" width="110" height="70">
-      </mt-cell>
+        <img v-if="index == 0" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass15.png" width="110" height="70">
+        <img v-if="index == 1" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass13.png" width="110" height="70">
+        <img v-if="index == 2" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass14.png" width="110" height="70">      </mt-cell>
     </div>
   </div>
 </template>
@@ -149,24 +162,25 @@ export default {
   .courseIndex .best{
     display: flex;
     margin-top:10px;
+    margin-bottom: 0.8rem;
   }
   .courseIndex .bestLine{
     width:42%;
     height:1.8rem;
     margin:14px;
-    background: url("../../../src/assets/imgs/course.png") no-repeat;
     background-size: 100% 100%;
     border-radius: 5px;
     box-shadow: 0 0 12px rgb(130,150,170);
-    padding: 10px;
     box-sizing: border-box;
-    font-size: 0.34rem;
-    font-weight: bolder;
-    padding-top: 33px;
+    font-size: 0.32rem;
     text-align: center;
+    position:relative;
+  }
+  .courseIndex .bestLineP{
+    margin-top:0.2rem;
   }
   .courseIndex .best1{
-    margin-top: 0.5rem;
+    margin-top: 0.6rem;
     margin-bottom: 0.2rem;
   }
   .courseIndex .mint-cell-wrapper{
@@ -204,6 +218,7 @@ export default {
     width:60%;
     position:absolute;
     top: 0.58rem;
+    height: 0.82rem;
     right: 0.25rem;
     font-size: 0.28rem;
     display: -webkit-box;

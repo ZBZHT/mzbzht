@@ -491,7 +491,7 @@ export default {
       }
     }
     .leftItem{
-      line-height:1.5rem;
+      padding:1rem 0 1rem 0;
       border-right:1px solid rgb(122,18,19);
     }
     .changeBg{

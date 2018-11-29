@@ -1,5 +1,8 @@
 <template>
   <div class="sign">
+    <p class="goBack" @click="goBack">
+      <go-back></go-back>
+    </p>
     <section class="user-info">
       <div class="name">{{name}}</div>
       <p class="time" v-show="stuCourse.teacher">{{stuCourse.date}}</p>
@@ -37,6 +40,8 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
+import goBack from '@/components/goBack'
+
 export default {
   name: 'Sign',
   data () {
@@ -82,6 +87,10 @@ export default {
     })
   },
   methods: {
+    //    返回上一级
+    goBack () {
+      this.$router.go(-1)
+    },
     // 添加成功后提示信息
     addSuccess (msg) {
 //      this.$message({
@@ -110,6 +119,7 @@ export default {
           this.getFirstData()
         }
       })
+      this.$router.push('/courseIndex')
     },
     getFirstData () {
       axios.post('/teacherCMS/getSignInMsg', {
@@ -131,13 +141,18 @@ export default {
     backHome () {
       this.$router.push('/courseIndex')
     }
+  },
+  components: {
+    goBack
   }
 }
 </script>
 <style lang="stylus" scoped>
   @import "~styles/variables.styl"
   .sign
-    padding-top 1rem
+    /*padding-top 1rem*/
+    .goBack
+      padding: 0.5rem 0 0.5rem 0.5rem;
   .user-info
     display flex
     justify-content center

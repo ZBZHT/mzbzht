@@ -96,6 +96,7 @@ export default {
     margin-top: 1.2rem;
     padding:0.5rem;
     box-sizing: border-box;
+    position: relative;
     .nameMsg{
       margin-bottom: 0.2rem;
     }
@@ -110,8 +111,10 @@ export default {
       margin-top: 0.2rem;
     }
     .logout{
-      text-align: right;
       color: #ff6700;
+      position:absolute;
+      right:0.3rem;
+      bottom:0.3rem;
     }
   }
 }

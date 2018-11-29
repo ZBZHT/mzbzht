@@ -178,6 +178,7 @@ export default {
     }
     //    获取请求路径
     this.videoPath = this.$store.state.urlSrc
+    console.log(this.videoPath)
     //    console.log(this.videoPath)
     this.commentPath = this.videoPath.split('/')
     var str = []
@@ -205,7 +206,7 @@ export default {
     // 进入页面时的请求地址
     findParent () {
       var data = this.$store.state.courseDetail
-      console.log(this.data)
+//      console.log(this.data)
       var id = data.courseId
       var coursePath = []
       var homeworkPath = []
@@ -500,8 +501,8 @@ export default {
           homeworkPath = coursePath
         }
       }
-      console.log('course',coursePath)
-      console.log('homeworkPath',homeworkPath)
+//      console.log('course',coursePath)
+//      console.log('homeworkPath',homeworkPath)
       var pptPath = ''
       for (var i = 0; i < coursePath.length; i++) {
         pptPath = pptPath + coursePath[i] + '/'
@@ -524,8 +525,7 @@ export default {
         this.total = this.lists.length
       })
       this.commentPath = homeworkPath
-      console.log('456456')
-      console.log(this.commentPath)
+//      console.log(this.commentPath)
       this.getComment()
     },
     //    返回上一级
@@ -641,22 +641,21 @@ export default {
           title: this.commentPath
         }
       }).then((res) => {
-        console.log(res.data.result)
+//        console.log(res.data.result)
         this.appraiseIndex = res.data.result.appraiseMsg
         this.appraiseContent.appraiseMsg = this.appraiseIndex
-        console.log(this.appraiseIndex)
-      }).catch((error) => {
-        console.log('评论请求错误')
+//        console.log(this.appraiseIndex)
       })
     },
     // 请求PPT
     getPPT () {
       var fileName = ''
-      if (String(this.detailItem.courseId) > String(1999)) {
+      if (String(this.detailItem.courseId) > String(1200)) {
         fileName = this.videoPath
       } else {
         fileName = this.videoPath + this.detailItem.teachingMaterial
       }
+//      console.log('123', fileName)
       axios.post ('/readResource/getPPT', {
         data: {
           userId: this.userId,

@@ -6,7 +6,6 @@
       <ul class="leftTree" :style="{'height': height - 91 + 'px'}">
         <li class="leftItem"
             v-for="(item,index) in leftTree"
-            :style="{'line-height': (height - 88) / 6 + 'px'}"
             @click="changeItem(item,index)"
             :class="{'changeBg':changeClass === index}"
             :key="index">
@@ -35,7 +34,7 @@
                 <i v-if="index2 === 13" class="iconfont">&#xe604;</i>
                 <i v-if="index2 === 14" class="iconfont">&#xe602;</i>
                 <i v-if="index2 === 15" class="iconfont">&#xe63d;</i>
-                <p>{{item2.label}}</p>
+                <p class="rightTdP">{{item2.label}}</p>
               </td>
             </div>
           </tr>
@@ -160,8 +159,18 @@ export default {
     border-radius: 5px;
     vertical-align: top;
   }
+  .exerciseIndex .rightCon .rightTdP{
+    margin-top:8px;
+    font-size: 0.24rem;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    height: 0.7rem;
+  }
   .leftItem{
     border-right:1px solid rgb(122,18,19);
+    padding:1rem 0 1rem 0;
   }
   .exerciseIndex .changeBg{
     background:rgb(240,240,240);
@@ -175,10 +184,6 @@ export default {
     font-weight:bolder;
     display: block;
     margin-bottom:5px;
-  }
-  .exerciseIndex .rightCon .rightTr p{
-    margin-top:8px;
-    font-size: 0.24rem;
   }
   .exerciseIndex .iconfont {
     font-size: 34px;
