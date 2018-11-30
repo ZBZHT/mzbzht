@@ -149,7 +149,8 @@ export default {
       UoriginData: [],
       showInput: [],
       showInpLength: '',
-      showInputReal: []
+      showInputReal: [],
+      showInpRealArray: []
     }
   },
   computed: {
@@ -286,11 +287,20 @@ export default {
         } else {
         }
       } else {
-        this.popupVisible0 = false
-        this.showOther = 1
-        this.showInputReal = this.showInput
-        this.showInputReal.push(this.currVal)
-        this.showInput.pop(this.showInput[this.showInput.length - 1])
+        var _this = this
+        _this.popupVisible0 = false
+        _this.showOther = 1
+        _this.showInputReal = _this.showInput
+        console.log(_this.showInput)
+//        this.showInpRealArray.push(this.showInputReal)
+        _this.showInpRealArray[_this.showInpRealArray.length] = _this.showInputReal
+        console.log('11', _this.showInpRealArray)
+        console.log('33', _this.showInputReal)
+        _this.showInputReal.push(_this.currVal)
+        console.log('22', _this.showInputReal)
+        console.log('44', _this.showInputReal)
+        _this.showInputReal = []
+        _this.showInput.pop(_this.showInput[_this.showInput.length - 1])
       }
       if (this.Value0) {
         if (this.Value1) {
@@ -537,13 +547,11 @@ export default {
       height: 4.4rem;
       overflow:auto;
       vertical-align: middle;
-      margin-top: 0.5rem;
       color:#5a5a5a;
-      background: #eee;
     }
     .mint-popup{
       width:100%;
-      padding-top: 0.5rem;
+      padding-top: 0.3rem;
       box-sizing: border-box;
       text-align: center;
     }

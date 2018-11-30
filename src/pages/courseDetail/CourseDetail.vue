@@ -9,7 +9,7 @@
       <p class="detailTitle">
         {{detailItem.label}}
       </p>
-      <mt-navbar v-model="selected">
+      <mt-navbar v-model="selected" @click.native="changeTab(selected)">
         <mt-tab-item id="1">简介</mt-tab-item>
         <mt-tab-item id="2">微课</mt-tab-item>
         <mt-tab-item id="3">课件</mt-tab-item>
@@ -191,6 +191,19 @@ export default {
     this.getComment()
   },
   methods: {
+    //    切换tab
+    changeTab (val) {
+      if (val === 2) {
+      } else {
+        console.log(val)
+        this.clickTabsStop()
+      }
+    },
+    // 点击微课视频暂停开始
+    clickTabsStop () {
+      var myVideo = document.getElementById('video-box')
+      myVideo.pause()
+    },
     //    获取左边数据
     getLeftData () {
       axios.post('/teacherCMS/getCenterTree', {
