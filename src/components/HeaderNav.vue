@@ -15,10 +15,10 @@
       <mt-tab-item :id=index v-for="(item, index) in navData" :key="index">
         <div class="navImg" v-if="showIcon !== 0"
              @click="changNav(index)">
-          <i class="iconfont" v-if="index == 0">&#xe600;</i>
+          <i class="iconfont iconfont1" v-if="index == 0">&#xe600;</i>
           <i class="iconfont iconfont2" v-if="index == 1">&#xe8cb;</i>
           <i class="iconfont iconfont3" v-if="index == 2">&#xe791;</i>
-          <i class="iconfont iconfont2" v-if="index == 3">&#xe624;</i>
+          <i class="iconfont iconfont5" v-if="index == 3">&#xe6c7;</i>
           <i class="iconfont iconfont4" v-if="index == 4">&#xe797;</i>
         </div>
         <p @click="changNav(index)"
@@ -169,18 +169,20 @@ export default {
     .iconfont{
       font-size: 48px;
     }
-    .iconfont{
-      color:#000;
+    .iconfont1{
+      color:#8240d7;
     }
     .iconfont2{
       color:rgb(122,18,19);
     }
     .iconfont3{
-       color:rgb(95,99,104);
      }
     .iconfont4{
       font-size: 53px;
-      color:#000;
+      color:#54aaff;
+    }
+    .iconfont5{
+      color:#2cc980;
     }
     .changeFont{
       color:rgb(122,18,19);

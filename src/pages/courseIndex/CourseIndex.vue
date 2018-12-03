@@ -234,7 +234,7 @@ export default {
   .courseIndex .iconfontBest{
     margin-right:2px;
     margin-left:2px;
-    color:rgb(130,150,170);
+    color:rgb(250,0,0);
   }
   .courseIndex .iconfontSugge{
     margin-right:2px;

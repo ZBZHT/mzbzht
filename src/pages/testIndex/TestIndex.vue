@@ -14,17 +14,20 @@
       </ul>
       <div class="rightCon">
         <div v-if="showLi === 0" class="test">
-          <p class="addClick" @click="getInput0()">添加并选择练习范围</p>
           <!--0级-->
           <div class="addCreate">
-            <div class="inputCourseRange" :class="{'addHeight':!showInputReal.length}">
-            <span  v-for="(item, index) in showInputReal" :key="index">
-              {{item}}
-              <span v-show="index !== showInputReal.length - 1"> | </span>
-            </span>
+            <div class="deleteIcon" v-for="(item, index) in showInpRealArray" :key="index">
+              <div class="inputCourseRange"
+                   :class="{'addHeight':!item.length}" :id="inputCR(index)">
+                <span  v-for="(item2, index2) in item" :key="index2">
+                  {{item2}}
+                  <span v-show="index2 !== item.length - 1"> | </span>
+                </span>
+              </div>
+              <i class="iconfont" @click="deleteData(index)">&#xeafa;</i>
             </div>
-            <!--<i class="iconfont">&#xe8a8;</i>-->
           </div>
+          <p class="addClick" @click="getInput0()">点击添加练习范围(最多7项哦~)</p>
           <mt-popup
             v-model="popupVisible0"
             position="bottom">
@@ -38,13 +41,13 @@
                   class="inputCourseRangeI">
               {{Value1}}
             </span>
-            <span :class="{'currInput':currInputClass === 2}" v-show="!Value2 && Value1 && Value0 && showOther !== 1">请选择</span>
+            <span :class="{'currInput':currInputClass === 2}" v-show="!Value2 && Value1 && Value0 && showOther !== 1 && showOthData3 === 0">请选择</span>
             <span @click="cliInput2"
                   v-show="showOthData3 === 0"
                   class="inputCourseRangeI">
               {{Value2}}
             </span>
-            <span :class="{'currInput':currInputClass === 3}" v-show="!Value3 && Value2 && Value1 && Value0 && showOther !== 1">请选择</span>
+            <span :class="{'currInput':currInputClass === 3}" v-show="!Value3 && Value2 && Value1 && Value0 && showOther !== 1 && showOthData4 === 0">请选择</span>
             <span @click="cliInput3"
                   v-show="showOthData4 === 0"
                   class="inputCourseRangeI">
@@ -234,6 +237,7 @@ export default {
     //    获取练习范围焦点0级
     getInput0 () {
       this.popupVisible0 = true
+      this.cliInput0()
     },
     //    点击确定按钮
     sureButton0 () {
@@ -287,20 +291,18 @@ export default {
         } else {
         }
       } else {
-        var _this = this
-        _this.popupVisible0 = false
-        _this.showOther = 1
-        _this.showInputReal = _this.showInput
-        console.log(_this.showInput)
-//        this.showInpRealArray.push(this.showInputReal)
-        _this.showInpRealArray[_this.showInpRealArray.length] = _this.showInputReal
-        console.log('11', _this.showInpRealArray)
-        console.log('33', _this.showInputReal)
-        _this.showInputReal.push(_this.currVal)
-        console.log('22', _this.showInputReal)
-        console.log('44', _this.showInputReal)
-        _this.showInputReal = []
-        _this.showInput.pop(_this.showInput[_this.showInput.length - 1])
+        this.popupVisible0 = false
+        this.showOther = 1
+        this.showInputReal = this.showInput
+        console.log(this.showInput)
+        var temArray = []
+        temArray.push(this.showInputReal)
+        //        this.showInpRealArray.push(temArray[0])
+//        this.showInpRealArray.splice(1, 1, temArray[0])
+        this.$set(this.showInpRealArray, this.showInpRealArray.length, temArray[0])
+        //        this.showInpRealArray[this.showInpRealArray.length] = temArray[0]
+        this.showInputReal.push(this.currVal)
+        this.showInput.pop(this.showInput[this.showInput.length - 1])
       }
       if (this.Value0) {
         if (this.Value1) {
@@ -328,6 +330,37 @@ export default {
         this.Value0 = this.currVal
         this.currInputClass = 1
       }
+    },
+    inputCR (index) {
+      return 'inputCR' + index
+    },
+    //    修改已有范围
+    editor (index) {
+      this.popupVisible0 = true
+      this.cliInput0()
+      var temData = []
+      temData = this.showInpRealArray[index]
+      this.Value0 = temData[0]
+      this.Value1 = temData[1]
+      if (temData.length === 3) {
+        this.Value2 = temData[2]
+        this.showOthData3 = 0
+        this.showOthData4 = 1
+      } else if (temData.length === 4) {
+        this.Value2 = temData[2]
+        this.Value3 = temData[3]
+        this.showOthData3 = 0
+        this.showOthData4 = 0
+      } else if (temData.length === 2) {
+        this.showOthData3 = 1
+        this.showOthData4 = 1
+      }
+    },
+    deleteData (index) {
+      console.log(index)
+      this.showInpRealArray.splice(index, 1)
+//      this.$set(this.showInpRealArray, index, this.showInpRealArray)
+      console.log(this.showInpRealArray)
     },
     //    获得练习范围值
     change0 (value) {
@@ -502,12 +535,17 @@ export default {
         padding: 0.1rem;
       }
       .addCreate{
-        display: flex;
+        .deleteIcon{
+          display: flex;
+          position: relative;
+        }
         .iconfont{
-          font-size: 0.7rem;
-          margin-top: 0.25rem;
-          margin-left: 0.25rem;
-          color:rgb(137,191,298);
+          font-size: 0.6rem;
+          margin-left: 0.1rem;
+          color: rgb(122,18,19);
+          position: absolute;
+          top:0;
+          right: 0.3rem;
         }
       }
     }

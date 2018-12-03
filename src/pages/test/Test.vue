@@ -296,9 +296,9 @@ export default {
           font-size: 0.3rem;
           margin: 0.3rem;
           display: inline-block;
-          width: 0.8rem;
-          height:0.8rem;
-          line-height:0.8rem;
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
           background: rgb(221,81,69);
           border-radius: 50%;
         }
