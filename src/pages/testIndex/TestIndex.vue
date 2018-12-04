@@ -18,6 +18,7 @@
           <div class="addCreate">
             <div class="deleteIcon" v-for="(item, index) in showInpRealArray" :key="index">
               <div class="inputCourseRange"
+                   @click="editor(index)"
                    :class="{'addHeight':!item.length}" :id="inputCR(index)">
                 <span  v-for="(item2, index2) in item" :key="index2">
                   {{item2}}
@@ -60,13 +61,19 @@
               </p>
             </div>
           </mt-popup>
-
           <p>请选择题数:</p>
-          <input v-model='dataNumValue' class="inputCourseRange" type="text" @focus="getInputNum()">
+          <div class="inputCourseRange" @click="getInputNum()">
+            {{dataNumValue}}
+          </div>
           <mt-popup
             v-model="popupVisible4"
             position="bottom">
-            <picker :data='dataNum' v-model='dataNumValue' @on-change='changeNum'></picker>
+            <!--<picker :data='dataNum' v-model='dataNumValue' @on-change='changeNum'></picker>-->
+            <div class="my-picker">
+              <p v-for="(item, index) in dataNum" :key="index" @click='changeNum(item)'>
+                {{item}}
+              </p>
+            </div>
           </mt-popup>
           <x-button mini type="primary" @click.native="submitReply()">创建练习</x-button>
         </div>
@@ -117,8 +124,8 @@ export default {
       Value1: '',
       Value2: '',
       Value3: '',
-      dataNum: [['10', '20', '30', '40', '50', '60', '70', '80', '90', '100']],
-      dataNumValue: [],
+      dataNum: ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100'],
+      dataNumValue: 10,
       popupVisible0: false,
       popupVisible4: false,
       Upicker0: [],
@@ -153,7 +160,12 @@ export default {
       showInput: [],
       showInpLength: '',
       showInputReal: [],
-      showInpRealArray: []
+      showInpRealArray: [],
+      arrayPath: [],
+      arrPaCh: [],
+      bigArrayPath: [],
+      bigarrPaCh: [],
+      bigArrayIndex: 10
     }
   },
   computed: {
@@ -266,8 +278,11 @@ export default {
         this.showInput.push(this.currVal)
       } else {
       }
+      this.arrayPath.push(this.Upicker0)
+      this.arrPaCh.push(this.resData)
       if (this.realData) {
         this.Upicker0 = this.realData
+//        console.log(this.Upicker0)
         this.resData = this.Upicker1
         this.$set(this.dataRange0, 0, this.realData)
         if (this.clickNum < 4) {
@@ -292,17 +307,33 @@ export default {
         }
       } else {
         this.popupVisible0 = false
+//        console.log(this.bigArrayPath)
+
         this.showOther = 1
         this.showInputReal = this.showInput
-        console.log(this.showInput)
+//        console.log(this.showInput)
         var temArray = []
         temArray.push(this.showInputReal)
         //        this.showInpRealArray.push(temArray[0])
 //        this.showInpRealArray.splice(1, 1, temArray[0])
-        this.$set(this.showInpRealArray, this.showInpRealArray.length, temArray[0])
+
         //        this.showInpRealArray[this.showInpRealArray.length] = temArray[0]
         this.showInputReal.push(this.currVal)
         this.showInput.pop(this.showInput[this.showInput.length - 1])
+//        console.log(this.bigArrayIndex)
+//        console.log(this.showInputReal)
+        if (this.bigArrayIndex <= this.bigArrayPath.length) {
+          this.$set(this.showInpRealArray, this.bigArrayIndex, temArray[0])
+          this.bigArrayPath[this.bigArrayIndex] = this.arrayPath
+          this.bigarrPaCh[this.bigArrayIndex] = this.arrPaCh
+//          this.$set(this.bigArrayPath, this.bigArrayIndex, this.arrayPath)
+//          this.$set(this.bigarrPaCh, this.bigArrayIndex, this.arrPaCh)
+          this.bigArrayIndex = 10
+        } else {
+          this.$set(this.showInpRealArray, this.bigArrayPath.length, temArray[0])
+          this.bigArrayPath.push(this.arrayPath)
+          this.bigarrPaCh.push(this.arrPaCh)
+        }
       }
       if (this.Value0) {
         if (this.Value1) {
@@ -336,12 +367,34 @@ export default {
     },
     //    修改已有范围
     editor (index) {
+      this.bigArrayIndex = index
+//      console.log(this.bigArrayIndex)
       this.popupVisible0 = true
-      this.cliInput0()
-      var temData = []
+//      this.cliInput0()
+      var temData = [], temPath = [], temPathAll = []
       temData = this.showInpRealArray[index]
       this.Value0 = temData[0]
       this.Value1 = temData[1]
+      temPath = this.bigArrayPath[index]
+      temPathAll = this.bigarrPaCh[index]
+//      this.Upicker0 = temPath[this.arrayPath.length - 1]
+//      this.resData = temPathAll[this.arrPaCh.length - 1]
+      this.$set(this.dataRange0, 0, temPath[temPath.length - 1])
+      if (!this.dataRange0) {
+        if (this.clickNum === 1) {
+          this.Upicker0 = temPath[1]
+          this.resData  = temPathAll[1]
+          this.$set(this.dataRange0, 0, temPath[1])
+          this.clickNum += 1
+        } else if (this.clickNum === 2) {
+          this.Upicker0 = temPath[2]
+          this.resData  = temPathAll[2]
+          this.$set(this.dataRange0, 0, temPath[2])
+          this.clickNum += 1
+        }
+      }
+//      console.log(temPath)
+//      console.log(this.dataRange0)
       if (temData.length === 3) {
         this.Value2 = temData[2]
         this.showOthData3 = 0
@@ -355,12 +408,13 @@ export default {
         this.showOthData3 = 1
         this.showOthData4 = 1
       }
+
     },
     deleteData (index) {
-      console.log(index)
+//      console.log(index)
       this.showInpRealArray.splice(index, 1)
 //      this.$set(this.showInpRealArray, index, this.showInpRealArray)
-      console.log(this.showInpRealArray)
+//      console.log(this.showInpRealArray)
     },
     //    获得练习范围值
     change0 (value) {
@@ -387,6 +441,8 @@ export default {
       this.sureButton0()
     },
     cliInput0 () {
+      this.arrayPath = []
+      this.arrPaCh = []
       if (this.UoriginData) {
         this.currInputClass = 0
         this.showOther = 0
@@ -537,15 +593,12 @@ export default {
       .addCreate{
         .deleteIcon{
           display: flex;
-          position: relative;
+          align-items: center;
         }
         .iconfont{
           font-size: 0.6rem;
           margin-left: 0.1rem;
           color: rgb(122,18,19);
-          position: absolute;
-          top:0;
-          right: 0.3rem;
         }
       }
     }

@@ -131,7 +131,11 @@ export default {
         for (var i = 0; i < resData.length - 1; i++) {
           this.leftTree.push(resData[i])
         }
-        this.secondData = this.leftTree[0].children
+        if (this.$store.state.rememberFunction) {
+          this.changeItem(this.leftTree[this.$store.state.rememberFunction], this.$store.state.rememberFunction)
+        } else {
+          this.secondData = this.leftTree[0].children
+        }
         //        console.log(this.leftTree)
       })
     },
@@ -140,6 +144,7 @@ export default {
       this.urlSrc = item.label + '/'
       //      console.log(this.urlSrc)
       this.changeClass = index
+      this.$store.commit('rememberFunction', index)
       this.secondData = this.leftTree[index].children
       //      console.log(this.secondData)
     }

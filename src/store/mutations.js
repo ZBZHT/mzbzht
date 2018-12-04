@@ -34,5 +34,14 @@ export default {
   },
   showPractice (state, item) {
     state.showPractice = item
+  },
+  rememberFunction (state, item) {
+    state.rememberFunction = item
+  },
+  rememberFunction2 (state, item) {
+    state.rememberFunction2 = item
+  },
+  rememberFunction5 (state, item) {
+    state.rememberFunction5 = item
   }
 }

@@ -16,5 +16,8 @@ export default {
   serverIP: '',
   showPracticeData: '',
   exerciseData: '',
-  showPractice: 0
+  showPractice: 0,
+  rememberFunction: '',
+  rememberFunction2: '',
+  rememberFunction5: ''
 }
