@@ -65,6 +65,8 @@
           <div class="inputCourseRange" @click="getInputNum()">
             {{dataNumValue}}
           </div>
+          <p>请输入练习标题（选填）:</p>
+          <input v-model="inputTitle" class="inputCourseRange" type="text">
           <mt-popup
             v-model="popupVisible4"
             position="bottom">
@@ -165,7 +167,8 @@ export default {
       arrPaCh: [],
       bigArrayPath: [],
       bigarrPaCh: [],
-      bigArrayIndex: 10
+      bigArrayIndex: 10,
+      inputTitle: ''
     }
   },
   computed: {
@@ -205,7 +208,8 @@ export default {
           nameId: this.sendIdArray,
           timeHour: 0,
           timeMin: 30,
-          num: this.dataNumValue
+          num: this.dataNumValue,
+          title: this.inputTitle
         }
       }).then((res) => {
         if (res.data.code === 0) {

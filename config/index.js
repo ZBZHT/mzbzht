@@ -26,6 +26,7 @@ module.exports = {
       //     '^/api': '/static/mock'
       //   }
       // }
+
       // "/api": 'http://127.0.0.1:80',
       // "/teacherCMS": 'http://127.0.0.1:80',
       // "/readJson": 'http://127.0.0.1:80',

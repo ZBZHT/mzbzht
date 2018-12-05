@@ -205,7 +205,7 @@ export default {
           user: this.user
         }
       }).then((res) => {
-        //        console.log(res.data.testQuestion)
+                console.log(res.data.testQuestion)
         this.currTestNum = res.data.testQuestion.currTestNum
         this.resData = res.data.testQuestion.question
         //        console.log(this.resData)
