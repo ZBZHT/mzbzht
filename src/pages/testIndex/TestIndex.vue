@@ -28,7 +28,10 @@
               <i class="iconfont" @click="deleteData(index)">&#xeafa;</i>
             </div>
           </div>
-          <p class="addClick" @click="getInput0()">点击添加练习范围(最多7项哦~)</p>
+          <p class="addClick" @click="getInput0()" v-show="addButton !== 1">
+            <i class="iconfont iconfontAdd">&#xe8a8;</i>
+            <span class="fontAdd">添加(最多8项)</span>
+          </p>
           <mt-popup
             v-model="popupVisible0"
             position="bottom">
@@ -83,7 +86,8 @@
           <ul>
             <li class="practiceItem" v-for="(item, index) in practiceData" :key="index">
               <span>{{index + 1}}.</span>
-              <span class="preItemSpan">练习题目：{{item.currTestNum}}</span>
+              <span class="preItemSpan" v-show="item.title">练习题目：{{item.title}}</span>
+              <span class="preItemSpan" v-show="!item.title">练习题目：{{item.theme}}</span>
               <p class="preItemP">创建时间：{{item.startTime}}</p>
               <p class="preItemP">练习数目：{{item.question.length}}</p>
               <p class="preItemP">练习分数：{{item.sorce}}</p>
@@ -168,7 +172,8 @@ export default {
       bigArrayPath: [],
       bigarrPaCh: [],
       bigArrayIndex: 10,
-      inputTitle: ''
+      inputTitle: '',
+      addButton: 0
     }
   },
   computed: {
@@ -338,6 +343,11 @@ export default {
           this.bigArrayPath.push(this.arrayPath)
           this.bigarrPaCh.push(this.arrPaCh)
         }
+        if (this.showInpRealArray.length <= 7) {
+          this.addButton = 0
+        } else {
+          this.addButton = 1
+        }
       }
       if (this.Value0) {
         if (this.Value1) {
@@ -372,47 +382,48 @@ export default {
     //    修改已有范围
     editor (index) {
       this.bigArrayIndex = index
-//      console.log(this.bigArrayIndex)
+////      console.log(this.bigArrayIndex)
+//      this.popupVisible0 = true
+////      this.cliInput0()
+//      var temData = [], temPath = [], temPathAll = []
+//      temData = this.showInpRealArray[index]
+//      this.Value0 = temData[0]
+//      this.Value1 = temData[1]
+//      temPath = this.bigArrayPath[index]
+//      temPathAll = this.bigarrPaCh[index]
+////      this.Upicker0 = temPath[this.arrayPath.length - 1]
+////      this.resData = temPathAll[this.arrPaCh.length - 1]
+//      this.$set(this.dataRange0, 0, temPath[temPath.length - 1])
+//      if (!this.dataRange0) {
+//        if (this.clickNum === 1) {
+//          this.Upicker0 = temPath[1]
+//          this.resData  = temPathAll[1]
+//          this.$set(this.dataRange0, 0, temPath[1])
+//          this.clickNum += 1
+//        } else if (this.clickNum === 2) {
+//          this.Upicker0 = temPath[2]
+//          this.resData  = temPathAll[2]
+//          this.$set(this.dataRange0, 0, temPath[2])
+//          this.clickNum += 1
+//        }
+//      }
+////      console.log(temPath)
+////      console.log(this.dataRange0)
+//      if (temData.length === 3) {
+//        this.Value2 = temData[2]
+//        this.showOthData3 = 0
+//        this.showOthData4 = 1
+//      } else if (temData.length === 4) {
+//        this.Value2 = temData[2]
+//        this.Value3 = temData[3]
+//        this.showOthData3 = 0
+//        this.showOthData4 = 0
+//      } else if (temData.length === 2) {
+//        this.showOthData3 = 1
+//        this.showOthData4 = 1
+//      }
       this.popupVisible0 = true
-//      this.cliInput0()
-      var temData = [], temPath = [], temPathAll = []
-      temData = this.showInpRealArray[index]
-      this.Value0 = temData[0]
-      this.Value1 = temData[1]
-      temPath = this.bigArrayPath[index]
-      temPathAll = this.bigarrPaCh[index]
-//      this.Upicker0 = temPath[this.arrayPath.length - 1]
-//      this.resData = temPathAll[this.arrPaCh.length - 1]
-      this.$set(this.dataRange0, 0, temPath[temPath.length - 1])
-      if (!this.dataRange0) {
-        if (this.clickNum === 1) {
-          this.Upicker0 = temPath[1]
-          this.resData  = temPathAll[1]
-          this.$set(this.dataRange0, 0, temPath[1])
-          this.clickNum += 1
-        } else if (this.clickNum === 2) {
-          this.Upicker0 = temPath[2]
-          this.resData  = temPathAll[2]
-          this.$set(this.dataRange0, 0, temPath[2])
-          this.clickNum += 1
-        }
-      }
-//      console.log(temPath)
-//      console.log(this.dataRange0)
-      if (temData.length === 3) {
-        this.Value2 = temData[2]
-        this.showOthData3 = 0
-        this.showOthData4 = 1
-      } else if (temData.length === 4) {
-        this.Value2 = temData[2]
-        this.Value3 = temData[3]
-        this.showOthData3 = 0
-        this.showOthData4 = 0
-      } else if (temData.length === 2) {
-        this.showOthData3 = 1
-        this.showOthData4 = 1
-      }
-
+      this.cliInput0()
     },
     deleteData (index) {
 //      console.log(index)
@@ -422,27 +433,32 @@ export default {
     },
     //    获得练习范围值
     change0 (value) {
-      this.currVal = value
-      //      console.log('new Value', value)
-      var picker1 = []
-      this.Upicker1 = []
-      for (var i = 0; i < this.Upicker0.length; i++) {
-        if (value === this.Upicker0[i]) {
-          this.sendId0 = this.UpickerId0[i]
-          this.sendName0 = value
-          if (this.resData[i].children) {
-            for (var j = 0; j < this.resData[i].children.length; j++) {
-              picker1.push(this.resData[i].children[j].label)
-              this.UpickerId1.push(this.resData[i].children[j].courseId)
-              this.Upicker1.push(this.resData[i].children[j])
+      if (this.showInpRealArray.length <= 7) {
+        this.addButton = 0
+        this.currVal = value
+        //      console.log('new Value', value)
+        var picker1 = []
+        this.Upicker1 = []
+        for (var i = 0; i < this.Upicker0.length; i++) {
+          if (value === this.Upicker0[i]) {
+            this.sendId0 = this.UpickerId0[i]
+            this.sendName0 = value
+            if (this.resData[i].children) {
+              for (var j = 0; j < this.resData[i].children.length; j++) {
+                picker1.push(this.resData[i].children[j].label)
+                this.UpickerId1.push(this.resData[i].children[j].courseId)
+                this.Upicker1.push(this.resData[i].children[j])
+              }
+              this.realData = picker1
+            } else {
+              this.realData = ''
             }
-            this.realData = picker1
-          } else {
-            this.realData = ''
           }
         }
+        this.sureButton0()
+      } else {
+        this.addButton = 1
       }
-      this.sureButton0()
     },
     cliInput0 () {
       this.arrayPath = []
@@ -586,6 +602,7 @@ export default {
       .addClick{
         border: 2px solid #89bfff;
         width: 80%;
+        height: 0.45rem;
         background: #89bfff;
         color: #fff;
         text-align: center;
@@ -593,6 +610,19 @@ export default {
         margin-top: 0.2rem;
         margin-bottom: 0.2rem;
         padding: 0.1rem;
+        position: relative;
+        .iconfontAdd{
+          font-size: 0.55rem;
+          position: absolute;
+          left:1.2rem;
+          top:0.1rem;
+        }
+        .fontAdd{
+          margin-bottom:0.1rem;
+          position: absolute;
+          right:1rem;
+          top:0.21rem;
+        }
       }
       .addCreate{
         .deleteIcon{

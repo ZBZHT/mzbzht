@@ -8,7 +8,8 @@
       </span>
       <x-button class="submit" mini type="warn" @click.native="submitReply()">提交</x-button>
       <div class="top">
-        章节练习
+        <p v-show="resultData.title">{{resultData.title}}</p>
+        <p v-show="!resultData.title">{{resultData.theme}}</p>
       </div>
       <div class="middle">
         <p class="queNum">
@@ -70,7 +71,8 @@ export default {
       radioValArray: [],
       currTestNum: '',
       isfirst: 0,
-      islast: 0
+      islast: 0,
+      resultData: ''
     }
   },
   computed: {
@@ -206,6 +208,7 @@ export default {
         }
       }).then((res) => {
                 console.log(res.data.testQuestion)
+        this.resultData = res.data.testQuestion
         this.currTestNum = res.data.testQuestion.currTestNum
         this.resData = res.data.testQuestion.question
         //        console.log(this.resData)

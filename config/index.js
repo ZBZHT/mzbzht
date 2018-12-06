@@ -11,14 +11,14 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      "/api": 'http://192.168.0.251:8000' ,  //代理到开发服务器
-      "/readJson": 'http://192.168.0.251:8000',
-      "/readTestQuestion": 'http://192.168.0.251:8000',
-      "/testManagement": 'http://192.168.0.251:8000',
-      "/readComments": 'http://192.168.0.251:8000',
-      "/teacherCMS": 'http://192.168.0.251:8000',
-      "/fileUpDown": 'http://192.168.0.251:8000',
-      "/readResource": 'http://192.168.0.251:8000'
+      "/api": 'http://192.168.0.251:8002' ,  //代理到开发服务器
+      "/readJson": 'http://192.168.0.251:8002',
+      "/readTestQuestion": 'http://192.168.0.251:8002',
+      "/testManagement": 'http://192.168.0.251:8002',
+      "/readComments": 'http://192.168.0.251:8002',
+      "/teacherCMS": 'http://192.168.0.251:8002',
+      "/fileUpDown": 'http://192.168.0.251:8002',
+      "/readResource": 'http://192.168.0.251:8002'
 
       // '/api': {
       //   target: 'http://localhost:8080',

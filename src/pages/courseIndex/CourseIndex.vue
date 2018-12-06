@@ -11,8 +11,8 @@
       <ul class="best">
         <!--<li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in bestClassData2" :key="index">{{item.label}}</li>-->
         <div @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in bestClassData2" :key="index">
-          <img v-if="index == 0" src="../../../src/assets/imgs/bestclass10.png" width="100%" height="100%">
-          <img v-if="index == 1" src="../../../src/assets/imgs/course.png" width="100%" height="100%">
+          <img v-if="index == 0" src="../../../src/assets/imgs/bestclass10.png" width="100%">
+          <img v-if="index == 1" src="../../../src/assets/imgs/bestclass11.png" width="100%">
           <p class="bestLineP">{{item.label}}</p>
         </div>
       </ul>
@@ -26,9 +26,9 @@
       <!--</ul>-->
       <mt-cell class="best1" :title=item.label  v-for="(item, index) in bestClassData3" :key="index">
         <p @click="jumpCourseDetail(item)" class="bestDesc">{{item.describe}}</p>
-        <img v-if="index == 0" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass5.png" width="110" height="70">
-        <img v-if="index == 1" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass3.png" width="110" height="70">
-        <img v-if="index == 2" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass4.png" width="110" height="70">
+        <img v-if="index == 0" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass5.png" width="110">
+        <img v-if="index == 1" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass3.png" width="110">
+        <img v-if="index == 2" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass4.png" width="110">
       </mt-cell>
     </div>
     <div class="suggeCourse">
@@ -38,16 +38,16 @@
       <ul class="best">
         <!--<li @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in suggClassData2" :key="index">{{item.label}}</li>-->
         <div @click="jumpCourseDetail(item)" class="bestLine" v-for="(item, index) in suggClassData2" :key="index">
-          <img v-if="index == 0" src="../../../src/assets/imgs/bestclass11.png" width="100%" height="100%">
-          <img v-if="index == 1" src="../../../src/assets/imgs/bestclass12.png" width="100%" height="100%">
+          <img v-if="index == 0" src="../../../src/assets/imgs/bestclass11.png" width="100%">
+          <img v-if="index == 1" src="../../../src/assets/imgs/bestclass12.png" width="100%">
           <p class="bestLineP">{{item.label}}</p>
         </div>
       </ul>
       <mt-cell class="best1" :title=item.label  v-for="(item, index) in suggClassData3" :key="index">
         <p @click="jumpCourseDetail(item)" class="bestDesc">{{item.describe}}</p>
-        <img v-if="index == 0" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass15.png" width="110" height="70">
-        <img v-if="index == 1" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass13.png" width="110" height="70">
-        <img v-if="index == 2" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass14.png" width="110" height="70">      </mt-cell>
+        <img v-if="index == 0" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass15.png" width="110">
+        <img v-if="index == 1" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass13.png" width="110">
+        <img v-if="index == 2" @click="jumpCourseDetail(item)" class="bestCell" slot="icon" src="../../../src/assets/imgs/bestclass14.png" width="110"></mt-cell>
     </div>
   </div>
 </template>
@@ -166,15 +166,18 @@ export default {
   }
   .courseIndex .bestLine{
     width:42%;
-    height:1.8rem;
+    /*height:1.8rem;*/
     margin:14px;
     background-size: 100% 100%;
     border-radius: 5px;
-    box-shadow: 0 0 12px rgb(130,150,170);
+
     box-sizing: border-box;
     font-size: 0.32rem;
     text-align: center;
     position:relative;
+  }
+  .courseIndex .bestLine img{
+    box-shadow: 0 0 12px rgb(130,150,170);
   }
   .courseIndex .bestLineP{
     margin-top:0.2rem;
@@ -199,7 +202,7 @@ export default {
   .courseIndex .bestCell{
     border-radius: 5px;
     width: 28%;
-    height: 1.2rem;
+    /*height: 1.2rem;*/
   }
   .courseIndex .mint-cell-text{
     vertical-align: top;
