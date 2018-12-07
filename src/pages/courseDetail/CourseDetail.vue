@@ -24,7 +24,7 @@
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
           <div>
-            <video id="video-box" controls="true" controlslist="nodownload" :src="'http://'+ $store.state.serverIP + ':8000/resource/' + this.videoPath + detailItem.videoTitle[0].videoTitle">
+            <video id="video-box" controls="true" controlslist="nodownload" :src="'http://'+ $store.state.serverIP + ':8000/resource/' + $store.state.urlSrc + detailItem.videoTitle[0].videoTitle">
             </video>
           </div>
         </mt-tab-container-item>
@@ -178,8 +178,7 @@ export default {
     }
     //    获取请求路径
     this.videoPath = this.$store.state.urlSrc
-    console.log(this.videoPath)
-    //    console.log(this.videoPath)
+    console.log('11', this.videoPath)    //    console.log(this.videoPath)
     this.commentPath = this.videoPath.split('/')
     var str = []
     for (var i = 0; i < this.commentPath.length - 1; i++) {
@@ -525,6 +524,8 @@ export default {
         videoParh = videoParh + homeworkPath[j] + '/'
       }
       this.videoPath = videoParh
+      console.log('22', this.videoPath)
+      console.log('33', videoParh)
       //console.log(this.videoPath + this.$store.state.courseDetail.videoTitle[0].videoTitle)
       //请求PPT
       axios.post ('/readResource/getPPT', {
