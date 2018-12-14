@@ -24,7 +24,7 @@
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
           <div>
-            <video id="video-box" controls="true" controlslist="nodownload" :src="'http://'+ $store.state.serverIP + ':8000/resource/' + this.videoPath + detailItem.videoTitle[0].videoTitle">
+            <video id="video-box" controls="true" controlslist="nodownload" :src="'http://'+ $store.state.serverIP + ':8000/resource/' + $store.state.urlSrc + detailItem.videoTitle[0].videoTitle">
             </video>
           </div>
         </mt-tab-container-item>
@@ -32,35 +32,16 @@
         <mt-tab-container-item id="3">
           <div id="courseppt">
             <mt-swipe ref="swipe"
-                      id="swipeID"
                       :show-indicators="false"
                       class="swipe"
                       :style="{height: height / 3.5 + 'px'}"
-                      :class="{'fullScr':makeFull === 1}"
-                      @click.native="fullScreen"
                       :auto="0"
                       @change="handleChange">
-              <mt-swipe-item v-for="(item,index) in lists"
-                             :key="index">
-                <img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
+              <mt-swipe-item v-for="(item,index) in lists" :key="index">
+                <img preview="1" class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
               </mt-swipe-item>
             </mt-swipe>
-
-            <div class="carousel-wrap" id="carousel">
-              // 轮播图列表
-              <transition-group tag="ul" class='slide-ul' name="list">
-                <li v-for="(item,index) in lists" :key="index" v-show="index===currentIndex">
-                  <img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
-                </li>
-              </transition-group>
-              // 轮播图位置指示
-              <div class="carousel-items">
-                <span v-for="(item,index) in lists.length" :class="{'active':index===currentIndex}" @mouseover="change(index)"></span>
-              </div>
-            </div>
-
             <p class="page">第{{pptIndex + 1}}页,共{{total}}页</p>
-            <!--<p class="fullSceen">点击全屏</p>-->
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="4">
@@ -159,7 +140,6 @@ export default {
       userId: this.$store.state.userID,
       userName: this.$store.state.username,
       height: window.innerHeight,
-      width: window.innerWidth,
       selected: '1',
       videoPath: '',
       lists: [],
@@ -178,10 +158,7 @@ export default {
       text: '',
       appraiseIndex: [],
       commentPath: '',
-      data: '',
-      makeFull: 0,
-      currentIndex: 0,
-      timer: ''
+      data: ''
     }
   },
   computed: {
@@ -201,8 +178,7 @@ export default {
     }
     //    获取请求路径
     this.videoPath = this.$store.state.urlSrc
-    console.log(this.videoPath)
-    //    console.log(this.videoPath)
+    console.log('11', this.videoPath)    //    console.log(this.videoPath)
     this.commentPath = this.videoPath.split('/')
     var str = []
     for (var i = 0; i < this.commentPath.length - 1; i++) {
@@ -214,33 +190,6 @@ export default {
     this.getComment()
   },
   methods: {
-    change(index) {
-      this.currentIndex = index
-    },
-    fullScreen () {
-      if (this.makeFull === 0) {
-        this.makeFull = 1
-        document.getElementById('courseppt').style.width = this.height + 'px'
-        document.getElementById('swipeID').style.width = this.height + 'px'
-        document.getElementById('swipeID').style.height = this.width + 'px'
-        document.getElementById('swipeID').style.position = 'fixed'
-        if (this.height < 700) {
-          document.getElementById('swipeID').style.top = (this.height * 0.00434783) + 'rem'
-          document.getElementById('swipeID').style.left = (0 - this.height * 0.00434783) + 'rem'
-        } else {
-          document.getElementById('swipeID').style.top = (this.height * 0.00529557) + 'rem'
-          document.getElementById('swipeID').style.left = (0 - this.height * 0.00529557) + 'rem'
-        }
-      } else {
-        this.makeFull = 0
-        document.getElementById('courseppt').style.width = 100 + '%'
-        document.getElementById('swipeID').style.width = 100 + '%'
-        document.getElementById('swipeID').style.height = this.height / 3.5 + 'px'
-        document.getElementById('swipeID').style.position = 'inherit'
-        document.getElementById('swipeID').style.top = 0
-        document.getElementById('swipeID').style.left = 0
-      }
-    },
     //    切换tab
     changeTab (val) {
       if (val === 2) {
@@ -575,6 +524,8 @@ export default {
         videoParh = videoParh + homeworkPath[j] + '/'
       }
       this.videoPath = videoParh
+      console.log('22', this.videoPath)
+      console.log('33', videoParh)
       //console.log(this.videoPath + this.$store.state.courseDetail.videoTitle[0].videoTitle)
       //请求PPT
       axios.post ('/readResource/getPPT', {
@@ -748,66 +699,6 @@ export default {
 </script>
 <style lang="less">
   .courseDetail{
-    .carousel-wrap {
-      position: relative;
-      height: 453px;
-      width: 100%;
-      overflow: hidden;
-      // 删除
-      background-color: #fff;
-    }
-
-    .slide-ul {
-      width: 100%;
-      height: 100%;
-      li {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
-
-    .carousel-items {
-      position: absolute;
-      z-index: 10;
-      top: 380px;
-      width: 100%;
-      margin: 0 auto;
-      text-align: center;
-      font-size: 0;
-      span {
-        display: inline-block;
-        height: 6px;
-        width: 30px;
-        margin: 0 3px;
-        background-color: #b2b2b2;
-        cursor: pointer;
-      }
-      .active {
-        background-color: darkred;
-      }
-    }
-    .list-enter-to {
-      transition: all 1s ease;
-      transform: translateX(0);
-    }
-
-    .list-leave-active {
-      transition: all 1s ease;
-      transform: translateX(-100%)
-    }
-
-    .list-enter {
-      transform: translateX(100%)
-    }
-
-    .list-leave {
-      transform: translateX(0)
-    }
     .goBack{
       margin-top:0.2rem;
       margin-left: 0.2rem;
@@ -842,18 +733,12 @@ export default {
       width:100%;
       height:100px;
     }
-    .fullScr{
-      transform:rotate(90deg);
-      -ms-transform:rotate(90deg); /* Internet Explorer */
-      -moz-transform:rotate(90deg); /* Firefox */
-      -webkit-transform:rotate(90deg); /* Safari 和 Chrome */
-      -o-transform:rotate(90deg); /* Opera */
-    }
     .coursepptImg{
       width:100%;
       height:100%;
     }
     .page{
+      text-align: right;
       margin-top: 10px;
     }
     .vux-rater-inner{
