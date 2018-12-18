@@ -31,35 +31,47 @@
 
         <mt-tab-container-item id="3">
           <div id="courseppt">
-            <mt-swipe ref="swipe"
-                      id="swipeID"
-                      :show-indicators="false"
-                      class="swipe"
-                      :style="{height: height / 3.5 + 'px'}"
-                      :class="{'fullScr':makeFull === 1}"
-                      @click.native="fullScreen"
-                      :auto="0"
-                      @change="handleChange">
-              <mt-swipe-item v-for="(item,index) in lists"
-                             :key="index">
-                <img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
-              </mt-swipe-item>
-            </mt-swipe>
+            <!--<mt-swipe ref="swipe"-->
+                      <!--id="swipeID"-->
+                      <!--:show-indicators="false"-->
+                      <!--class="swipe"-->
+                      <!--:style="{height: height / 3.5 + 'px'}"-->
+                      <!--:class="{'fullScr':makeFull === 1}"-->
+                      <!--@click.native="fullScreen"-->
+                      <!--:auto="0"-->
+                      <!--@change="handleChange">-->
+              <!--<mt-swipe-item v-for="(item,index) in lists"-->
+                             <!--:key="index">-->
+                <!--<img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>-->
+              <!--</mt-swipe-item>-->
+            <!--</mt-swipe>-->
 
-            <div class="carousel-wrap" id="carousel">
-              // 轮播图列表
-              <transition-group tag="ul" class='slide-ul' name="list">
-                <li v-for="(item,index) in lists" :key="index" v-show="index===currentIndex">
-                  <img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
-                </li>
-              </transition-group>
-              // 轮播图位置指示
-              <div class="carousel-items">
-                <span v-for="(item,index) in lists.length" :class="{'active':index===currentIndex}" @mouseover="change(index)"></span>
+            <div class="swiper"
+                 :class="{'fullScr':makeFull === 1}"
+                 @click="fullScreen"
+                 id="swipeID">
+              <div class="swiper-wrapper">
+                <transition-group tag="ul"
+                                  class="swiper-list"
+                                  v-finger:swipe="swipe">
+                  <li class="swiper-item"
+                      v-for="(item,index) in lists"
+                      v-show="index===currentIndex"
+                      :key="index">
+                    <img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
+                  </li>
+                  <!-- </transition> -->
+                </transition-group> <!-- </ul>  -->
+                <!--<div class="swiper-dot-wrapper">-->
+                  <!--<span class="swiper-dot" v-for="(item,index) in lists.length"-->
+                        <!--@mouseover="change(index)"-->
+                        <!--:class="{active: index===currentIndex}">-->
+                  <!--</span>-->
+                <!--</div>-->
               </div>
             </div>
 
-            <p class="page">第{{pptIndex + 1}}页,共{{total}}页</p>
+            <p class="page">第{{currentIndex + 1}}页,共{{total}}页</p>
             <!--<p class="fullSceen">点击全屏</p>-->
           </div>
         </mt-tab-container-item>
@@ -164,7 +176,6 @@ export default {
       videoPath: '',
       lists: [],
       total: '',
-      pptIndex: '',
       appraiseContent: {
         title: [],
         appraiseMsg: {}
@@ -189,6 +200,9 @@ export default {
       return this.$store.state.courseDetail
     }
   },
+  created () {
+
+  },
   mounted () {
     this.getLeftData()
     // 判断当前是否是老师
@@ -212,10 +226,69 @@ export default {
     this.getPPT()
     //    获取评论
     this.getComment()
+    //    监听横屏or竖屏
+    var evt = 'onorientationchange' in window ? 'orientationchange' : 'resize'
+    window.addEventListener(evt, function () {
+      console.log(evt)
+      var width = document.documentElement.clientWidth
+      var height = document.documentElement.clientHeight
+      console.log(width)
+      console.log(height)
+      if (width > height) {
+      //        横屏
+        document.getElementById('courseppt').style.color = 'red'
+//        document.getElementById('courseppt').style.width = this.height + 'px'
+//        document.getElementById('swipeID').style.width = this.height + 'px'
+//        document.getElementById('swipeID').style.height = this.width + 'px'
+//        document.getElementById('swipeID').style.position = 'fixed'
+//        document.getElementById('swipeID').style.top = (this.height - this.width) / 2 + 'px'
+//        document.getElementById('swipeID').style.left = (0 - (this.height - this.width) / 2) + 'px'
+      } else {
+      //        竖屏
+        document.getElementById('courseppt').style.color = 'green'
+//        document.getElementById('courseppt').style.width = 100 + '%'
+//        document.getElementById('swipeID').style.width = 100 + '%'
+//        document.getElementById('swipeID').style.height = this.height / 3.5 + 'px'
+//        document.getElementById('swipeID').style.position = 'inherit'
+//        document.getElementById('swipeID').style.top = 0
+//        document.getElementById('swipeID').style.left = 0
+      }
+    }, false)
   },
   methods: {
-    change(index) {
+    next () {
+      this.currentIndex += 1
+      if (this.currentIndex > this.lists.length - 1) {
+        this.currentIndex = 0
+        // this.swipeAction = 'swipe-left'
+      }
+    },
+    change (index) {
       this.currentIndex = index
+    },
+    prev () {
+      this.currentIndex -= 1
+      if (this.currentIndex < 0) {
+        this.currentIndex = this.lists.length - 1
+        // this.swipeAction = 'swipe-right'
+      }
+    },
+    swipe (evt) {
+//       console.log('swipe' + evt.direction)
+//       console.log('onSwipe')
+      if (evt.direction === 'Left') {
+        this.next()
+        this.swipeAction = 'swipe-left'
+      } else if (evt.direction === 'Right') {
+        this.prev()
+        this.swipeAction = 'swipe-right'
+      } else if (evt.direction === 'Up') {
+        this.next()
+        this.swipeAction = 'swipe-left'
+      } else if (evt.direction === 'Down') {
+        this.prev()
+        this.swipeAction = 'swipe-right'
+      }
     },
     fullScreen () {
       if (this.makeFull === 0) {
@@ -224,13 +297,8 @@ export default {
         document.getElementById('swipeID').style.width = this.height + 'px'
         document.getElementById('swipeID').style.height = this.width + 'px'
         document.getElementById('swipeID').style.position = 'fixed'
-        if (this.height < 700) {
-          document.getElementById('swipeID').style.top = (this.height * 0.00434783) + 'rem'
-          document.getElementById('swipeID').style.left = (0 - this.height * 0.00434783) + 'rem'
-        } else {
-          document.getElementById('swipeID').style.top = (this.height * 0.00529557) + 'rem'
-          document.getElementById('swipeID').style.left = (0 - this.height * 0.00529557) + 'rem'
-        }
+        document.getElementById('swipeID').style.top = (this.height - this.width) / 2 + 'px'
+        document.getElementById('swipeID').style.left = (0 - (this.height - this.width) / 2) + 'px'
       } else {
         this.makeFull = 0
         document.getElementById('courseppt').style.width = 100 + '%'
@@ -729,10 +797,6 @@ export default {
         this.lists = res.data.result.courseList
         this.total = this.lists.length
       })
-    },
-    //    切换PPT时发生的事件
-    handleChange (index) {
-      this.pptIndex = index
     }
   },
   components: {
@@ -748,65 +812,48 @@ export default {
 </script>
 <style lang="less">
   .courseDetail{
-    .carousel-wrap {
-      position: relative;
-      height: 453px;
+    .swiper{
       width: 100%;
+      font-size: 0;
       overflow: hidden;
-      // 删除
-      background-color: #fff;
-    }
-
-    .slide-ul {
-      width: 100%;
-      height: 100%;
-      li {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        img {
+      .swiper-wrapper{
+        position: relative;
+        background-color: #ccc;
+        .swiper-list{
+          position: relative;
           width: 100%;
-          height: 100%;
+          height: 0;
+          padding-top: 56.25%;
+          .swiper-item{
+            position: absolute;
+            display: inline-block;
+            left:0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            .swiper-img{
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              width: 100%;
+              height: 100%;
+              .swiper-dot-wrapper{
+                position: absolute;
+                right: 20px;
+                bottom: 20px;
+                .swiper-dot{
+                display: inline-block;
+                margin-left: 20px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: #fff;
+                }
+              }
+            }
+          }
         }
       }
-    }
-
-    .carousel-items {
-      position: absolute;
-      z-index: 10;
-      top: 380px;
-      width: 100%;
-      margin: 0 auto;
-      text-align: center;
-      font-size: 0;
-      span {
-        display: inline-block;
-        height: 6px;
-        width: 30px;
-        margin: 0 3px;
-        background-color: #b2b2b2;
-        cursor: pointer;
-      }
-      .active {
-        background-color: darkred;
-      }
-    }
-    .list-enter-to {
-      transition: all 1s ease;
-      transform: translateX(0);
-    }
-
-    .list-leave-active {
-      transition: all 1s ease;
-      transform: translateX(-100%)
-    }
-
-    .list-enter {
-      transform: translateX(100%)
-    }
-
-    .list-leave {
-      transform: translateX(0)
     }
     .goBack{
       margin-top:0.2rem;
@@ -844,6 +891,7 @@ export default {
     }
     .fullScr{
       transform:rotate(90deg);
+      transform-origin:50% 50%;
       -ms-transform:rotate(90deg); /* Internet Explorer */
       -moz-transform:rotate(90deg); /* Firefox */
       -webkit-transform:rotate(90deg); /* Safari 和 Chrome */
