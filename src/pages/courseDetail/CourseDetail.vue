@@ -31,45 +31,41 @@
 
         <mt-tab-container-item id="3">
           <div id="courseppt">
-            <!--<mt-swipe ref="swipe"-->
-                      <!--id="swipeID"-->
-                      <!--:show-indicators="false"-->
-                      <!--class="swipe"-->
-                      <!--:style="{height: height / 3.5 + 'px'}"-->
-                      <!--:class="{'fullScr':makeFull === 1}"-->
-                      <!--@click.native="fullScreen"-->
-                      <!--:auto="0"-->
-                      <!--@change="handleChange">-->
-              <!--<mt-swipe-item v-for="(item,index) in lists"-->
-                             <!--:key="index">-->
-                <!--<img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>-->
-              <!--</mt-swipe-item>-->
-            <!--</mt-swipe>-->
+            <mt-swipe ref="swipe"
+                      id="swipeID"
+                      :show-indicators="false"
+                      class="swipe"
+                      :style="{height: height / 3.5 + 'px'}"
+                      :auto="0"
+                      @change="handleChange">
+              <mt-swipe-item v-for="(item,index) in lists"
+                             :key="index">
+                <img preview="1" class="coursepptImg" :src="item.img"/>
+              </mt-swipe-item>
+            </mt-swipe>
 
-            <div class="swiper"
-                 :class="{'fullScr':makeFull === 1}"
-                 @click="fullScreen"
-                 id="swipeID">
-              <div class="swiper-wrapper">
-                <transition-group tag="ul"
-                                  class="swiper-list"
-                                  v-finger:swipe="swipe">
-                  <li class="swiper-item"
-                      v-for="(item,index) in lists"
-                      v-show="index===currentIndex"
-                      :key="index">
-                    <img class="coursepptImg" :src="'http://'+ $store.state.serverIP +':8000' + item.img"/>
-                  </li>
-                  <!-- </transition> -->
-                </transition-group> <!-- </ul>  -->
-                <!--<div class="swiper-dot-wrapper">-->
-                  <!--<span class="swiper-dot" v-for="(item,index) in lists.length"-->
-                        <!--@mouseover="change(index)"-->
-                        <!--:class="{active: index===currentIndex}">-->
-                  <!--</span>-->
-                <!--</div>-->
-              </div>
-            </div>
+            <!--<div class="swiper"-->
+                 <!--@click="fullScreen"-->
+                 <!--id="swipeID">-->
+              <!--<div class="swiper-wrapper">-->
+                <!--<transition-group tag="ul"-->
+                                  <!--class="swiper-list"-->
+                                  <!--v-finger:swipe="swipe">-->
+                  <!--<li class="swiper-item"-->
+                      <!--v-for="(item,index) in lists"-->
+                      <!--v-show="index===currentIndex"-->
+                      <!--:key="index">-->
+                    <!--<img class="coursepptImg" :src="item.img"/>-->
+                  <!--</li>-->
+                <!--</transition-group>-->
+                <!--&lt;!&ndash;<div class="swiper-dot-wrapper">&ndash;&gt;-->
+                  <!--&lt;!&ndash;<span class="swiper-dot" v-for="(item,index) in lists.length"&ndash;&gt;-->
+                        <!--&lt;!&ndash;@mouseover="change(index)"&ndash;&gt;-->
+                        <!--&lt;!&ndash;:class="{active: index===currentIndex}">&ndash;&gt;-->
+                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+              <!--</div>-->
+            <!--</div>-->
 
             <p class="page">第{{currentIndex + 1}}页,共{{total}}页</p>
             <!--<p class="fullSceen">点击全屏</p>-->
@@ -192,7 +188,8 @@ export default {
       data: '',
       makeFull: 0,
       currentIndex: 0,
-      timer: ''
+      timer: '',
+      isHorizontal: 0
     }
   },
   computed: {
@@ -236,7 +233,9 @@ export default {
       console.log(height)
       if (width > height) {
       //        横屏
-        document.getElementById('courseppt').style.color = 'red'
+//        document.getElementById('courseppt').style.color = 'red'
+        this.isHorizontal = 1
+        document.getElementById('swipeID').style.transform = 'rotate(' + 0 + 'deg)'
 //        document.getElementById('courseppt').style.width = this.height + 'px'
 //        document.getElementById('swipeID').style.width = this.height + 'px'
 //        document.getElementById('swipeID').style.height = this.width + 'px'
@@ -245,7 +244,8 @@ export default {
 //        document.getElementById('swipeID').style.left = (0 - (this.height - this.width) / 2) + 'px'
       } else {
       //        竖屏
-        document.getElementById('courseppt').style.color = 'green'
+//        document.getElementById('courseppt').style.color = 'green'
+        this.isHorizontal = 0
 //        document.getElementById('courseppt').style.width = 100 + '%'
 //        document.getElementById('swipeID').style.width = 100 + '%'
 //        document.getElementById('swipeID').style.height = this.height / 3.5 + 'px'
@@ -256,6 +256,10 @@ export default {
     }, false)
   },
   methods: {
+    //    切换PPT时发生的事件
+    handleChange (index) {
+      this.currentIndex = index
+    },
     next () {
       this.currentIndex += 1
       if (this.currentIndex > this.lists.length - 1) {
@@ -291,22 +295,46 @@ export default {
       }
     },
     fullScreen () {
-      if (this.makeFull === 0) {
-        this.makeFull = 1
-        document.getElementById('courseppt').style.width = this.height + 'px'
-        document.getElementById('swipeID').style.width = this.height + 'px'
-        document.getElementById('swipeID').style.height = this.width + 'px'
-        document.getElementById('swipeID').style.position = 'fixed'
-        document.getElementById('swipeID').style.top = (this.height - this.width) / 2 + 'px'
-        document.getElementById('swipeID').style.left = (0 - (this.height - this.width) / 2) + 'px'
+      if (this.isHorizontal === 0) {
+        if (this.makeFull === 0) {
+          this.makeFull = 1
+          document.getElementById('courseppt').style.width = this.height + 'px'
+          document.getElementById('swipeID').style.width = this.height + 'px'
+          document.getElementById('swipeID').style.height = this.width + 'px'
+          document.getElementById('swipeID').style.position = 'fixed'
+          document.getElementById('swipeID').style.transform = 'rotate(' + 90 + 'deg)'
+          document.getElementById('swipeID').style.transformOrigin = 50 + '% ' + 50 + '%'
+          document.getElementById('swipeID').style.top = (this.height - this.width) / 2 + 'px'
+          document.getElementById('swipeID').style.left = (0 - (this.height - this.width) / 2) + 'px'
+        } else {
+          this.makeFull = 0
+          document.getElementById('courseppt').style.width = 100 + '%'
+          document.getElementById('swipeID').style.width = 100 + '%'
+          document.getElementById('swipeID').style.transform = 'rotate(' + 0 + 'deg)'
+          document.getElementById('swipeID').style.transformOrigin = 0
+          document.getElementById('swipeID').style.height = this.height / 3.5 + 'px'
+          document.getElementById('swipeID').style.position = 'inherit'
+          document.getElementById('swipeID').style.top = 0
+          document.getElementById('swipeID').style.left = 0
+        }
       } else {
-        this.makeFull = 0
-        document.getElementById('courseppt').style.width = 100 + '%'
-        document.getElementById('swipeID').style.width = 100 + '%'
-        document.getElementById('swipeID').style.height = this.height / 3.5 + 'px'
-        document.getElementById('swipeID').style.position = 'inherit'
-        document.getElementById('swipeID').style.top = 0
-        document.getElementById('swipeID').style.left = 0
+        if (this.makeFull === 0) {
+          this.makeFull = 1
+          document.getElementById('courseppt').style.width = this.height + 'px'
+          document.getElementById('swipeID').style.width = this.height + 'px'
+          document.getElementById('swipeID').style.height = this.width + 'px'
+          document.getElementById('swipeID').style.position = 'fixed'
+          document.getElementById('swipeID').style.top = (this.height - this.width) / 2 + 'px'
+          document.getElementById('swipeID').style.left = (0 - (this.height - this.width) / 2) + 'px'
+        } else {
+          this.makeFull = 0
+          document.getElementById('courseppt').style.width = 100 + '%'
+          document.getElementById('swipeID').style.width = 100 + '%'
+          document.getElementById('swipeID').style.height = this.height / 3.5 + 'px'
+          document.getElementById('swipeID').style.position = 'inherit'
+          document.getElementById('swipeID').style.top = 0
+          document.getElementById('swipeID').style.left = 0
+        }
       }
     },
     //    切换tab
