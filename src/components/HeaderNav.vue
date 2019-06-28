@@ -6,8 +6,8 @@
       </router-link>
       <mt-button slot="right" v-if="nickName">
         <span @click="goMyself">{{nickName}}</span>
-        <span>/</span>
-        <span @click="goSign()">签到</span>
+        <span v-if="userType === 'S'">/</span>
+        <span v-if="userType === 'S'" @click="goSign()">签到</span>
       </mt-button>
       <mt-button slot="right" v-if="!nickName" @click="simplePrompt">登录</mt-button>
     </mt-header>
@@ -38,6 +38,7 @@ export default {
   name: 'Header',
   data () {
     return {
+      userType: this.$store.state.userType,
       changeClass: '',
       navData: [
         {
@@ -57,7 +58,7 @@ export default {
           'background': 'sourceIndex.png'
         },
         {
-          'label': '大赛',
+          'label': '课堂',
           'background': 'competitionIndex.png'
         }
       ],

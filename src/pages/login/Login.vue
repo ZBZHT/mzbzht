@@ -1,5 +1,8 @@
 <template>
   <div class="login">
+    <p class="goBack" @click="goBack">
+      <go-back></go-back>
+    </p>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display: none;">
       <symbol id="icon-more" viewBox="0 0 8 14">
         <path d="M1 1l6 6-6 6" stroke="#BBB" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round"
@@ -112,6 +115,7 @@
 import axios from 'axios'
 import md5 from 'js-md5'
 import core from '../../assets/js/core.js'
+import goBack from '@/components/goBack'
 
 export default {
   name: 'Login',
@@ -144,6 +148,10 @@ export default {
     }
   },
   methods: {
+    //    返回上一级
+    goBack () {
+      this.$router.go(-1)
+    },
     handleTwoWeekLoginClick () {
       this.twoWeekLogin = !this.twoWeekLogin
     },
@@ -217,6 +225,9 @@ export default {
         }
       })
     }
+  },
+  components: {
+    goBack
   }
 }
 </script>
@@ -233,6 +244,9 @@ export default {
   .login
     height 100vh
     overflow hidden
+    .goBack
+     margin-top 0.5rem
+     margin-left 0.5rem
   .login-section
     padding-top 1.5rem
     .header
